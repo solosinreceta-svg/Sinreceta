@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pediatría 360 v1.2.2 - Suite Educativa de Pediatría</title>
+    <style>
+        :root {
+            --primary: #1a8cff;
+            --primary-dark: #0066cc;
+            --secondary: #ff9933;
+            --light: #f8f9fa;
+            --dark: #202124;
+            --gray: #5f6368;
+            --light-gray: #dadce0;
+            --border-radius: 8px;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        .dark-mode {
+            --primary: #4da6ff;
+            --primary-dark: #1a8cff;
+            --secondary: #ffaa4d;
+            --light: #2d2d2d;
+            --dark: #f8f9fa;
+            --gray: #a0a0a0;
+            --light-gray: #404040;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            transition: var(--transition);
+            overflow: hidden;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+        
+        .sidebar.expanded {
+            width: 280px;
+        }
+        
+        .sidebar-header {
+            padding: 1.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .sidebar-logo-icon {
+            font-size: 1.8rem;
+        }
+        
+        .sidebar-logo-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .nav-item {
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-icon {
+            font-size: 1.3rem;
+            min-width: 30px;
+        }
+        
+        .nav-text {
+            font-weight: 500;
+        }
+        
+        /* Mobile Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: 60px;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .sidebar.expanded ~ .main-content {
+            margin-left: 280px;
+        }
+        
+        header {
+            background-color: white;
+            color: var(--dark);
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+            transition: var(--transition);
+        }
+        
+        .dark-mode header {
+            background-color: var(--light);
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+        
+        .theme-toggle:hover {
+            color: var(--secondary);
+        }
+        
+        main {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .module {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .module.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .module-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .module-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        .module-description {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        /* Calculator Styles */
+        .calculator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 968px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .dark-mode .card {
+            background-color: var(--light);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .dark-mode label {
+            color: var(--dark);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background-color: white;
+            color: var(--dark);
+        }
+        
+        .dark-mode input, .dark-mode select {
+            background-color: #404040;
+            border-color: #555;
+            color: var(--dark);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(26, 140, 255, 0.2);
+        }
+        
+        .concentration-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .concentration-inputs input {
+            flex: 1;
+        }
+        
+        .concentration-divider {
+            font-weight: bold;
+            color: var(--gray);
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e68a00;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(26, 140, 255, 0.1);
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--light-gray);
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-item {
+            background-color: rgba(26, 140, 255, 0.1);
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            text-align: center;
+        }
+        
+        .dark-mode .result-item {
+            background-color: rgba(26, 140, 255, 0.2);
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .alert-success {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+        }
+        
+        .alert-warning {
+            background-color: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .alert-danger {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+        }
+        
+        .dark-mode .alert-success {
+            background-color: rgba(76, 175, 80, 0.2);
+        }
+        
+        .dark-mode .alert-warning {
+            background-color: rgba(255, 152, 0, 0.2);
+        }
+        
+        .dark-mode .alert-danger {
+            background-color: rgba(244, 67, 54, 0.2);
+        }
+        
+        .alert-icon {
+            font-size: 1.2rem;
+        }
+        
+        .alert-content strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .history-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .history-item:hover {
+            background-color: rgba(26, 140, 255, 0.1);
+        }
+        
+        .history-date {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        .history-details {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        /* Guide Styles */
+        .guide-section {
+            margin-bottom: 2rem;
+        }
+        
+        .guide-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-gray);
+        }
+        
+        .guide-content {
+            line-height: 1.8;
+        }
+        
+        .guide-content p {
+            margin-bottom: 1rem;
+        }
+        
+        .guide-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .guide-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .example {
+            background-color: rgba(255, 153, 51, 0.1);
+            border-left: 4px solid var(--secondary);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        
+        .example-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .template {
+            background-color: rgba(26, 140, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            white-space: pre-line;
+            line-height: 1.5;
+        }
+        
+        .template-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 1.5rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .footer-text {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-developer {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.expanded {
+                width: 280px;
+                transform: translateX(0);
+            }
+            
+            .sidebar-overlay {
+                display: block;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .sidebar.expanded ~ .main-content {
+                margin-left: 0;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            .calculator-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-2 {
+            margin-top: 2rem;
+        }
+        
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        
+        <!-- Sidebar Navigation -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+                <div class="sidebar-logo">
+                    <div class="sidebar-logo-icon">👶</div>
+                    <div class="sidebar-logo-text">Pediatría 360</div>
+                </div>
+            </div>
+            <div class="sidebar-nav">
+                <div class="nav-item active" data-module="calculadora">
+                    <div class="nav-icon">🧮</div>
+                    <div class="nav-text">Calculadora Pediátrica</div>
+                </div>
+                <div class="nav-item" data-module="guia-hc">
+                    <div class="nav-icon">📋</div>
+                    <div class="nav-text">Guía Historia Clínica</div>
+                </div>
+                <div class="nav-item" data-module="diagnostico">
+                    <div class="nav-icon">🔍</div>
+                    <div class="nav-text">Diagnóstico Sindrómico</div>
+                </div>
+                <div class="nav-item" data-module="medicamentos">
+                    <div class="nav-icon">💊</div>
+                    <div class="nav-text">Añadir Medicamento</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <header>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+                <h1 class="header-title" id="moduleHeader">Calculadora Pediátrica</h1>
+                <button class="theme-toggle" id="themeToggle">🌙</button>
+            </header>
+            
+            <main>
+                <!-- Módulo: Calculadora Pediátrica -->
+                <div id="calculadora" class="module active">
+                    <div class="module-header">
+                        <h2 class="module-title">PediaCalcHPJRM v1.2.2</h2>
+                        <p class="module-description">Calculadora de dosis pediátricas según protocolos MINSAP</p>
+                    </div>
+                    
+                    <div class="calculator-container">
+                        <!-- Card: Datos del Paciente -->
+                        <div class="card">
+                            <h3 class="card-title">👶 Datos del Paciente</h3>
+                            
+                            <div class="form-group">
+                                <label for="peso">Peso (kg)</label>
+                                <input type="number" id="peso" min="0.5" max="200" step="0.1" placeholder="Ej: 12.5">
+                                <div id="weightRecommendation" class="alert alert-success mt-2 hidden">
+                                    <div class="alert-icon">💡</div>
+                                    <div class="alert-content">
+                                        <strong>Recomendación:</strong> <span id="recommendationText"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="edad">Edad</label>
+                                <div style="display: flex; gap: 10px;">
+                                    <input type="number" id="edad" min="0" max="216" placeholder="Ej: 24" style="flex: 2;">
+                                    <select id="edadUnidad" style="flex: 1;">
+                                        <option value="meses">Meses</option>
+                                        <option value="años">Años</option>
+                                    </select>
+                                </div>
+                                <div id="ageConversion" class="alert alert-info mt-2 hidden">
+                                    <div class="alert-content">
+                                        <span id="conversionText"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="medicamento">Medicamento</label>
+                                <select id="medicamento">
+                                    <option value="">Seleccione un medicamento</option>
+                                    <!-- Los medicamentos se cargarán con JavaScript -->
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="presentacion">Presentación</label>
+                                <select id="presentacion">
+                                    <option value="mg_ml">mg/ml (Suspensión)</option>
+                                    <option value="mg_comprimido">mg/comprimido (Tabletas)</option>
+                                    <option value="ui_ampolla">UI/ampolla (Inyectables)</option>
+                                    <option value="gotas">Gotas</option>
+                                    <option value="personalizado">Personalizado (mg por unidad)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group" id="concentrationGroup">
+                                <label for="concentracion">Concentración</label>
+                                <div class="concentration-inputs">
+                                    <input type="number" id="concentracionMg" min="0.1" step="0.1" placeholder="Ej: 250">
+                                    <span class="concentration-divider">/</span>
+                                    <input type="number" id="concentracionMl" min="0.1" step="0.1" placeholder="Ej: 5" value="1">
+                                    <span>ml</span>
+                                </div>
+                                <button id="btnConcentracionEstandar" class="btn btn-outline mt-1">Usar concentración estándar</button>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="frecuencia">Frecuencia (veces al día)</label>
+                                <input type="number" id="frecuencia" min="1" max="24" value="3">
+                                <button id="btnFrecuenciaEstandar" class="btn btn-outline mt-1">Usar frecuencia estándar</button>
+                            </div>
+                            
+                            <button id="calcular" class="btn btn-primary" style="width: 100%;">Calcular Dosis</button>
+                            
+                            <div class="mt-2">
+                                <h4>Ejemplos rápidos:</h4>
+                                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
+                                    <button class="btn btn-secondary ejemplo-btn" data-med="paracetamol" data-peso="12" data-conc-mg="120" data-conc-ml="5" data-frec="3">💊 Paracetamol</button>
+                                    <button class="btn btn-secondary ejemplo-btn" data-med="amoxicilina" data-peso="6" data-conc-mg="250" data-conc-ml="5" data-frec="3">🦠 Amoxicilina</button>
+                                    <button class="btn btn-secondary ejemplo-btn" data-med="salbutamol" data-peso="15" data-conc-mg="0.5" data-conc-ml="1" data-frec="3">🌬️ Salbutamol</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Card: Resultados -->
+                        <div class="card">
+                            <h3 class="card-title">📊 Resultados</h3>
+                            
+                            <div class="tabs">
+                                <div class="tab active" data-tab="resultados">Resultados</div>
+                                <div class="tab" data-tab="formulas">Fórmulas</div>
+                                <div class="tab" data-tab="historial">Historial</div>
+                            </div>
+                            
+                            <div id="resultados" class="tab-content active">
+                                <div id="resultadosContenido">
+                                    <div class="alert alert-info">
+                                        <div class="alert-icon">💡</div>
+                                        <div class="alert-content">
+                                            Complete los datos del paciente y haga clic en "Calcular Dosis" para ver los resultados.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="formulas" class="tab-content">
+                                <h4>Fórmulas de cálculo</h4>
+                                <div class="template">
+                                    <strong>Dosis estándar (mg/kg/dosis):</strong>
+                                    dosis_mg = peso_kg × mg_por_kg_por_dosis
+                                    dosis_aplicada = mín(dosis_mg, máximo_por_dosis)
+                                    
+                                    <strong>Dosis diaria dividida:</strong>
+                                    dosis_diaria_total = peso_kg × mg_por_kg_por_día
+                                    dosis_por_toma = dosis_diaria_total ÷ frecuencia_diaria
+                                    
+                                    <strong>Conversiones:</strong>
+                                    volumen_ml = dosis_aplicada ÷ (concentración_mg / concentración_ml)
+                                    unidades = dosis_aplicada ÷ mg_por_unidad
+                                </div>
+                            </div>
+                            
+                            <div id="historial" class="tab-content">
+                                <h4>Historial de cálculos</h4>
+                                <div id="historialContenido">
+                                    <div class="alert alert-info">
+                                        <div class="alert-content">
+                                            Los cálculos se guardarán automáticamente aquí.
+                                        </div>
+                                    </div>
+                                </div>
+                                <button id="limpiarHistorial" class="btn btn-outline mt-2">Limpiar historial</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Módulo: Guía Historia Clínica -->
+                <div id="guia-hc" class="module">
+                    <div class="module-header">
+                        <h2 class="module-title">Guía Completa de Historia Clínica Pediátrica</h2>
+                        <p class="module-description">Estructuras y metodología para la correcta confección de historias clínicas</p>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3 class="guide-title">2.1 Primera Evolución Médica (Cuerpo de Guardia)</h3>
+                        <div class="guide-content">
+                            <p>La primera evolución médica en cuerpo de guardia debe contener los siguientes elementos:</p>
+                            <ul>
+                                <li><strong>Fecha y hora exactas de ingreso:</strong> Registrar con precisión el momento del ingreso.</li>
+                                <li><strong>Título: 'Primera Evolución Médica':</strong> Identificar claramente el documento.</li>
+                                <li><strong>Motivo de consulta en palabras de la madre:</strong> Evitar términos técnicos, usar el lenguaje del familiar.</li>
+                                <li><strong>Estructura narrativa preconcebida según grupo etario:</strong> Adaptar el relato a la edad del paciente.</li>
+                                <li><strong>Historia de la Enfermedad Actual detallada (timeline):</strong> Secuencia cronológica de síntomas.</li>
+                                <li><strong>Antecedentes específicos por edad:</strong> Incluir datos relevantes según la etapa de desarrollo.</li>
+                                <li><strong>Examen físico por sistemas (SIN abreviaturas):</strong> Describir completamente cada sistema.</li>
+                                <li><strong>Antecedentes patológicos familiares:</strong> Enfermedades hereditarias o relevantes en la familia.</li>
+                                <li><strong>Impresión diagnóstica, Conducta, Pronóstico:</strong> Conclusiones y plan de acción.</li>
+                                <li><strong>Firma y nombre completo:</strong> Responsabilidad profesional.</li>
+                            </ul>
+                            
+                            <div class="example">
+                                <div class="example-title">Ejemplo para Lactantes:</div>
+                                <div class="template-content">
+                                    "[Grupo etario] [género] de [edad] procedente de [zona] con antecedentes de [condición base]..."
+                                    
+                                    Elementos obligatorios para lactantes:
+                                    • Embarazo: Tipo, Complicaciones, Control prenatal
+                                    • Parto: Edad gestacional, Tipo, Complicaciones
+                                    • Periparto: Apgar, Adaptación neonatal
+                                    • Postparto: Egreso, Complicaciones
+                                    • Alimentación: Lactancia tipo, Tiempo, Actual
+                                    • Vacunación: Esquema, Actualizada
+                                    • Desarrollo psicomotor: Evaluación
+                                    • Dinámica familiar: Estructura, Situación
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3 class="guide-title">2.2 Recibimiento en Sala</h3>
+                        <div class="guide-content">
+                            <p>Reevaluación detallada en ambiente tranquilo de sala con los siguientes elementos:</p>
+                            <ul>
+                                <li><strong>Reevaluación completa de todos los elementos de 1ra evolución:</strong> Verificar y ampliar la información inicial.</li>
+                                <li><strong>Nuevos hallazgos del interrogatorio en sala:</strong> Datos que emergen en el ambiente controlado.</li>
+                                <li><strong>PROCEDENCIA del paciente:</strong> Especificar el origen del ingreso.</li>
+                                <li><strong>Condiciones ambientales de la reevaluación:</strong> Contexto del nuevo examen.</li>
+                                <li><strong>Estado actual comparativo con ingreso:</strong> Evolución desde la primera evaluación.</li>
+                                <li><strong>Examen físico de recibimiento detallado:</strong> Revisión minuciosa en condiciones óptimas.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3 class="guide-title">2.3 Historia Clínica Oficial (Primeras 24 horas)</h3>
+                        <div class="guide-content">
+                            <p>Estructura completa según modelo MINSAP para historia clínica oficial:</p>
+                            <ul>
+                                <li><strong>Todos los elementos de Primera Evolución (ampliados):</strong> Base documental completa.</li>
+                                <li><strong>SECCIÓN DE RIESGOS:</strong> Identificar factores de riesgo del paciente.</li>
+                                <li><strong>INTERROGATORIO POR APARATOS (modelo oficial):</strong> Revisión sistemática por sistemas.</li>
+                                <li><strong>EXAMEN FÍSICO OFICIAL (modelo estandarizado):</strong> Protocolo de examen completo.</li>
+                                <li><strong>DISCUSIÓN DIAGNÓSTICA ESTRUCTURADA:</strong> Análisis metodológico del caso.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Módulo: Diagnóstico Sindrómico -->
+                <div id="diagnostico" class="module">
+                    <div class="module-header">
+                        <h2 class="module-title">Diagnóstico Sindrómico Estructurado</h2>
+                        <p class="module-description">Metodología para el abordaje diagnóstico de casos pediátricos</p>
+                    </div>
+                    
+                    <div class="guide-section">
+                        <h3 class="guide-title">3. Discusión Diagnóstica Estructurada</h3>
+                        <div class="guide-content">
+                            <p>Metodología completa para la discusión diagnóstica en pediatría:</p>
+                            <ul>
+                                <li><strong>ESTRUCTURA INICIAL similar a primera evolución:</strong> Base documental coherente.</li>
+                                <li><strong>PLANTEAMIENTOS SINDROMICOS:</strong> Identificación de síndromes presentes.</li>
+                                <li><strong>PLANTEAMIENTO NOSOLÓGICO:</strong> Definición de la enfermedad principal.</li>
+                                <li><strong>DIAGNÓSTICOS DIFERENCIALES (5-7 enfermedades):</strong> Análisis de alternativas.</li>
+                                <li><strong>CIERRE: Impresión diagnóstica, Conducta, Pronóstico:</strong> Conclusiones y plan.</li>
+                            </ul>
+                            
+                            <div class="example">
+                                <div class="example-title">Ejemplo de Estructura:</div>
+                                <div class="template-content">
+                                    1. PLANTEAMIENTO SINDROMICO:
+                                       - Síndrome febril: Justificación...
+                                       - Síndrome respiratorio: Justificación...
+                                       - Identificación del síndrome capital: Síndrome respiratorio
+                                    
+                                    2. PLANTEAMIENTO NOSOLÓGICO:
+                                       - Neumonía bacteriana comunitaria: Justificación basada en...
+                                    
+                                    3. DIAGNÓSTICOS DIFERENCIALES:
+                                       - Bronquiolitis: Diferencias...
+                                       - Tuberculosis: Argumentos para descartar...
+                                    
+                                    4. CIERRE:
+                                       - Impresión diagnóstica: Neumonía bacteriana comunitaria
+                                       - Conducta: Antibioticoterapia, medidas de sostén
+                                       - Pronóstico: Favorable con tratamiento adecuado
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Módulo: Añadir Medicamento -->
+                <div id="medicamentos" class="module">
+                    <div class="module-header">
+                        <h2 class="module-title">Añadir Nuevo Medicamento</h2>
+                        <p class="module-description">Agregar medicamentos personalizados a la base de datos</p>
+                    </div>
+                    
+                    <div class="card" style="max-width: 600px; margin: 0 auto;">
+                        <h3 class="card-title">💊 Datos del Medicamento</h3>
+                        
+                        <div class="form-group">
+                            <label for="nuevoMedNombre">Nombre del Medicamento</label>
+                            <input type="text" id="nuevoMedNombre" placeholder="Ej: Azitromicina">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nuevoMedDosisKg">Dosis por kg (mg/kg/dosis)</label>
+                            <input type="number" id="nuevoMedDosisKg" min="0.1" step="0.1" placeholder="Ej: 10">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nuevoMedMaxDosis">Dosis máxima por toma (mg)</label>
+                            <input type="number" id="nuevoMedMaxDosis" min="1" placeholder="Ej: 500">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nuevoMedMaxDosisDia">Dosis máxima diaria (mg/kg/día)</label>
+                            <input type="number" id="nuevoMedMaxDosisDia" min="1" placeholder="Ej: 30">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nuevoMedFrecuencia">Frecuencia estándar (veces al día)</label>
+                            <input type="number" id="nuevoMedFrecuencia" min="1" max="24" value="1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nuevoMedConsideraciones">Consideraciones</label>
+                            <textarea id="nuevoMedConsideraciones" placeholder="Ej: Administrar con alimentos" style="width: 100%; padding: 0.8rem; border: 1px solid var(--light-gray); border-radius: var(--border-radius); min-height: 80px;"></textarea>
+                        </div>
+                        
+                        <button id="btnGuardarMedicamento" class="btn btn-primary" style="width: 100%;">Guardar Medicamento</button>
+                        
+                        <div id="medicamentoGuardado" class="alert alert-success mt-2 hidden">
+                            <div class="alert-icon">✅</div>
+                            <div class="alert-content">
+                                <strong>Medicamento guardado correctamente.</strong> Ya está disponible en la calculadora.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            
+            <footer>
+                <div class="footer-content">
+                    <p class="footer-text">Pediatría 360 v1.2.2 - Suite Educativa de Pediatría Completa</p>
+                    <p class="footer-developer">Desarrollada por Dr. Rodney Jáuregui Alonso<br>Especialista en 1er Grado en Pediatría. 2025</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de medicamentos con valores REALES
+        let medications = [
+            {
+                id: "paracetamol",
+                name: "Paracetamol",
+                dosePerKg: 15,
+                maxDose: 1000,
+                maxDosePerDay: 60,
+                frequency: "Cada 6-8 horas",
+                standardFrequency: 3,
+                route: "Oral",
+                considerations: "No exceder 60 mg/kg/día",
+                presentation: "mg_ml",
+                commonConcentrationMg: 120,
+                commonConcentrationMl: 5,
+                weightBasedPresentation: true
+            },
+            {
+                id: "amoxicilina",
+                name: "Amoxicilina",
+                dosePerKg: 50,
+                maxDose: 1000,
+                maxDosePerDay: 90,
+                frequency: "Cada 8 horas",
+                standardFrequency: 3,
+                route: "Oral",
+                considerations: "Administrar con alimentos",
+                presentation: "mg_ml",
+                commonConcentrationMg: 250,
+                commonConcentrationMl: 5,
+                weightBasedPresentation: true
+            },
+            {
+                id: "salbutamol",
+                name: "Salbutamol",
+                dosePerKg: 0.15,
+                maxDose: 5,
+                maxDosePerDay: 4,
+                frequency: "Cada 6-8 horas",
+                standardFrequency: 3,
+                route: "Nebulización",
+                considerations: "Monitorizar frecuencia cardíaca",
+                presentation: "gotas",
+                commonConcentrationMg: 0.5,
+                commonConcentrationMl: 1,
+                weightBasedPresentation: false
+            },
+            {
+                id: "ibuprofeno",
+                name: "Ibuprofeno",
+                dosePerKg: 10,
+                maxDose: 400,
+                maxDosePerDay: 40,
+                frequency: "Cada 6-8 horas",
+                standardFrequency: 3,
+                route: "Oral",
+                considerations: "Administrar con alimentos",
+                presentation: "mg_ml",
+                commonConcentrationMg: 100,
+                commonConcentrationMl: 5,
+                weightBasedPresentation: true
+            },
+            {
+                id: "ampicilina",
+                name: "Ampicilina",
+                dosePerKg: 50,
+                maxDose: 2000,
+                maxDosePerDay: 300,
+                frequency: "Cada 6 horas",
+                standardFrequency: 4,
+                route: "Intravenoso",
+                considerations: "Prueba de sensibilidad recomendada",
+                presentation: "ui_ampolla",
+                commonConcentrationMg: 500,
+                commonConcentrationMl: 1,
+                weightBasedPresentation: true
+            }
+        ];
+
+        // Estado de la aplicación
+        let currentModule = "calculadora";
+        let currentTab = "resultados";
+        let history = JSON.parse(localStorage.getItem("pediacalc_history")) || [];
+        let isDarkMode = localStorage.getItem("pediacalc_darkmode") === "true";
+        let customMeds = JSON.parse(localStorage.getItem("pediacalc_custom_meds")) || [];
+
+        // Inicialización
+        document.addEventListener("DOMContentLoaded", function() {
+            initApp();
+            setupEventListeners();
+            loadMedications();
+            updateHistoryDisplay();
+            applyTheme();
+        });
+
+        function initApp() {
+            // Cargar medicamentos personalizados
+            medications = medications.concat(customMeds);
+            
+            // Configurar sidebar
+            const sidebar = document.getElementById("sidebar");
+            const sidebarToggle = document.getElementById("sidebarToggle");
+            const sidebarOverlay = document.getElementById("sidebarOverlay");
+            const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+            
+            sidebarToggle.addEventListener("click", function() {
+                sidebar.classList.toggle("expanded");
+            });
+            
+            mobileMenuBtn.addEventListener("click", function() {
+                sidebar.classList.add("expanded");
+                sidebarOverlay.style.display = "block";
+            });
+            
+            sidebarOverlay.addEventListener("click", function() {
+                sidebar.classList.remove("expanded");
+                sidebarOverlay.style.display = "none";
+            });
+            
+            // Actualizar recomendación de peso
+            document.getElementById("peso").addEventListener("input", updateWeightRecommendation);
+            document.getElementById("edad").addEventListener("input", updateAgeConversion);
+            document.getElementById("edadUnidad").addEventListener("change", updateAgeConversion);
+            
+            // Configurar presentación
+            document.getElementById("presentacion").addEventListener("change", function() {
+                toggleConcentrationField();
+            });
+            
+            // Botón de concentración estándar
+            document.getElementById("btnConcentracionEstandar").addEventListener("click", function() {
+                const medSelect = document.getElementById("medicamento");
+                const selectedMed = medications.find(m => m.id === medSelect.value);
+                
+                if (selectedMed) {
+                    document.getElementById("concentracionMg").value = selectedMed.commonConcentrationMg;
+                    document.getElementById("concentracionMl").value = selectedMed.commonConcentrationMl;
+                }
+            });
+            
+            // Botón de frecuencia estándar
+            document.getElementById("btnFrecuenciaEstandar").addEventListener("click", function() {
+                const medSelect = document.getElementById("medicamento");
+                const selectedMed = medications.find(m => m.id === medSelect.value);
+                
+                if (selectedMed) {
+                    document.getElementById("frecuencia").value = selectedMed.standardFrequency;
+                }
+            });
+            
+            // Ejemplos rápidos
+            document.querySelectorAll(".ejemplo-btn").forEach(btn => {
+                btn.addEventListener("click", function() {
+                    const med = this.getAttribute("data-med");
+                    const peso = this.getAttribute("data-peso");
+                    const concMg = this.getAttribute("data-conc-mg");
+                    const concMl = this.getAttribute("data-conc-ml");
+                    const frec = this.getAttribute("data-frec");
+                    
+                    document.getElementById("peso").value = peso;
+                    document.getElementById("medicamento").value = med;
+                    document.getElementById("concentracionMg").value = concMg;
+                    document.getElementById("concentracionMl").value = concMl;
+                    document.getElementById("frecuencia").value = frec;
+                    
+                    updateWeightRecommendation();
+                    calculateDose();
+                });
+            });
+            
+            // Limpiar historial
+            document.getElementById("limpiarHistorial").addEventListener("click", function() {
+                if (confirm("¿Está seguro de que desea limpiar el historial?")) {
+                    history = [];
+                    localStorage.setItem("pediacalc_history", JSON.stringify(history));
+                    updateHistoryDisplay();
+                }
+            });
+            
+            // Guardar medicamento personalizado
+            document.getElementById("btnGuardarMedicamento").addEventListener("click", function() {
+                guardarMedicamentoPersonalizado();
+            });
+        }
+
+        function setupEventListeners() {
+            // Navegación entre módulos
+            document.querySelectorAll(".nav-item").forEach(item => {
+                item.addEventListener("click", function() {
+                    // Cerrar sidebar en móviles
+                    if (window.innerWidth <= 768) {
+                        document.getElementById("sidebar").classList.remove("expanded");
+                        document.getElementById("sidebarOverlay").style.display = "none";
+                    }
+                    
+                    // Remover clase active de todos los elementos
+                    document.querySelectorAll(".nav-item").forEach(nav => {
+                        nav.classList.remove("active");
+                    });
+                    
+                    // Ocultar todos los módulos
+                    document.querySelectorAll(".module").forEach(module => {
+                        module.classList.remove("active");
+                    });
+                    
+                    // Activar el elemento clickeado
+                    this.classList.add("active");
+                    
+                    // Mostrar el módulo correspondiente
+                    const moduleId = this.getAttribute("data-module");
+                    document.getElementById(moduleId).classList.add("active");
+                    document.getElementById("moduleHeader").textContent = this.querySelector(".nav-text").textContent;
+                    
+                    currentModule = moduleId;
+                });
+            });
+            
+            // Navegación por pestañas
+            document.querySelectorAll(".tab").forEach(tab => {
+                tab.addEventListener("click", function() {
+                    // Remover clase active de todas las pestañas
+                    document.querySelectorAll(".tab").forEach(t => {
+                        t.classList.remove("active");
+                    });
+                    
+                    // Ocultar todos los contenidos
+                    document.querySelectorAll(".tab-content").forEach(content => {
+                        content.classList.remove("active");
+                    });
+                    
+                    // Activar la pestaña clickeada
+                    this.classList.add("active");
+                    
+                    // Mostrar el contenido correspondiente
+                    const tabId = this.getAttribute("data-tab");
+                    document.getElementById(tabId).classList.add("active");
+                    
+                    currentTab = tabId;
+                });
+            });
+            
+            // Toggle tema oscuro/claro
+            document.getElementById("themeToggle").addEventListener("click", toggleTheme);
+            
+            // Calcular dosis
+            document.getElementById("calcular").addEventListener("click", calculateDose);
+        }
+
+        function loadMedications() {
+            const medSelect = document.getElementById("medicamento");
+            medSelect.innerHTML = '<option value="">Seleccione un medicamento</option>';
+            
+            medications.forEach(med => {
+                const option = document.createElement("option");
+                option.value = med.id;
+                option.textContent = med.name;
+                medSelect.appendChild(option);
+            });
+        }
+
+        function updateWeightRecommendation() {
+            const weight = parseFloat(document.getElementById("peso").value);
+            const recommendation = document.getElementById("weightRecommendation");
+            const text = document.getElementById("recommendationText");
+            
+            if (!isNaN(weight) && weight > 0) {
+                if (weight <= 15) {
+                    text.textContent = "Usar suspensión (≤15 kg)";
+                    recommendation.classList.remove("hidden");
+                } else {
+                    text.textContent = "Preferir tabletas (>15 kg)";
+                    recommendation.classList.remove("hidden");
+                }
+            } else {
+                recommendation.classList.add("hidden");
+            }
+        }
+
+        function updateAgeConversion() {
+            const age = parseFloat(document.getElementById("edad").value);
+            const unit = document.getElementById("edadUnidad").value;
+            const conversion = document.getElementById("ageConversion");
+            const text = document.getElementById("conversionText");
+            
+            if (!isNaN(age) && age > 0) {
+                if (unit === "meses") {
+                    const years = (age / 12).toFixed(1);
+                    text.textContent = `${age} meses ≈ ${years} años`;
+                } else {
+                    const months = (age * 12).toFixed(0);
+                    text.textContent = `${age} años ≈ ${months} meses`;
+                }
+                conversion.classList.remove("hidden");
+            } else {
+                conversion.classList.add("hidden");
+            }
+        }
+
+        function toggleConcentrationField() {
+            const presentation = document.getElementById("presentacion").value;
+            const concentrationGroup = document.getElementById("concentrationGroup");
+            const label = concentrationGroup.querySelector("label");
+            const divider = concentrationGroup.querySelector(".concentration-divider");
+            const mlText = concentrationGroup.querySelector("span:last-child");
+            
+            if (presentation === "personalizado") {
+                label.textContent = "Miligramos por unidad";
+                divider.style.display = "none";
+                document.getElementById("concentracionMl").style.display = "none";
+                mlText.style.display = "none";
+                document.getElementById("concentracionMg").placeholder = "Ej: 500";
+            } else if (presentation === "gotas") {
+                label.textContent = "Concentración (%)";
+                divider.style.display = "none";
+                document.getElementById("concentracionMl").style.display = "none";
+                mlText.style.display = "none";
+                document.getElementById("concentracionMg").placeholder = "Ej: 0.5";
+            } else if (presentation === "ui_ampolla") {
+                label.textContent = "UI por ampolla";
+                divider.style.display = "none";
+                document.getElementById("concentracionMl").style.display = "none";
+                mlText.style.display = "none";
+                document.getElementById("concentracionMg").placeholder = "Ej: 500";
+            } else {
+                label.textContent = "Concentración";
+                divider.style.display = "inline";
+                document.getElementById("concentracionMl").style.display = "inline-block";
+                mlText.style.display = "inline";
+                document.getElementById("concentracionMg").placeholder = "Ej: 250";
+                document.getElementById("concentracionMl").placeholder = "Ej: 5";
+            }
+        }
+
+        function calculateDose() {
+            const weight = parseFloat(document.getElementById("peso").value);
+            const medId = document.getElementById("medicamento").value;
+            const presentation = document.getElementById("presentacion").value;
+            const concentrationMg = parseFloat(document.getElementById("concentracionMg").value);
+            const concentrationMl = parseFloat(document.getElementById("concentracionMl").value);
+            const frequency = parseInt(document.getElementById("frecuencia").value);
+            
+            // Validaciones
+            if (isNaN(weight) || weight < 0.5 || weight > 200) {
+                showAlert("Por favor, ingrese un peso válido (0.5 - 200 kg)", "danger");
+                return;
+            }
+            
+            if (!medId) {
+                showAlert("Por favor, seleccione un medicamento", "danger");
+                return;
+            }
+            
+            if (isNaN(concentrationMg) || concentrationMg <= 0) {
+                showAlert("Por favor, ingrese una concentración válida", "danger");
+                return;
+            }
+            
+            if ((presentation === "mg_ml" || presentation === "personalizado") && 
+                (isNaN(concentrationMl) || concentrationMl <= 0)) {
+                showAlert("Por favor, ingrese un volumen válido", "danger");
+                return;
+            }
+            
+            if (isNaN(frequency) || frequency < 1 || frequency > 24) {
+                showAlert("Por favor, ingrese una frecuencia válida (1-24 veces/día)", "danger");
+                return;
+            }
+            
+            const medication = medications.find(m => m.id === medId);
+            
+            // Cálculos
+            const dosePerTake = weight * medication.dosePerKg;
+            const appliedDose = Math.min(dosePerTake, medication.maxDose);
+            const dailyDose = weight * medication.maxDosePerDay;
+            const dosePerTakeDaily = dailyDose / frequency;
+            
+            // Validación de dosis máxima diaria
+            let alertType = "success";
+            let alertMessage = "Dosis segura";
+            
+            if (dosePerTake * frequency > dailyDose) {
+                alertType = "warning";
+                alertMessage = `ADVERTENCIA: La dosis diaria calculada (${(dosePerTake * frequency).toFixed(1)} mg) excede el máximo recomendado (${dailyDose} mg)`;
+            }
+            
+            // Cálculo de volumen/unidades
+            let volume = 0;
+            let units = 0;
+            let concentration = concentrationMg / concentrationMl;
+            
+            if (presentation === "mg_ml") {
+                volume = appliedDose / concentration;
+                units = volume;
+            } else if (presentation === "mg_comprimido" || presentation === "personalizado") {
+                units = appliedDose / concentrationMg;
+                volume = 0;
+            } else if (presentation === "ui_ampolla") {
+                units = appliedDose / concentrationMg;
+                volume = 0;
+            } else if (presentation === "gotas") {
+                // Para gotas, asumimos que 1 ml = 20 gotas
+                volume = appliedDose / concentrationMg;
+                units = volume * 20;
+            }
+            
+            // Redondeo inteligente
+            let roundedVolume = volume;
+            let roundedUnits = units;
+            
+            if (weight <= 15) {
+                // Para pesos ≤15 kg, redondear a 0.25 (suspensiones)
+                roundedVolume = Math.round(volume * 4) / 4;
+                roundedUnits = Math.round(units * 4) / 4;
+            } else {
+                // Para pesos >15 kg, redondear a unidad entera (tabletas)
+                roundedVolume = Math.round(volume);
+                roundedUnits = Math.round(units);
+            }
+            
+            // Generar horarios
+            const schedule = calculateSchedule(frequency);
+            
+            // Mostrar resultados
+            displayResults({
+                weight,
+                medication,
+                appliedDose,
+                dailyDose,
+                dosePerTakeDaily,
+                volume: roundedVolume,
+                units: roundedUnits,
+                frequency,
+                schedule,
+                presentation,
+                concentration: concentrationMg / concentrationMl,
+                alertType,
+                alertMessage
+            });
+            
+            // Guardar en historial
+            saveToHistory({
+                weight,
+                medication: medication.name,
+                appliedDose,
+                volume: roundedVolume,
+                units: roundedUnits,
+                frequency,
+                timestamp: new Date().toLocaleString()
+            });
+        }
+
+        function calculateSchedule(frequency) {
+            const startHour = 8; // Comenzar a las 8:00 AM
+            const interval = 24 / frequency;
+            const schedule = [];
+            
+            for (let i = 0; i < frequency; i++) {
+                let hour = startHour + (i * interval);
+                if (hour >= 24) hour -= 24;
+                
+                const hourStr = Math.floor(hour).toString().padStart(2, '0');
+                const minStr = Math.round((hour % 1) * 60).toString().padStart(2, '0');
+                
+                schedule.push(`${hourStr}:${minStr}`);
+            }
+            
+            return schedule;
+        }
+
+        function displayResults(data) {
+            const resultsContent = document.getElementById("resultadosContenido");
+            
+            resultsContent.innerHTML = `
+                <div class="alert alert-${data.alertType}">
+                    <div class="alert-icon">${data.alertType === 'success' ? '✅' : '⚠️'}</div>
+                    <div class="alert-content">
+                        <strong>${data.alertMessage}</strong>
+                        <div>Dosis calculada para paciente de ${data.weight} kg</div>
+                    </div>
+                </div>
+                
+                <div class="results-grid">
+                    <div class="result-item">
+                        <div class="result-value">${data.appliedDose.toFixed(1)} mg</div>
+                        <div class="result-label">Dosis por toma</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value">${data.frequency}</div>
+                        <div class="result-label">Veces al día</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value">${data.volume.toFixed(2)}</div>
+                        <div class="result-label">${data.presentation === 'mg_comprimido' || data.presentation === 'personalizado' ? 'Tabletas' : 'ml'}</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-value">${data.units.toFixed(1)}</div>
+                        <div class="result-label">${data.presentation === 'gotas' ? 'Gotas' : 'Unidades'}</div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-info">
+                    <div class="alert-icon">⏰</div>
+                    <div class="alert-content">
+                        <strong>Horario sugerido:</strong> ${data.schedule.join(", ")}
+                    </div>
+                </div>
+                
+                <div class="alert">
+                    <div class="alert-icon">💊</div>
+                    <div class="alert-content">
+                        <strong>Consideraciones:</strong> ${data.medication.considerations}
+                    </div>
+                </div>
+            `;
+            
+            // Cambiar a pestaña de resultados si no está activa
+            if (currentTab !== "resultados") {
+                document.querySelectorAll(".tab").forEach(tab => {
+                    tab.classList.remove("active");
+                    if (tab.getAttribute("data-tab") === "resultados") {
+                        tab.classList.add("active");
+                    }
+                });
+                
+                document.querySelectorAll(".tab-content").forEach(content => {
+                    content.classList.remove("active");
+                    if (content.id === "resultados") {
+                        content.classList.add("active");
+                    }
+                });
+                
+                currentTab = "resultados";
+            }
+        }
+
+        function saveToHistory(calculation) {
+            history.unshift(calculation);
+            
+            // Mantener solo los últimos 10 cálculos
+            if (history.length > 10) {
+                history = history.slice(0, 10);
+            }
+            
+            localStorage.setItem("pediacalc_history", JSON.stringify(history));
+            updateHistoryDisplay();
+        }
+
+        function updateHistoryDisplay() {
+            const historyContent = document.getElementById("historialContenido");
+            
+            if (history.length === 0) {
+                historyContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <div class="alert-content">
+                            Aún no hay cálculos en el historial.
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            historyContent.innerHTML = "";
+            
+            history.forEach((calc, index) => {
+                const item = document.createElement("div");
+                item.className = "history-item";
+                item.innerHTML = `
+                    <div class="history-date">${calc.timestamp}</div>
+                    <div class="history-details">
+                        <strong>${calc.medication}</strong> - ${calc.weight} kg: ${calc.appliedDose.toFixed(1)} mg (${calc.frequency}x/día)
+                    </div>
+                `;
+                
+                item.addEventListener("click", function() {
+                    // Cargar este cálculo
+                    document.getElementById("peso").value = calc.weight;
+                    document.getElementById("frecuencia").value = calc.frequency;
+                    
+                    const medOption = document.getElementById("medicamento").querySelector(`option[value="${medications.find(m => m.name === calc.medication)?.id}"]`);
+                    if (medOption) {
+                        document.getElementById("medicamento").value = medOption.value;
+                    }
+                    
+                    calculateDose();
+                });
+                
+                historyContent.appendChild(item);
+            });
+        }
+
+        function guardarMedicamentoPersonalizado() {
+            const nombre = document.getElementById("nuevoMedNombre").value.trim();
+            const dosisKg = parseFloat(document.getElementById("nuevoMedDosisKg").value);
+            const maxDosis = parseFloat(document.getElementById("nuevoMedMaxDosis").value);
+            const maxDosisDia = parseFloat(document.getElementById("nuevoMedMaxDosisDia").value);
+            const frecuencia = parseInt(document.getElementById("nuevoMedFrecuencia").value);
+            const consideraciones = document.getElementById("nuevoMedConsideraciones").value.trim();
+            
+            // Validaciones
+            if (!nombre) {
+                alert("Por favor, ingrese el nombre del medicamento");
+                return;
+            }
+            
+            if (isNaN(dosisKg) || dosisKg <= 0) {
+                alert("Por favor, ingrese una dosis por kg válida");
+                return;
+            }
+            
+            if (isNaN(maxDosis) || maxDosis <= 0) {
+                alert("Por favor, ingrese una dosis máxima por toma válida");
+                return;
+            }
+            
+            if (isNaN(maxDosisDia) || maxDosisDia <= 0) {
+                alert("Por favor, ingrese una dosis máxima diaria válida");
+                return;
+            }
+            
+            if (isNaN(frecuencia) || frecuencia < 1 || frecuencia > 24) {
+                alert("Por favor, ingrese una frecuencia válida (1-24 veces/día)");
+                return;
+            }
+            
+            // Crear nuevo medicamento
+            const nuevoMed = {
+                id: nombre.toLowerCase().replace(/\s+/g, '_'),
+                name: nombre,
+                dosePerKg: dosisKg,
+                maxDose: maxDosis,
+                maxDosePerDay: maxDosisDia,
+                frequency: `Cada ${24/frecuencia} horas`,
+                standardFrequency: frecuencia,
+                route: "Oral",
+                considerations: consideraciones || "Sin consideraciones especiales",
+                presentation: "mg_ml",
+                commonConcentrationMg: 100,
+                commonConcentrationMl: 5,
+                weightBasedPresentation: true,
+                custom: true
+            };
+            
+            // Guardar en localStorage
+            customMeds.push(nuevoMed);
+            localStorage.setItem("pediacalc_custom_meds", JSON.stringify(customMeds));
+            
+            // Actualizar lista de medicamentos
+            medications.push(nuevoMed);
+            loadMedications();
+            
+            // Mostrar mensaje de éxito
+            const alert = document.getElementById("medicamentoGuardado");
+            alert.classList.remove("hidden");
+            
+            // Limpiar formulario
+            document.getElementById("nuevoMedNombre").value = "";
+            document.getElementById("nuevoMedDosisKg").value = "";
+            document.getElementById("nuevoMedMaxDosis").value = "";
+            document.getElementById("nuevoMedMaxDosisDia").value = "";
+            document.getElementById("nuevoMedFrecuencia").value = "1";
+            document.getElementById("nuevoMedConsideraciones").value = "";
+            
+            // Ocultar mensaje después de 3 segundos
+            setTimeout(() => {
+                alert.classList.add("hidden");
+            }, 3000);
+        }
+
+        function showAlert(message, type) {
+            const resultsContent = document.getElementById("resultadosContenido");
+            
+            resultsContent.innerHTML = `
+                <div class="alert alert-${type}">
+                    <div class="alert-icon">${type === 'danger' ? '❌' : '⚠️'}</div>
+                    <div class="alert-content">${message}</div>
+                </div>
+            `;
+            
+            // Cambiar a pestaña de resultados
+            document.querySelectorAll(".tab").forEach(tab => {
+                tab.classList.remove("active");
+                if (tab.getAttribute("data-tab") === "resultados") {
+                    tab.classList.add("active");
+                }
+            });
+            
+            document.querySelectorAll(".tab-content").forEach(content => {
+                content.classList.remove("active");
+                if (content.id === "resultados") {
+                    content.classList.add("active");
+                }
+            });
+            
+            currentTab = "resultados";
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem("pediacalc_darkmode", isDarkMode);
+            applyTheme();
+        }
+
+        function applyTheme() {
+            if (isDarkMode) {
+                document.body.classList.add("dark-mode");
+                document.getElementById("themeToggle").textContent = "☀️";
+            } else {
+                document.body.classList.remove("dark-mode");
+                document.getElementById("themeToggle").textContent = "🌙";
+            }
+        }
+    </script>
+</body>
+</html>
