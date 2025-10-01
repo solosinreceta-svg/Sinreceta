@@ -1,1716 +1,1132 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pediatría 360 v1.2.2 - Suite Educativa de Pediatría</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PediaCalc v9.1.0</title>
+    <link rel="manifest" href="#manifest">
     <style>
+        /* Variables CSS con colores UNICEF */
         :root {
-            --primary: #1a8cff;
-            --primary-dark: #0066cc;
-            --secondary: #ff9933;
-            --light: #f8f9fa;
-            --dark: #202124;
-            --gray: #5f6368;
-            --light-gray: #dadce0;
-            --border-radius: 8px;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
+            --bg: #f0f8ff; /* Azul claro UNICEF */
+            --card: #ffffff;
+            --txt: #333333;
+            --muted: #666666;
+            --accent: #0077cc; /* Azul principal UNICEF */
+            --accent-light: #4da6ff; /* Azul claro */
+            --accent-dark: #005599; /* Azul oscuro */
+            --success: #00aa55; /* Verde UNICEF */
+            --warning: #ff9900; /* Naranja UNICEF */
+            --danger: #ff4444; /* Rojo UNICEF */
+            --sidebar-width: 260px;
+            --sidebar-collapsed: 60px;
         }
-        
-        .dark-mode {
-            --primary: #4da6ff;
-            --primary-dark: #1a8cff;
-            --secondary: #ffaa4d;
-            --light: #2d2d2d;
-            --dark: #f8f9fa;
-            --gray: #a0a0a0;
-            --light-gray: #404040;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+        [data-theme="dark"] {
+            --bg: #0a1a2a; /* Azul oscuro UNICEF */
+            --card: #0f253a;
+            --txt: #e6f2ff;
+            --muted: #aaccff;
+            --accent: #4da6ff;
+            --accent-light: #66b3ff;
+            --accent-dark: #3385cc;
         }
-        
+
+        [data-contrast="high"] {
+            --card: #000033;
+            --txt: #ffffff;
+            --muted: #ffffff;
+        }
+
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, Arial, sans-serif;
         }
-        
-        body {
-            background-color: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
-            transition: var(--transition);
-        }
-        
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        /* Sidebar Styles */
-        .sidebar {
-            width: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            transition: var(--transition);
-            overflow: hidden;
-            position: fixed;
-            height: 100vh;
-            z-index: 1000;
-            box-shadow: var(--shadow);
-        }
-        
-        .sidebar.expanded {
-            width: 280px;
-        }
-        
-        .sidebar-header {
-            padding: 1.5rem 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        
-        .sidebar-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .sidebar-logo-icon {
-            font-size: 1.8rem;
-        }
-        
-        .sidebar-logo-text {
-            font-size: 1.2rem;
-            font-weight: 600;
-            white-space: nowrap;
-        }
-        
-        .sidebar-nav {
-            padding: 1rem 0;
-        }
-        
-        .nav-item {
-            padding: 1rem 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            transition: var(--transition);
-            white-space: nowrap;
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-        
-        .nav-icon {
-            font-size: 1.3rem;
-            min-width: 30px;
-        }
-        
-        .nav-text {
-            font-weight: 500;
-        }
-        
-        /* Mobile Sidebar Overlay */
-        .sidebar-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+
+        html, body {
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            margin: 0;
+            background: var(--bg);
+            color: var(--txt);
+            transition: all 0.3s ease;
         }
-        
-        /* Main Content Styles */
-        .main-content {
+
+        /* Header */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             flex: 1;
-            margin-left: 60px;
-            transition: var(--transition);
+        }
+
+        .header-center {
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
-        }
-        
-        .sidebar.expanded ~ .main-content {
-            margin-left: 280px;
-        }
-        
-        header {
-            background-color: white;
-            color: var(--dark);
-            padding: 1rem 2rem;
-            box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 99;
-            transition: var(--transition);
+            flex: 2;
+            text-align: center;
         }
-        
-        .dark-mode header {
-            background-color: var(--light);
-        }
-        
-        .header-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-        }
-        
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-        }
-        
-        .theme-toggle {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--gray);
-            transition: var(--transition);
-        }
-        
-        .theme-toggle:hover {
-            color: var(--secondary);
-        }
-        
-        main {
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
             flex: 1;
-            padding: 2rem;
         }
-        
-        .module {
-            display: none;
-            animation: fadeIn 0.5s ease;
+
+        h1 {
+            font-size: 18px;
+            margin: 0;
         }
-        
-        .module.active {
-            display: block;
+
+        /* Icono corazón latiendo */
+        .heart-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: #00aa55;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: heartbeat 1.5s ease-in-out infinite both;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .module-header {
-            margin-bottom: 1.5rem;
-        }
-        
-        .module-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--primary-dark);
-            margin-bottom: 0.5rem;
-        }
-        
-        .module-description {
-            color: var(--gray);
-            font-size: 1.1rem;
-        }
-        
-        /* Calculator Styles */
-        .calculator-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-        }
-        
-        @media (max-width: 968px) {
-            .calculator-container {
-                grid-template-columns: 1fr;
+
+        @keyframes heartbeat {
+            from {
+                transform: scale(1);
+                transform-origin: center center;
+                animation-timing-function: ease-out;
+            }
+            10% {
+                transform: scale(0.91);
+                animation-timing-function: ease-in;
+            }
+            17% {
+                transform: scale(0.98);
+                animation-timing-function: ease-out;
+            }
+            33% {
+                transform: scale(0.87);
+                animation-timing-function: ease-in;
+            }
+            45% {
+                transform: scale(1);
+                animation-timing-function: ease-out;
             }
         }
-        
-        .card {
-            background-color: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 1.5rem;
-            transition: var(--transition);
+
+        .heart-icon::before {
+            content: "❤";
+            font-size: 24px;
+            color: white;
         }
-        
-        .dark-mode .card {
-            background-color: var(--light);
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--primary-dark);
+
+        /* Layout principal */
+        .app-container {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            height: calc(100vh - 64px);
         }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card);
+            padding: 10px;
+            overflow: auto;
+            transition: all 0.3s ease;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+            z-index: 10;
         }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--dark);
+
+        .sidebar.collapsed {
+            width: var(--sidebar-collapsed);
         }
-        
-        .dark-mode label {
-            color: var(--dark);
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 0.8rem;
-            border: 1px solid var(--light-gray);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: var(--transition);
-            background-color: white;
-            color: var(--dark);
-        }
-        
-        .dark-mode input, .dark-mode select {
-            background-color: #404040;
-            border-color: #555;
-            color: var(--dark);
-        }
-        
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(26, 140, 255, 0.2);
-        }
-        
-        .concentration-inputs {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .concentration-inputs input {
-            flex: 1;
-        }
-        
-        .concentration-divider {
-            font-weight: bold;
-            color: var(--gray);
-        }
-        
-        .btn {
-            padding: 0.8rem 1.5rem;
+
+        .sidebar-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.2);
             border: none;
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            font-weight: 500;
+            color: white;
+            border-radius: 4px;
+            padding: 8px 10px;
             cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
+            z-index: 101;
+            font-size: 16px;
+        }
+
+        .sidebar h3 {
+            margin: 0 0 12px 0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            color: var(--accent);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .sidebar button {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px;
+            border: 0;
+            background: none;
+            border-radius: 6px;
+            color: var(--txt);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .sidebar button:hover {
+            background: rgba(0, 119, 204, 0.1);
+        }
+
+        .sidebar button.active {
+            background: linear-gradient(90deg, var(--accent), transparent);
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 119, 204, 0.3);
+        }
+
+        /* Contenido principal */
+        .main-content {
+            flex: 1;
+            padding: 12px;
+            overflow: auto;
+            transition: all 0.3s ease;
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Componentes comunes */
+        .row {
+            display: flex;
+            gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 14px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--accent);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            text-align: left;
+        }
+
+        input, select, textarea {
+            padding: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            border-radius: 6px;
+            width: 100%;
+            background: var(--card);
+            color: var(--txt);
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.2);
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .btn {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 0;
+            background: var(--accent);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn.ghost {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .btn.ghost:hover {
+            background: rgba(0, 119, 204, 0.1);
+        }
+
+        .btn.success {
+            background: var(--success);
+        }
+
+        .btn.warning {
+            background: var(--warning);
+        }
+
+        .btn.danger {
+            background: var(--danger);
+        }
+
+        .flex {
+            display: flex;
             gap: 8px;
         }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
+
+        .small {
+            font-size: 13px;
+            padding: 6px 8px;
         }
-        
-        .btn-primary:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background-color: #e68a00;
-        }
-        
-        .btn-outline {
-            background-color: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-        }
-        
-        .btn-outline:hover {
-            background-color: rgba(26, 140, 255, 0.1);
-        }
-        
-        .tabs {
+
+        .modal {
+            position: fixed;
+            inset: 0;
             display: flex;
-            border-bottom: 1px solid var(--light-gray);
-            margin-bottom: 1.5rem;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 1000;
         }
-        
-        .tab {
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: var(--transition);
-            font-weight: 500;
+
+        .modal .box {
+            width: 960px;
+            max-width: 96%;
+            max-height: 88vh;
+            overflow: auto;
+            background: var(--card);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
-        
-        .tab.active {
-            border-bottom-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .results-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .result-item {
-            background-color: rgba(26, 140, 255, 0.1);
-            border-radius: var(--border-radius);
-            padding: 1rem;
-            text-align: center;
-        }
-        
-        .dark-mode .result-item {
-            background-color: rgba(26, 140, 255, 0.2);
-        }
-        
-        .result-value {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .result-label {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-top: 0.5rem;
-        }
-        
-        .alert {
-            padding: 1rem;
-            border-radius: var(--border-radius);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        
-        .alert-success {
-            background-color: #e8f5e9;
-            border-left: 4px solid #4caf50;
-        }
-        
-        .alert-warning {
-            background-color: #fff3e0;
-            border-left: 4px solid #ff9800;
-        }
-        
-        .alert-danger {
-            background-color: #ffebee;
-            border-left: 4px solid #f44336;
-        }
-        
-        .dark-mode .alert-success {
-            background-color: rgba(76, 175, 80, 0.2);
-        }
-        
-        .dark-mode .alert-warning {
-            background-color: rgba(255, 152, 0, 0.2);
-        }
-        
-        .dark-mode .alert-danger {
-            background-color: rgba(244, 67, 54, 0.2);
-        }
-        
-        .alert-icon {
-            font-size: 1.2rem;
-        }
-        
-        .alert-content strong {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        .history-item {
-            padding: 1rem;
-            border-bottom: 1px solid var(--light-gray);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .history-item:hover {
-            background-color: rgba(26, 140, 255, 0.1);
-        }
-        
-        .history-date {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-        
-        .history-details {
-            margin-top: 0.5rem;
-            font-size: 0.9rem;
-        }
-        
-        /* Guide Styles */
-        .guide-section {
-            margin-bottom: 2rem;
-        }
-        
-        .guide-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--primary-dark);
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--light-gray);
-        }
-        
-        .guide-content {
-            line-height: 1.8;
-        }
-        
-        .guide-content p {
-            margin-bottom: 1rem;
-        }
-        
-        .guide-content ul {
-            margin-left: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .guide-content li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .example {
-            background-color: rgba(255, 153, 51, 0.1);
-            border-left: 4px solid var(--secondary);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-        }
-        
-        .example-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-        }
-        
-        .template {
-            background-color: rgba(26, 140, 255, 0.1);
-            border-left: 4px solid var(--primary);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-            white-space: pre-line;
-            line-height: 1.5;
-        }
-        
-        .template-title {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--primary);
-        }
-        
-        /* Footer Styles */
+
         footer {
-            background-color: var(--dark);
-            color: white;
-            padding: 1.5rem 2rem;
+            padding: 12px;
             text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            background: var(--card);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
-        
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
+
+        /* Autocompletado */
+        .autocomplete {
+            position: relative;
         }
-        
-        .footer-text {
-            opacity: 0.8;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+
+        .autocomplete-items {
+            position: absolute;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-top: none;
+            z-index: 99;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--card);
+            max-height: 200px;
+            overflow-y: auto;
+            border-radius: 0 0 6px 6px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
-        .footer-developer {
-            font-weight: 600;
-            font-size: 0.9rem;
+
+        .autocomplete-item {
+            padding: 8px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         }
-        
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 0;
-                transform: translateX(-100%);
+
+        .autocomplete-item:hover {
+            background: rgba(0, 119, 204, 0.1);
+        }
+
+        /* Resultados de cálculo */
+        .result-box {
+            background: rgba(0, 119, 204, 0.05);
+            border-left: 4px solid var(--accent);
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 12px;
+        }
+
+        .dose-result {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .dose-item {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar-toggle {
+                display: block;
             }
-            
-            .sidebar.expanded {
-                width: 280px;
+
+            .sidebar {
+                position: fixed;
+                height: 100%;
+                left: 0;
+                top: 64px;
+                transform: translateX(-100%);
+                z-index: 99;
+            }
+
+            .sidebar.open {
                 transform: translateX(0);
             }
-            
-            .sidebar-overlay {
-                display: block;
-            }
-            
+
             .main-content {
+                width: 100%;
                 margin-left: 0;
             }
-            
-            .sidebar.expanded ~ .main-content {
-                margin-left: 0;
+
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 98;
+                display: none;
             }
-            
-            header {
-                padding: 1rem;
-            }
-            
-            .mobile-menu-btn {
+
+            .overlay.open {
                 display: block;
             }
-            
-            main {
-                padding: 1rem;
+
+            .header-center {
+                flex: 1;
+                text-align: left;
+                margin-left: 10px;
             }
-            
-            .calculator-container {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+
+            .header-right {
+                flex: 0;
             }
-            
-            .card {
-                padding: 1rem;
-            }
-        }
-        
-        /* Utility Classes */
-        .hidden {
-            display: none;
-        }
-        
-        .text-center {
-            text-align: center;
-        }
-        
-        .mt-2 {
-            margin-top: 2rem;
-        }
-        
-        .mb-2 {
-            margin-bottom: 2rem;
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <!-- Sidebar Overlay for Mobile -->
-        <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        
-        <!-- Sidebar Navigation -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <button class="sidebar-toggle" id="sidebarToggle">☰</button>
-                <div class="sidebar-logo">
-                    <div class="sidebar-logo-icon">👶</div>
-                    <div class="sidebar-logo-text">Pediatría 360</div>
-                </div>
-            </div>
-            <div class="sidebar-nav">
-                <div class="nav-item active" data-module="calculadora">
-                    <div class="nav-icon">🧮</div>
-                    <div class="nav-text">Calculadora Pediátrica</div>
-                </div>
-                <div class="nav-item" data-module="guia-hc">
-                    <div class="nav-icon">📋</div>
-                    <div class="nav-text">Guía Historia Clínica</div>
-                </div>
-                <div class="nav-item" data-module="diagnostico">
-                    <div class="nav-icon">🔍</div>
-                    <div class="nav-text">Diagnóstico Sindrómico</div>
-                </div>
-                <div class="nav-item" data-module="medicamentos">
-                    <div class="nav-icon">💊</div>
-                    <div class="nav-text">Añadir Medicamento</div>
-                </div>
-            </div>
+<body data-theme="light" data-contrast="normal">
+    <header>
+        <div class="header-left">
+            <button class="sidebar-toggle" id="sidebarToggle">☰</button>
         </div>
-        
-        <!-- Main Content -->
-        <div class="main-content">
-            <header>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
-                <h1 class="header-title" id="moduleHeader">Calculadora Pediátrica</h1>
-                <button class="theme-toggle" id="themeToggle">🌙</button>
-            </header>
-            
-            <main>
-                <!-- Módulo: Calculadora Pediátrica -->
-                <div id="calculadora" class="module active">
-                    <div class="module-header">
-                        <h2 class="module-title">PediaCalcHPJRM v1.2.2</h2>
-                        <p class="module-description">Calculadora de dosis pediátricas según protocolos MINSAP</p>
-                    </div>
-                    
-                    <div class="calculator-container">
-                        <!-- Card: Datos del Paciente -->
-                        <div class="card">
-                            <h3 class="card-title">👶 Datos del Paciente</h3>
-                            
-                            <div class="form-group">
-                                <label for="peso">Peso (kg)</label>
-                                <input type="number" id="peso" min="0.5" max="200" step="0.1" placeholder="Ej: 12.5">
-                                <div id="weightRecommendation" class="alert alert-success mt-2 hidden">
-                                    <div class="alert-icon">💡</div>
-                                    <div class="alert-content">
-                                        <strong>Recomendación:</strong> <span id="recommendationText"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edad">Edad</label>
-                                <div style="display: flex; gap: 10px;">
-                                    <input type="number" id="edad" min="0" max="216" placeholder="Ej: 24" style="flex: 2;">
-                                    <select id="edadUnidad" style="flex: 1;">
-                                        <option value="meses">Meses</option>
-                                        <option value="años">Años</option>
-                                    </select>
-                                </div>
-                                <div id="ageConversion" class="alert alert-info mt-2 hidden">
-                                    <div class="alert-content">
-                                        <span id="conversionText"></span>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="medicamento">Medicamento</label>
-                                <select id="medicamento">
-                                    <option value="">Seleccione un medicamento</option>
-                                    <!-- Los medicamentos se cargarán con JavaScript -->
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="presentacion">Presentación</label>
-                                <select id="presentacion">
-                                    <option value="mg_ml">mg/ml (Suspensión)</option>
-                                    <option value="mg_comprimido">mg/comprimido (Tabletas)</option>
-                                    <option value="ui_ampolla">UI/ampolla (Inyectables)</option>
-                                    <option value="gotas">Gotas</option>
-                                    <option value="personalizado">Personalizado (mg por unidad)</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group" id="concentrationGroup">
-                                <label for="concentracion">Concentración</label>
-                                <div class="concentration-inputs">
-                                    <input type="number" id="concentracionMg" min="0.1" step="0.1" placeholder="Ej: 250">
-                                    <span class="concentration-divider">/</span>
-                                    <input type="number" id="concentracionMl" min="0.1" step="0.1" placeholder="Ej: 5" value="1">
-                                    <span>ml</span>
-                                </div>
-                                <button id="btnConcentracionEstandar" class="btn btn-outline mt-1">Usar concentración estándar</button>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="frecuencia">Frecuencia (veces al día)</label>
-                                <input type="number" id="frecuencia" min="1" max="24" value="3">
-                                <button id="btnFrecuenciaEstandar" class="btn btn-outline mt-1">Usar frecuencia estándar</button>
-                            </div>
-                            
-                            <button id="calcular" class="btn btn-primary" style="width: 100%;">Calcular Dosis</button>
-                            
-                            <div class="mt-2">
-                                <h4>Ejemplos rápidos:</h4>
-                                <div style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;">
-                                    <button class="btn btn-secondary ejemplo-btn" data-med="paracetamol" data-peso="12" data-conc-mg="120" data-conc-ml="5" data-frec="3">💊 Paracetamol</button>
-                                    <button class="btn btn-secondary ejemplo-btn" data-med="amoxicilina" data-peso="6" data-conc-mg="250" data-conc-ml="5" data-frec="3">🦠 Amoxicilina</button>
-                                    <button class="btn btn-secondary ejemplo-btn" data-med="salbutamol" data-peso="15" data-conc-mg="0.5" data-conc-ml="1" data-frec="3">🌬️ Salbutamol</button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Card: Resultados -->
-                        <div class="card">
-                            <h3 class="card-title">📊 Resultados</h3>
-                            
-                            <div class="tabs">
-                                <div class="tab active" data-tab="resultados">Resultados</div>
-                                <div class="tab" data-tab="formulas">Fórmulas</div>
-                                <div class="tab" data-tab="historial">Historial</div>
-                            </div>
-                            
-                            <div id="resultados" class="tab-content active">
-                                <div id="resultadosContenido">
-                                    <div class="alert alert-info">
-                                        <div class="alert-icon">💡</div>
-                                        <div class="alert-content">
-                                            Complete los datos del paciente y haga clic en "Calcular Dosis" para ver los resultados.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div id="formulas" class="tab-content">
-                                <h4>Fórmulas de cálculo</h4>
-                                <div class="template">
-                                    <strong>Dosis estándar (mg/kg/dosis):</strong>
-                                    dosis_mg = peso_kg × mg_por_kg_por_dosis
-                                    dosis_aplicada = mín(dosis_mg, máximo_por_dosis)
-                                    
-                                    <strong>Dosis diaria dividida:</strong>
-                                    dosis_diaria_total = peso_kg × mg_por_kg_por_día
-                                    dosis_por_toma = dosis_diaria_total ÷ frecuencia_diaria
-                                    
-                                    <strong>Conversiones:</strong>
-                                    volumen_ml = dosis_aplicada ÷ (concentración_mg / concentración_ml)
-                                    unidades = dosis_aplicada ÷ mg_por_unidad
-                                </div>
-                            </div>
-                            
-                            <div id="historial" class="tab-content">
-                                <h4>Historial de cálculos</h4>
-                                <div id="historialContenido">
-                                    <div class="alert alert-info">
-                                        <div class="alert-content">
-                                            Los cálculos se guardarán automáticamente aquí.
-                                        </div>
-                                    </div>
-                                </div>
-                                <button id="limpiarHistorial" class="btn btn-outline mt-2">Limpiar historial</button>
-                            </div>
-                        </div>
+        <div class="header-center">
+            <h1>PediaCalc v9.1.0</h1>
+            <div class="muted">Herramienta para estudiantes de Medicina de Pregrado y Postgrado</div>
+        </div>
+        <div class="header-right">
+            <div class="heart-icon"></div>
+        </div>
+    </header>
+
+    <div class="app-container">
+        <div class="overlay" id="overlay"></div>
+        <nav class="sidebar" id="sidebar">
+            <h3>Menú Principal</h3>
+            <button data-tab="meds">Medicamentos</button>
+            <button data-tab="calc" class="active">Calculadora de Dosis</button>
+            <button data-tab="dx">Diagnósticos</button>
+            <button data-tab="prot">Protocolos</button>
+            <button data-tab="conv">Convertidores</button>
+            <button data-tab="conf">Configuración</button>
+        </nav>
+
+        <main class="main-content" id="main">
+            <!-- Medicamentos -->
+            <section id="meds" class="tab" style="display:none">
+                <div class="row" style="justify-content:space-between">
+                    <div><strong>Medicamentos</strong><div class="muted">Lista editable. Añade, edita, elimina.</div></div>
+                    <div class="flex">
+                        <input id="searchMed" placeholder="Buscar medicamento" style="width:260px"/>
+                        <button class="btn" id="addMedBtn">+ Nuevo</button>
+                        <button class="btn ghost" id="importBtn">Importar</button>
+                        <button class="btn ghost" id="exportBtn">Exportar</button>
                     </div>
                 </div>
-                
-                <!-- Módulo: Guía Historia Clínica -->
-                <div id="guia-hc" class="module">
-                    <div class="module-header">
-                        <h2 class="module-title">Guía Completa de Historia Clínica Pediátrica</h2>
-                        <p class="module-description">Estructuras y metodología para la correcta confección de historias clínicas</p>
+                <div class="card" style="margin-top:10px">
+                    <table>
+                        <thead><tr><th>Nombre</th><th>Presentación</th><th>Dosis (mg/kg)</th><th style="width:160px">Acciones</th></tr></thead>
+                        <tbody id="medList"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Calculadora de Dosis -->
+            <section id="calc" class="tab">
+                <div class="row" style="justify-content:space-between">
+                    <div><strong>Calculadora de Dosis Pediátrica</strong><div class="muted">Cálculo de dosis basado en peso y concentración del medicamento.</div></div>
+                </div>
+
+                <div class="card">
+                    <h3>Dosis pediátrica</h3>
+                    <div class="row">
+                        <div style="flex:1" class="autocomplete">
+                            <label class="muted">Medicamento</label>
+                            <input id="doseMed" type="text" placeholder="Escriba el nombre del medicamento">
+                            <div id="autocompleteList" class="autocomplete-items"></div>
+                        </div>
+                        <div style="width:140px">
+                            <label class="muted">Peso (kg)</label>
+                            <input id="weight" type="number" min="0" step="0.1" />
+                        </div>
+                        <div style="width:160px">
+                            <label class="muted">Dosis diaria</label>
+                            <select id="doseFrequency">
+                                <option value="1">1 vez al día</option>
+                                <option value="2">2 veces al día</option>
+                                <option value="3" selected>3 veces al día</option>
+                                <option value="4">4 veces al día</option>
+                                <option value="6">6 veces al día</option>
+                            </select>
+                        </div>
+                        <div style="width:140px;align-self:end">
+                            <button class="btn success" id="calcDoseBtn">Calcular</button>
+                        </div>
                     </div>
                     
-                    <div class="guide-section">
-                        <h3 class="guide-title">2.1 Primera Evolución Médica (Cuerpo de Guardia)</h3>
-                        <div class="guide-content">
-                            <p>La primera evolución médica en cuerpo de guardia debe contener los siguientes elementos:</p>
-                            <ul>
-                                <li><strong>Fecha y hora exactas de ingreso:</strong> Registrar con precisión el momento del ingreso.</li>
-                                <li><strong>Título: 'Primera Evolución Médica':</strong> Identificar claramente el documento.</li>
-                                <li><strong>Motivo de consulta en palabras de la madre:</strong> Evitar términos técnicos, usar el lenguaje del familiar.</li>
-                                <li><strong>Estructura narrativa preconcebida según grupo etario:</strong> Adaptar el relato a la edad del paciente.</li>
-                                <li><strong>Historia de la Enfermedad Actual detallada (timeline):</strong> Secuencia cronológica de síntomas.</li>
-                                <li><strong>Antecedentes específicos por edad:</strong> Incluir datos relevantes según la etapa de desarrollo.</li>
-                                <li><strong>Examen físico por sistemas (SIN abreviaturas):</strong> Describir completamente cada sistema.</li>
-                                <li><strong>Antecedentes patológicos familiares:</strong> Enfermedades hereditarias o relevantes en la familia.</li>
-                                <li><strong>Impresión diagnóstica, Conducta, Pronóstico:</strong> Conclusiones y plan de acción.</li>
-                                <li><strong>Firma y nombre completo:</strong> Responsabilidad profesional.</li>
-                            </ul>
-                            
-                            <div class="example">
-                                <div class="example-title">Ejemplo para Lactantes:</div>
-                                <div class="template-content">
-                                    "[Grupo etario] [género] de [edad] procedente de [zona] con antecedentes de [condición base]..."
-                                    
-                                    Elementos obligatorios para lactantes:
-                                    • Embarazo: Tipo, Complicaciones, Control prenatal
-                                    • Parto: Edad gestacional, Tipo, Complicaciones
-                                    • Periparto: Apgar, Adaptación neonatal
-                                    • Postparto: Egreso, Complicaciones
-                                    • Alimentación: Lactancia tipo, Tiempo, Actual
-                                    • Vacunación: Esquema, Actualizada
-                                    • Desarrollo psicomotor: Evaluación
-                                    • Dinámica familiar: Estructura, Situación
-                                </div>
+                    <div id="dilutionSection" style="margin-top:12px; display:none;">
+                        <div class="row">
+                            <div style="width:200px">
+                                <label class="muted">Dilución (mg/ml)</label>
+                                <input id="dilution" type="number" min="0" step="0.1" placeholder="Ej: 10 (para 10mg/ml)" />
+                            </div>
+                            <div style="align-self:end">
+                                <button class="btn ghost" id="applyDilution">Aplicar</button>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="guide-section">
-                        <h3 class="guide-title">2.2 Recibimiento en Sala</h3>
-                        <div class="guide-content">
-                            <p>Reevaluación detallada en ambiente tranquilo de sala con los siguientes elementos:</p>
-                            <ul>
-                                <li><strong>Reevaluación completa de todos los elementos de 1ra evolución:</strong> Verificar y ampliar la información inicial.</li>
-                                <li><strong>Nuevos hallazgos del interrogatorio en sala:</strong> Datos que emergen en el ambiente controlado.</li>
-                                <li><strong>PROCEDENCIA del paciente:</strong> Especificar el origen del ingreso.</li>
-                                <li><strong>Condiciones ambientales de la reevaluación:</strong> Contexto del nuevo examen.</li>
-                                <li><strong>Estado actual comparativo con ingreso:</strong> Evolución desde la primera evaluación.</li>
-                                <li><strong>Examen físico de recibimiento detallado:</strong> Revisión minuciosa en condiciones óptimas.</li>
-                            </ul>
-                        </div>
+                    <div id="doseResult" style="margin-top:10px"></div>
+                </div>
+            </section>
+
+            <!-- Diagnósticos -->
+            <section id="dx" class="tab" style="display:none">
+                <div class="row" style="justify-content:space-between">
+                    <div><strong>Diagnósticos diferenciales</strong><div class="muted">Editable. Guarda localmente.</div></div>
+                    <div><button class="btn" id="addDx">+ Nuevo</button></div>
+                </div>
+                <div class="card">
+                    <div id="dxList"></div>
+                </div>
+            </section>
+
+            <!-- Protocolos -->
+            <section id="prot" class="tab" style="display:none">
+                <div class="row" style="justify-content:space-between">
+                    <div><strong>Protocolos</strong><div class="muted">Editable. Texto simple.</div></div>
+                    <div><button class="btn" id="addProt">+ Nuevo</button></div>
+                </div>
+                <div class="card">
+                    <div id="protList"></div>
+                </div>
+            </section>
+
+            <!-- Convertidores -->
+            <section id="conv" class="tab" style="display:none">
+                <div class="card">
+                    <h3>Convertidores clínicos</h3>
+                    <div class="row">
+                        <div style="width:160px"><label class="muted">Libras (lb) → Kilogramos (kg)</label><input id="lbToKg" type="number" step="0.01" placeholder="Libras"></div>
+                        <div style="align-self:end"><button class="btn" id="convertLbToKg">Convertir</button></div>
+                        <div id="lbToKgResult" style="margin-left:12px;align-self:end"></div>
                     </div>
-                    
-                    <div class="guide-section">
-                        <h3 class="guide-title">2.3 Historia Clínica Oficial (Primeras 24 horas)</h3>
-                        <div class="guide-content">
-                            <p>Estructura completa según modelo MINSAP para historia clínica oficial:</p>
-                            <ul>
-                                <li><strong>Todos los elementos de Primera Evolución (ampliados):</strong> Base documental completa.</li>
-                                <li><strong>SECCIÓN DE RIESGOS:</strong> Identificar factores de riesgo del paciente.</li>
-                                <li><strong>INTERROGATORIO POR APARATOS (modelo oficial):</strong> Revisión sistemática por sistemas.</li>
-                                <li><strong>EXAMEN FÍSICO OFICIAL (modelo estandarizado):</strong> Protocolo de examen completo.</li>
-                                <li><strong>DISCUSIÓN DIAGNÓSTICA ESTRUCTURADA:</strong> Análisis metodológico del caso.</li>
-                            </ul>
-                        </div>
+                    <div class="row" style="margin-top:12px">
+                        <div style="width:160px"><label class="muted">Kilogramos (kg) → Libras (lb)</label><input id="kgToLb" type="number" step="0.01" placeholder="Kilogramos"></div>
+                        <div style="align-self:end"><button class="btn" id="convertKgToLb">Convertir</button></div>
+                        <div id="kgToLbResult" style="margin-left:12px;align-self:end"></div>
+                    </div>
+                    <hr style="margin:16px 0">
+                    <div class="row">
+                        <div style="width:160px"><label class="muted">°C ↔ °F</label><input id="cC" type="number" step="0.1" placeholder="Temperatura"></div>
+                        <div style="align-self:end"><button class="btn ghost" id="toF">C→F</button><button class="btn ghost" id="toC">F→C</button></div>
+                        <div id="tempRes" style="margin-left:12px;align-self:end"></div>
                     </div>
                 </div>
-                
-                <!-- Módulo: Diagnóstico Sindrómico -->
-                <div id="diagnostico" class="module">
-                    <div class="module-header">
-                        <h2 class="module-title">Diagnóstico Sindrómico Estructurado</h2>
-                        <p class="module-description">Metodología para el abordaje diagnóstico de casos pediátricos</p>
+            </section>
+
+            <!-- Configuración -->
+            <section id="conf" class="tab" style="display:none">
+                <div class="card">
+                    <h3>Configuración</h3>
+                    <div class="row">
+                        <label class="muted">Tema</label>
+                        <select id="themeSel"><option value="light">Claro</option><option value="dark">Oscuro</option></select>
+                        <label class="muted" style="margin-left:8px">Alto contraste</label>
+                        <select id="contrastSel"><option value="normal">Normal</option><option value="high">Alto</option></select>
                     </div>
-                    
-                    <div class="guide-section">
-                        <h3 class="guide-title">3. Discusión Diagnóstica Estructurada</h3>
-                        <div class="guide-content">
-                            <p>Metodología completa para la discusión diagnóstica en pediatría:</p>
-                            <ul>
-                                <li><strong>ESTRUCTURA INICIAL similar a primera evolución:</strong> Base documental coherente.</li>
-                                <li><strong>PLANTEAMIENTOS SINDROMICOS:</strong> Identificación de síndromes presentes.</li>
-                                <li><strong>PLANTEAMIENTO NOSOLÓGICO:</strong> Definición de la enfermedad principal.</li>
-                                <li><strong>DIAGNÓSTICOS DIFERENCIALES (5-7 enfermedades):</strong> Análisis de alternativas.</li>
-                                <li><strong>CIERRE: Impresión diagnóstica, Conducta, Pronóstico:</strong> Conclusiones y plan.</li>
-                            </ul>
-                            
-                            <div class="example">
-                                <div class="example-title">Ejemplo de Estructura:</div>
-                                <div class="template-content">
-                                    1. PLANTEAMIENTO SINDROMICO:
-                                       - Síndrome febril: Justificación...
-                                       - Síndrome respiratorio: Justificación...
-                                       - Identificación del síndrome capital: Síndrome respiratorio
-                                    
-                                    2. PLANTEAMIENTO NOSOLÓGICO:
-                                       - Neumonía bacteriana comunitaria: Justificación basada en...
-                                    
-                                    3. DIAGNÓSTICOS DIFERENCIALES:
-                                       - Bronquiolitis: Diferencias...
-                                       - Tuberculosis: Argumentos para descartar...
-                                    
-                                    4. CIERRE:
-                                       - Impresión diagnóstica: Neumonía bacteriana comunitaria
-                                       - Conducta: Antibioticoterapia, medidas de sostén
-                                       - Pronóstico: Favorable con tratamiento adecuado
-                                </div>
-                            </div>
-                        </div>
+                    <div style="margin-top:10px">
+                        <button class="btn" id="exportAll">Exportar todo (JSON)</button>
+                        <button class="btn ghost" id="importAll">Importar JSON</button>
                     </div>
                 </div>
-                
-                <!-- Módulo: Añadir Medicamento -->
-                <div id="medicamentos" class="module">
-                    <div class="module-header">
-                        <h2 class="module-title">Añadir Nuevo Medicamento</h2>
-                        <p class="module-description">Agregar medicamentos personalizados a la base de datos</p>
-                    </div>
-                    
-                    <div class="card" style="max-width: 600px; margin: 0 auto;">
-                        <h3 class="card-title">💊 Datos del Medicamento</h3>
-                        
-                        <div class="form-group">
-                            <label for="nuevoMedNombre">Nombre del Medicamento</label>
-                            <input type="text" id="nuevoMedNombre" placeholder="Ej: Azitromicina">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="nuevoMedDosisKg">Dosis por kg (mg/kg/dosis)</label>
-                            <input type="number" id="nuevoMedDosisKg" min="0.1" step="0.1" placeholder="Ej: 10">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="nuevoMedMaxDosis">Dosis máxima por toma (mg)</label>
-                            <input type="number" id="nuevoMedMaxDosis" min="1" placeholder="Ej: 500">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="nuevoMedMaxDosisDia">Dosis máxima diaria (mg/kg/día)</label>
-                            <input type="number" id="nuevoMedMaxDosisDia" min="1" placeholder="Ej: 30">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="nuevoMedFrecuencia">Frecuencia estándar (veces al día)</label>
-                            <input type="number" id="nuevoMedFrecuencia" min="1" max="24" value="1">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="nuevoMedConsideraciones">Consideraciones</label>
-                            <textarea id="nuevoMedConsideraciones" placeholder="Ej: Administrar con alimentos" style="width: 100%; padding: 0.8rem; border: 1px solid var(--light-gray); border-radius: var(--border-radius); min-height: 80px;"></textarea>
-                        </div>
-                        
-                        <button id="btnGuardarMedicamento" class="btn btn-primary" style="width: 100%;">Guardar Medicamento</button>
-                        
-                        <div id="medicamentoGuardado" class="alert alert-success mt-2 hidden">
-                            <div class="alert-icon">✅</div>
-                            <div class="alert-content">
-                                <strong>Medicamento guardado correctamente.</strong> Ya está disponible en la calculadora.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </main>
-            
-            <footer>
-                <div class="footer-content">
-                    <p class="footer-text">Pediatría 360 v1.2.2 - Suite Educativa de Pediatría Completa</p>
-                    <p class="footer-developer">Desarrollada por Dr. Rodney Jáuregui Alonso<br>Especialista en 1er Grado en Pediatría. 2025</p>
-                </div>
-            </footer>
+            </section>
+        </main>
+    </div>
+
+    <footer>Desarrollado en el Hospital Pediátrico José Ramón Martínez con ❤️.</footer>
+
+    <!-- Modales -->
+    <div id="medModal" class="modal" style="display:none">
+        <div class="box">
+            <h3 id="medModalTitle">Medicamento</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                <div><label>Nombre</label><input id="mName"></div>
+                <div><label>Presentación</label><input id="mPres"></div>
+                <div><label>Dosis mg/kg (ej: 10-15)</label><input id="mDose"></div>
+                <div><label>Máx mg/dosis</label><input id="mMax"></div>
+                <div style="grid-column:1/3"><label>Observaciones</label><textarea id="mNotes" rows="4"></textarea></div>
+            </div>
+            <div style="margin-top:10px" class="row">
+                <button class="btn" id="saveMed">Guardar</button>
+                <button class="btn ghost" id="cancelMed">Cancelar</button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Base de datos de medicamentos con valores REALES
-        let medications = [
-            {
-                id: "paracetamol",
-                name: "Paracetamol",
-                dosePerKg: 15,
-                maxDose: 1000,
-                maxDosePerDay: 60,
-                frequency: "Cada 6-8 horas",
-                standardFrequency: 3,
-                route: "Oral",
-                considerations: "No exceder 60 mg/kg/día",
-                presentation: "mg_ml",
-                commonConcentrationMg: 120,
-                commonConcentrationMl: 5,
-                weightBasedPresentation: true
-            },
-            {
-                id: "amoxicilina",
-                name: "Amoxicilina",
-                dosePerKg: 50,
-                maxDose: 1000,
-                maxDosePerDay: 90,
-                frequency: "Cada 8 horas",
-                standardFrequency: 3,
-                route: "Oral",
-                considerations: "Administrar con alimentos",
-                presentation: "mg_ml",
-                commonConcentrationMg: 250,
-                commonConcentrationMl: 5,
-                weightBasedPresentation: true
-            },
-            {
-                id: "salbutamol",
-                name: "Salbutamol",
-                dosePerKg: 0.15,
-                maxDose: 5,
-                maxDosePerDay: 4,
-                frequency: "Cada 6-8 horas",
-                standardFrequency: 3,
-                route: "Nebulización",
-                considerations: "Monitorizar frecuencia cardíaca",
-                presentation: "gotas",
-                commonConcentrationMg: 0.5,
-                commonConcentrationMl: 1,
-                weightBasedPresentation: false
-            },
-            {
-                id: "ibuprofeno",
-                name: "Ibuprofeno",
-                dosePerKg: 10,
-                maxDose: 400,
-                maxDosePerDay: 40,
-                frequency: "Cada 6-8 horas",
-                standardFrequency: 3,
-                route: "Oral",
-                considerations: "Administrar con alimentos",
-                presentation: "mg_ml",
-                commonConcentrationMg: 100,
-                commonConcentrationMl: 5,
-                weightBasedPresentation: true
-            },
-            {
-                id: "ampicilina",
-                name: "Ampicilina",
-                dosePerKg: 50,
-                maxDose: 2000,
-                maxDosePerDay: 300,
-                frequency: "Cada 6 horas",
-                standardFrequency: 4,
-                route: "Intravenoso",
-                considerations: "Prueba de sensibilidad recomendada",
-                presentation: "ui_ampolla",
-                commonConcentrationMg: 500,
-                commonConcentrationMl: 1,
-                weightBasedPresentation: true
-            }
+        /* ---------- Simple IndexedDB wrapper ---------- */
+        const DB_NAME = 'pediacalc-db', DB_VERSION = 1;
+        let dbPromise = null;
+        function openDB(){
+            if(dbPromise) return dbPromise;
+            dbPromise = new Promise((res,rej)=>{
+                const r = indexedDB.open(DB_NAME,DB_VERSION);
+                r.onupgradeneeded = e=>{
+                    const db = e.target.result;
+                    if(!db.objectStoreNames.contains('meds')) db.createObjectStore('meds',{keyPath:'id'});
+                    if(!db.objectStoreNames.contains('dx')) db.createObjectStore('dx',{keyPath:'id'});
+                    if(!db.objectStoreNames.contains('prot')) db.createObjectStore('prot',{keyPath:'id'});
+                    if(!db.objectStoreNames.contains('meta')) db.createObjectStore('meta',{keyPath:'key'});
+                }
+                r.onsuccess = ()=>res(r.result);
+                r.onerror = ()=>rej(r.error);
+            });
+            return dbPromise;
+        }
+        async function put(store,obj){ const db = await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(store,'readwrite'); tx.objectStore(store).put(obj); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); });}
+        async function del(store,key){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(store,'readwrite'); tx.objectStore(store).delete(key); tx.oncomplete=()=>res(); tx.onerror=()=>rej(tx.error); });}
+        async function getAll(store){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(store,'readonly'); const r = tx.objectStore(store).getAll(); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });}
+        async function getOne(store,key){ const db=await openDB(); return new Promise((res,rej)=>{ const tx=db.transaction(store,'readonly'); const r = tx.objectStore(store).get(key); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); });}
+
+        /* ---------- Initial seed meds (50 names, dosis vacías para seguridad) ---------- */
+        const INITIAL_MEDS = [
+            {"id":"m1","name":"Paracetamol","presentation":"Suspensión 120 mg/5 mL","dose":"10-15","max":"","notes":""},
+            {"id":"m2","name":"Ibuprofeno","presentation":"Suspensión 100 mg/5 mL","dose":"5-10","max":"","notes":""},
+            {"id":"m3","name":"Amoxicilina","presentation":"Suspensión 125 mg/5 mL","dose":"20-40","max":"","notes":""},
+            {"id":"m4","name":"Azitromicina","presentation":"Tableta 500 mg / suspensión 200 mg/5 mL","dose":"10","max":"","notes":""},
+            {"id":"m5","name":"Cefalexina","presentation":"Suspensión 250 mg/5 mL","dose":"25-50","max":"","notes":""},
+            {"id":"m6","name":"Ceftriaxona","presentation":"Polvo inyectable 1 g","dose":"50-100","max":"","notes":"Liofilizado - requiere dilución"},
+            {"id":"m7","name":"Amikacina","presentation":"Solución inyectable 100 mg/mL","dose":"15-20","max":"","notes":""},
+            {"id":"m8","name":"Gentamicina","presentation":"Solución inyectable 40 mg/mL","dose":"2-2.5","max":"","notes":""},
+            {"id":"m9","name":"Cefadroxilo","presentation":"Suspensión 125 mg/5 mL","dose":"30","max":"","notes":""},
+            {"id":"m10","name":"Metamizol (Dipirona)","presentation":"Tableta 500 mg / suspensión 500 mg/5 mL","dose":"10-15","max":"","notes":""}
         ];
 
-        // Estado de la aplicación
-        let currentModule = "calculadora";
-        let currentTab = "resultados";
-        let history = JSON.parse(localStorage.getItem("pediacalc_history")) || [];
-        let isDarkMode = localStorage.getItem("pediacalc_darkmode") === "true";
-        let customMeds = JSON.parse(localStorage.getItem("pediacalc_custom_meds")) || [];
+        /* ---------- Utilities ---------- */
+        function uid(prefix='id'){return prefix+Math.random().toString(36).slice(2,9)}
+        function el(q,ctx=document){return ctx.querySelector(q)}
+        function els(q,ctx=document){return Array.from(ctx.querySelectorAll(q))}
 
-        // Inicialización
-        document.addEventListener("DOMContentLoaded", function() {
-            initApp();
-            setupEventListeners();
-            loadMedications();
-            updateHistoryDisplay();
-            applyTheme();
+        /* ---------- App state ---------- */
+        let state = {activeTab:'calc',sidebarOpen: window.innerWidth > 900}; // Cambiado a 'calc' como pantalla inicial
+
+        /* ---------- Seed DB if empty ---------- */
+        async function seedIfEmpty(){
+            const meds = await getAll('meds');
+            if(meds.length===0){
+                for(const m of INITIAL_MEDS) await put('meds',m);
+            }
+            const dx = await getAll('dx');
+            if(dx.length===0){
+                await put('dx',{id:uid('dx'),title:'Fiebre en lactante',text:'Causa infecciosa, infecciones virales, infección bacteriana focal...'});
+            }
+            const prot = await getAll('prot');
+            if(prot.length===0) await put('prot',{id:uid('p'),title:'Protocolo inicial',text:'Evaluación ABC, signos vitales, acceso IV, etc.'});
+        }
+
+        /* ---------- Render lists ---------- */
+        async function renderMeds(filter=''){
+            const list = await getAll('meds');
+            const tbody = el('#medList'); tbody.innerHTML='';
+            const medsSorted = list.sort((a,b)=>a.name.localeCompare(b.name));
+            for(const m of medsSorted){
+                if(filter && !m.name.toLowerCase().includes(filter.toLowerCase())) continue;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${m.name}</td><td class="muted">${m.presentation||''}</td><td>${m.dose||'<span class="muted">pendiente</span>'}</td>
+                <td>
+                    <button class="small" data-id="${m.id}" data-action="edit">Editar</button>
+                    <button class="small" data-id="${m.id}" data-action="del">Eliminar</button>
+                    <button class="small" data-id="${m.id}" data-action="use">Usar</button>
+                </td>`;
+                tbody.appendChild(tr);
+            }
+        }
+
+        async function renderDx(){
+            const list = await getAll('dx'); const container = el('#dxList'); container.innerHTML='';
+            list.forEach(d=>{
+                const box=document.createElement('div'); box.className='card';
+                box.innerHTML = `<div style="display:flex;justify-content:space-between"><strong>${d.title}</strong>
+                <div><button class="small" data-id="${d.id}" data-action="editdx">Editar</button>
+                <button class="small" data-id="${d.id}" data-action="deldx">Eliminar</button></div></div>
+                <div style="margin-top:6px" class="muted">${(d.text||'').substring(0,600)}</div>`;
+                container.appendChild(box);
+            });
+        }
+
+        async function renderProt(){
+            const list = await getAll('prot'); const container = el('#protList'); container.innerHTML='';
+            list.forEach(d=>{
+                const box=document.createElement('div'); box.className='card';
+                box.innerHTML = `<div style="display:flex;justify-content:space-between"><strong>${d.title}</strong>
+                <div><button class="small" data-id="${d.id}" data-action="editprot">Editar</button>
+                <button class="small" data-id="${d.id}" data-action="delprot">Eliminar</button></div></div>
+                <div style="margin-top:6px" class="muted">${(d.text||'').substring(0,600)}</div>`;
+                container.appendChild(box);
+            });
+        }
+
+        /* ---------- Autocompletado para medicamentos ---------- */
+        let currentMedications = [];
+        
+        async function setupAutocomplete() {
+            currentMedications = await getAll('meds');
+            
+            el('#doseMed').addEventListener('input', function() {
+                const value = this.value.toLowerCase();
+                const autocompleteList = el('#autocompleteList');
+                autocompleteList.innerHTML = '';
+                
+                if (value.length < 2) {
+                    autocompleteList.style.display = 'none';
+                    return;
+                }
+                
+                const filteredMeds = currentMedications.filter(med => 
+                    med.name.toLowerCase().includes(value)
+                );
+                
+                if (filteredMeds.length === 0) {
+                    autocompleteList.style.display = 'none';
+                    return;
+                }
+                
+                filteredMeds.forEach(med => {
+                    const item = document.createElement('div');
+                    item.className = 'autocomplete-item';
+                    item.textContent = med.name;
+                    item.addEventListener('click', function() {
+                        el('#doseMed').value = med.name;
+                        autocompleteList.style.display = 'none';
+                        
+                        // Mostrar sección de dilución si es liofilizado
+                        if (med.presentation && med.presentation.toLowerCase().includes('liofilizado')) {
+                            el('#dilutionSection').style.display = 'block';
+                        } else {
+                            el('#dilutionSection').style.display = 'none';
+                        }
+                    });
+                    autocompleteList.appendChild(item);
+                });
+                
+                autocompleteList.style.display = 'block';
+            });
+            
+            // Ocultar autocompletado al hacer clic fuera
+            document.addEventListener('click', function(e) {
+                if (e.target !== el('#doseMed')) {
+                    el('#autocompleteList').style.display = 'none';
+                }
+            });
+        }
+
+        /* ---------- Handlers ---------- */
+        el('#addMedBtn').onclick = ()=>{
+            el('#medModalTitle').textContent='Nuevo medicamento';
+            el('#mName').value=''; el('#mPres').value=''; el('#mDose').value=''; el('#mMax').value=''; el('#mNotes').value='';
+            el('#medModal').style.display='flex'; el('#saveMed').dataset.id = '';
+        };
+        el('#cancelMed').onclick = ()=>{ el('#medModal').style.display='none'; };
+        el('#saveMed').onclick = async ()=>{
+            const id = el('#saveMed').dataset.id || uid('m');
+            const obj = {id,idv:Date.now(),name:el('#mName').value.trim(),presentation:el('#mPres').value.trim(),dose:el('#mDose').value.trim(),max:el('#mMax').value.trim(),notes:el('#mNotes').value.trim()};
+            if(!obj.name){ alert('Nombre requerido'); return; }
+            await put('meds',obj); el('#medModal').style.display='none'; renderMeds(el('#searchMed').value);
+        };
+
+        el('#medList').addEventListener('click', async (ev)=>{
+            const a = ev.target.closest('button'); if(!a) return;
+            const id = a.dataset.id; const act = a.dataset.action;
+            if(act==='edit'){ const m = await getOne('meds',id); el('#medModal').style.display='flex'; el('#medModalTitle').textContent='Editar medicamento'; el('#mName').value=m.name; el('#mPres').value=m.presentation; el('#mDose').value=m.dose; el('#mMax').value=m.max; el('#mNotes').value=m.notes; el('#saveMed').dataset.id = m.id; }
+            if(act==='del'){ if(confirm('Eliminar medicamento?')){ await del('meds',id); renderMeds(el('#searchMed').value); } }
+            if(act==='use'){ const m = await getOne('meds',id); el('#doseMed').value = m.name; el('#weight').focus(); 
+                // Mostrar sección de dilución si es liofilizado
+                if (m.presentation && m.presentation.toLowerCase().includes('liofilizado')) {
+                    el('#dilutionSection').style.display = 'block';
+                } else {
+                    el('#dilutionSection').style.display = 'none';
+                }
+            }
         });
 
-        function initApp() {
-            // Cargar medicamentos personalizados
-            medications = medications.concat(customMeds);
+        el('#searchMed').addEventListener('input', ()=>renderMeds(el('#searchMed').value));
+
+        el('#addDx').onclick = async ()=>{
+            const title = prompt('Título diagnóstico:'); if(!title) return;
+            const text = prompt('Texto (puede editarse luego):')||'';
+            await put('dx',{id:uid('dx'),title,text}); renderDx();
+        };
+        el('#dxList').addEventListener('click',async(ev)=>{
+            const btn = ev.target.closest('button'); if(!btn) return;
+            const id = btn.dataset.id; if(btn.dataset.action==='editdx'){ const d = await getOne('dx',id); const newTitle = prompt('Título',d.title); const newText = prompt('Texto',d.text); if(newTitle) await put('dx',{id,title:newTitle,text:newText}); renderDx(); }
+            if(btn.dataset.action==='deldx'){ if(confirm('Eliminar?')){ await del('dx',id); renderDx(); } }
+        });
+
+        el('#addProt').onclick = async ()=>{
+            const title = prompt('Título protocolo:'); if(!title) return;
+            const text = prompt('Texto del protocolo:')||'';
+            await put('prot',{id:uid('p'),title,text}); renderProt();
+        };
+        el('#protList').addEventListener('click',async(ev)=>{
+            const btn = ev.target.closest('button'); if(!btn) return;
+            const id = btn.dataset.id; if(btn.dataset.action==='editprot'){ const d = await getOne('prot',id); const nt = prompt('Texto',d.text); if(nt!==null) await put('prot',{id,title:d.title,text:nt}); renderProt(); }
+            if(btn.dataset.action==='delprot'){ if(confirm('Eliminar?')){ await del('prot',id); renderProt(); } }
+        });
+
+        /* ---------- Calculadora de Dosis ---------- */
+        el('#calcDoseBtn').onclick = async ()=>{
+            const medName = el('#doseMed').value.trim();
+            const w = parseFloat(el('#weight').value);
+            const frequency = parseInt(el('#doseFrequency').value);
+            const dilution = parseFloat(el('#dilution').value);
             
-            // Configurar sidebar
-            const sidebar = document.getElementById("sidebar");
-            const sidebarToggle = document.getElementById("sidebarToggle");
-            const sidebarOverlay = document.getElementById("sidebarOverlay");
-            const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+            if(!medName || !w){ alert('Seleccione medicamento y peso'); return; }
             
-            sidebarToggle.addEventListener("click", function() {
-                sidebar.classList.toggle("expanded");
-            });
+            // Buscar el medicamento por nombre
+            const meds = await getAll('meds');
+            const m = meds.find(med => med.name.toLowerCase() === medName.toLowerCase());
             
-            mobileMenuBtn.addEventListener("click", function() {
-                sidebar.classList.add("expanded");
-                sidebarOverlay.style.display = "block";
-            });
+            if(!m) { 
+                alert('Medicamento no encontrado en la base de datos'); 
+                return; 
+            }
             
-            sidebarOverlay.addEventListener("click", function() {
-                sidebar.classList.remove("expanded");
-                sidebarOverlay.style.display = "none";
-            });
+            let res = `<div class="result-box"><strong>${m.name}</strong><div class="muted">Presentación: ${m.presentation||'N/A'}</div>`;
             
-            // Actualizar recomendación de peso
-            document.getElementById("peso").addEventListener("input", updateWeightRecommendation);
-            document.getElementById("edad").addEventListener("input", updateAgeConversion);
-            document.getElementById("edadUnidad").addEventListener("change", updateAgeConversion);
-            
-            // Configurar presentación
-            document.getElementById("presentacion").addEventListener("change", function() {
-                toggleConcentrationField();
-            });
-            
-            // Botón de concentración estándar
-            document.getElementById("btnConcentracionEstandar").addEventListener("click", function() {
-                const medSelect = document.getElementById("medicamento");
-                const selectedMed = medications.find(m => m.id === medSelect.value);
+            if(m.dose){
+                // Extraer el rango de dosis (ej: "10-15")
+                const doseRange = m.dose.match(/(\d+(\.\d+)?)\s*-\s*(\d+(\.\d+)?)/);
+                let minDose, maxDose;
                 
-                if (selectedMed) {
-                    document.getElementById("concentracionMg").value = selectedMed.commonConcentrationMg;
-                    document.getElementById("concentracionMl").value = selectedMed.commonConcentrationMl;
-                }
-            });
-            
-            // Botón de frecuencia estándar
-            document.getElementById("btnFrecuenciaEstandar").addEventListener("click", function() {
-                const medSelect = document.getElementById("medicamento");
-                const selectedMed = medications.find(m => m.id === medSelect.value);
-                
-                if (selectedMed) {
-                    document.getElementById("frecuencia").value = selectedMed.standardFrequency;
-                }
-            });
-            
-            // Ejemplos rápidos
-            document.querySelectorAll(".ejemplo-btn").forEach(btn => {
-                btn.addEventListener("click", function() {
-                    const med = this.getAttribute("data-med");
-                    const peso = this.getAttribute("data-peso");
-                    const concMg = this.getAttribute("data-conc-mg");
-                    const concMl = this.getAttribute("data-conc-ml");
-                    const frec = this.getAttribute("data-frec");
-                    
-                    document.getElementById("peso").value = peso;
-                    document.getElementById("medicamento").value = med;
-                    document.getElementById("concentracionMg").value = concMg;
-                    document.getElementById("concentracionMl").value = concMl;
-                    document.getElementById("frecuencia").value = frec;
-                    
-                    updateWeightRecommendation();
-                    calculateDose();
-                });
-            });
-            
-            // Limpiar historial
-            document.getElementById("limpiarHistorial").addEventListener("click", function() {
-                if (confirm("¿Está seguro de que desea limpiar el historial?")) {
-                    history = [];
-                    localStorage.setItem("pediacalc_history", JSON.stringify(history));
-                    updateHistoryDisplay();
-                }
-            });
-            
-            // Guardar medicamento personalizado
-            document.getElementById("btnGuardarMedicamento").addEventListener("click", function() {
-                guardarMedicamentoPersonalizado();
-            });
-        }
-
-        function setupEventListeners() {
-            // Navegación entre módulos
-            document.querySelectorAll(".nav-item").forEach(item => {
-                item.addEventListener("click", function() {
-                    // Cerrar sidebar en móviles
-                    if (window.innerWidth <= 768) {
-                        document.getElementById("sidebar").classList.remove("expanded");
-                        document.getElementById("sidebarOverlay").style.display = "none";
-                    }
-                    
-                    // Remover clase active de todos los elementos
-                    document.querySelectorAll(".nav-item").forEach(nav => {
-                        nav.classList.remove("active");
-                    });
-                    
-                    // Ocultar todos los módulos
-                    document.querySelectorAll(".module").forEach(module => {
-                        module.classList.remove("active");
-                    });
-                    
-                    // Activar el elemento clickeado
-                    this.classList.add("active");
-                    
-                    // Mostrar el módulo correspondiente
-                    const moduleId = this.getAttribute("data-module");
-                    document.getElementById(moduleId).classList.add("active");
-                    document.getElementById("moduleHeader").textContent = this.querySelector(".nav-text").textContent;
-                    
-                    currentModule = moduleId;
-                });
-            });
-            
-            // Navegación por pestañas
-            document.querySelectorAll(".tab").forEach(tab => {
-                tab.addEventListener("click", function() {
-                    // Remover clase active de todas las pestañas
-                    document.querySelectorAll(".tab").forEach(t => {
-                        t.classList.remove("active");
-                    });
-                    
-                    // Ocultar todos los contenidos
-                    document.querySelectorAll(".tab-content").forEach(content => {
-                        content.classList.remove("active");
-                    });
-                    
-                    // Activar la pestaña clickeada
-                    this.classList.add("active");
-                    
-                    // Mostrar el contenido correspondiente
-                    const tabId = this.getAttribute("data-tab");
-                    document.getElementById(tabId).classList.add("active");
-                    
-                    currentTab = tabId;
-                });
-            });
-            
-            // Toggle tema oscuro/claro
-            document.getElementById("themeToggle").addEventListener("click", toggleTheme);
-            
-            // Calcular dosis
-            document.getElementById("calcular").addEventListener("click", calculateDose);
-        }
-
-        function loadMedications() {
-            const medSelect = document.getElementById("medicamento");
-            medSelect.innerHTML = '<option value="">Seleccione un medicamento</option>';
-            
-            medications.forEach(med => {
-                const option = document.createElement("option");
-                option.value = med.id;
-                option.textContent = med.name;
-                medSelect.appendChild(option);
-            });
-        }
-
-        function updateWeightRecommendation() {
-            const weight = parseFloat(document.getElementById("peso").value);
-            const recommendation = document.getElementById("weightRecommendation");
-            const text = document.getElementById("recommendationText");
-            
-            if (!isNaN(weight) && weight > 0) {
-                if (weight <= 15) {
-                    text.textContent = "Usar suspensión (≤15 kg)";
-                    recommendation.classList.remove("hidden");
+                if(doseRange) {
+                    minDose = parseFloat(doseRange[1]);
+                    maxDose = parseFloat(doseRange[3]);
                 } else {
-                    text.textContent = "Preferir tabletas (>15 kg)";
-                    recommendation.classList.remove("hidden");
+                    // Si no hay rango, usar un valor único
+                    const singleDose = m.dose.match(/(\d+(\.\d+)?)/);
+                    if(singleDose) {
+                        minDose = maxDose = parseFloat(singleDose[1]);
+                    } else {
+                        res += `<div class="muted" style="margin-top:6px">Formato de dosis no reconocido. Use formato como "10-15" mg/kg.</div>`;
+                        el('#doseResult').innerHTML = res;
+                        return;
+                    }
                 }
-            } else {
-                recommendation.classList.add("hidden");
-            }
-        }
-
-        function updateAgeConversion() {
-            const age = parseFloat(document.getElementById("edad").value);
-            const unit = document.getElementById("edadUnidad").value;
-            const conversion = document.getElementById("ageConversion");
-            const text = document.getElementById("conversionText");
-            
-            if (!isNaN(age) && age > 0) {
-                if (unit === "meses") {
-                    const years = (age / 12).toFixed(1);
-                    text.textContent = `${age} meses ≈ ${years} años`;
+                
+                // Calcular dosis total diaria
+                const dailyMinDose = minDose * w;
+                const dailyMaxDose = maxDose * w;
+                
+                // Aplicar máximo por dosis si existe
+                let maxPerDose = m.max ? parseFloat(m.max) : null;
+                
+                // Calcular dosis por toma
+                const dosePerTakeMin = dailyMinDose / frequency;
+                const dosePerTakeMax = dailyMaxDose / frequency;
+                
+                // Aplicar límite máximo por dosis si es necesario
+                const finalMinDose = maxPerDose ? Math.min(dosePerTakeMin, maxPerDose) : dosePerTakeMin;
+                const finalMaxDose = maxPerDose ? Math.min(dosePerTakeMax, maxPerDose) : dosePerTakeMax;
+                
+                res += `<div style="margin-top:10px"><strong>Dosis calculada:</strong></div>`;
+                res += `<div class="muted">Peso: ${w} kg | Frecuencia: ${frequency} veces al día</div>`;
+                
+                // Extraer concentración de la presentación (ej: "120 mg/5 mL")
+                let concentrationMgPerMl = null;
+                const concentrationMatch = m.presentation.match(/(\d+(\.\d+)?)\s*mg\s*\/\s*(\d+(\.\d+)?)\s*mL/);
+                if (concentrationMatch) {
+                    const mg = parseFloat(concentrationMatch[1]);
+                    const ml = parseFloat(concentrationMatch[3]);
+                    concentrationMgPerMl = mg / ml;
+                }
+                
+                // Si hay dilución manual, usar esa
+                const effectiveConcentration = dilution && dilution > 0 ? dilution : concentrationMgPerMl;
+                
+                // Mostrar resultados
+                res += `<div class="dose-result">`;
+                
+                // Si hay concentración, calcular en mL
+                if (effectiveConcentration && effectiveConcentration > 0) {
+                    const mlMin = finalMinDose / effectiveConcentration;
+                    const mlMax = finalMaxDose / effectiveConcentration;
+                    const dailyMlMin = dailyMinDose / effectiveConcentration;
+                    const dailyMlMax = dailyMaxDose / effectiveConcentration;
+                    
+                    res += `<div class="dose-item">
+                        <strong>Por dosis:</strong><br>
+                        ${finalMinDose.toFixed(1)} - ${finalMaxDose.toFixed(1)} mg<br>
+                        <strong>${mlMin.toFixed(1)} - ${mlMax.toFixed(1)} mL</strong>
+                    </div>`;
+                    
+                    res += `<div class="dose-item">
+                        <strong>Diario total:</strong><br>
+                        ${dailyMinDose.toFixed(1)} - ${dailyMaxDose.toFixed(1)} mg<br>
+                        <strong>${dailyMlMin.toFixed(1)} - ${dailyMlMax.toFixed(1)} mL</strong>
+                    </div>`;
+                    
+                    res += `<div class="dose-item">
+                        <strong>Concentración:</strong><br>
+                        ${effectiveConcentration.toFixed(2)} mg/mL
+                    </div>`;
                 } else {
-                    const months = (age * 12).toFixed(0);
-                    text.textContent = `${age} años ≈ ${months} meses`;
+                    res += `<div class="dose-item">
+                        <strong>Por dosis:</strong><br>
+                        ${finalMinDose.toFixed(1)} - ${finalMaxDose.toFixed(1)} mg
+                    </div>`;
+                    
+                    res += `<div class="dose-item">
+                        <strong>Diario total:</strong><br>
+                        ${dailyMinDose.toFixed(1)} - ${dailyMaxDose.toFixed(1)} mg
+                    </div>`;
                 }
-                conversion.classList.remove("hidden");
+                
+                res += `</div>`;
+                
+                if(maxPerDose) {
+                    res += `<div class="muted" style="margin-top:6px">Límite máximo por dosis: ${maxPerDose} mg</div>`;
+                }
+                
+                if(m.presentation && m.presentation.toLowerCase().includes('liofilizado') && !dilution) {
+                    res += `<div class="muted" style="margin-top:6px;color:var(--warning)">Nota: Este medicamento es liofilizado. Especifique la dilución para calcular mL.</div>`;
+                }
             } else {
-                conversion.classList.add("hidden");
+                res += `<div class="muted" style="margin-top:6px">Campo dosis vacío. Rellene según guía local en editar medicamento.</div>`;
             }
+            
+            res += `</div>`;
+            el('#doseResult').innerHTML = res;
+        };
+
+        // Aplicar dilución
+        el('#applyDilution').onclick = () => {
+            // Simplemente recalcula la dosis
+            el('#calcDoseBtn').click();
+        };
+
+        /* ---------- Convertidores ---------- */
+        el('#convertLbToKg').onclick = ()=>{ 
+            const lb=parseFloat(el('#lbToKg').value); 
+            if(isNaN(lb)){ el('#lbToKgResult').textContent='-'; return; } 
+            el('#lbToKgResult').textContent = `${(lb * 0.453592).toFixed(2)} kg`; 
+        }
+        
+        el('#convertKgToLb').onclick = ()=>{ 
+            const kg=parseFloat(el('#kgToLb').value); 
+            if(isNaN(kg)){ el('#kgToLbResult').textContent='-'; return; } 
+            el('#kgToLbResult').textContent = `${(kg * 2.20462).toFixed(2)} lb`; 
+        }
+        
+        el('#toF').onclick = ()=>{ 
+            const c=parseFloat(el('#cC').value); 
+            if(isNaN(c)){ el('#tempRes').textContent='-'; return; } 
+            el('#tempRes').textContent = `${(c*9/5+32).toFixed(1)} °F`; 
+        }
+        
+        el('#toC').onclick = ()=>{ 
+            const f=parseFloat(el('#cC').value); 
+            if(isNaN(f)){ el('#tempRes').textContent='-'; return; } 
+            el('#tempRes').textContent = `${((f-32)*5/9).toFixed(1)} °C`; 
         }
 
-        function toggleConcentrationField() {
-            const presentation = document.getElementById("presentacion").value;
-            const concentrationGroup = document.getElementById("concentrationGroup");
-            const label = concentrationGroup.querySelector("label");
-            const divider = concentrationGroup.querySelector(".concentration-divider");
-            const mlText = concentrationGroup.querySelector("span:last-child");
-            
-            if (presentation === "personalizado") {
-                label.textContent = "Miligramos por unidad";
-                divider.style.display = "none";
-                document.getElementById("concentracionMl").style.display = "none";
-                mlText.style.display = "none";
-                document.getElementById("concentracionMg").placeholder = "Ej: 500";
-            } else if (presentation === "gotas") {
-                label.textContent = "Concentración (%)";
-                divider.style.display = "none";
-                document.getElementById("concentracionMl").style.display = "none";
-                mlText.style.display = "none";
-                document.getElementById("concentracionMg").placeholder = "Ej: 0.5";
-            } else if (presentation === "ui_ampolla") {
-                label.textContent = "UI por ampolla";
-                divider.style.display = "none";
-                document.getElementById("concentracionMl").style.display = "none";
-                mlText.style.display = "none";
-                document.getElementById("concentracionMg").placeholder = "Ej: 500";
-            } else {
-                label.textContent = "Concentración";
-                divider.style.display = "inline";
-                document.getElementById("concentracionMl").style.display = "inline-block";
-                mlText.style.display = "inline";
-                document.getElementById("concentracionMg").placeholder = "Ej: 250";
-                document.getElementById("concentracionMl").placeholder = "Ej: 5";
-            }
+        /* ---------- Export / Import ---------- */
+        el('#exportBtn').onclick = async ()=>{
+            const meds = await getAll('meds'); const dx = await getAll('dx'); const prot = await getAll('prot');
+            const blob = new Blob([JSON.stringify({meds,dx,prot},null,2)],{type:'application/json'}); const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href=url; a.download='pediacalc-backup.json'; a.click(); URL.revokeObjectURL(url);
+        };
+        
+        el('#importBtn').onclick = ()=>{ uploadJSON(processImport) };
+        el('#exportAll').onclick = ()=> el('#exportBtn').click();
+        el('#importAll').onclick = ()=> el('#importBtn').click();
+
+        function uploadJSON(cb){
+            const inp = document.createElement('input'); inp.type='file'; inp.accept='application/json';
+            inp.onchange = async ()=>{ const f = inp.files[0]; const t = await f.text(); try{ const j = JSON.parse(t); cb(j); }catch(e){ alert('JSON inválido') } };
+            inp.click();
+        }
+        
+        async function processImport(json){
+            if(json.meds) for(const m of json.meds) await put('meds',m);
+            if(json.dx) for(const d of json.dx) await put('dx',d);
+            if(json.prot) for(const p of json.prot) await put('prot',p);
+            await refreshAll();
         }
 
-        function calculateDose() {
-            const weight = parseFloat(document.getElementById("peso").value);
-            const medId = document.getElementById("medicamento").value;
-            const presentation = document.getElementById("presentacion").value;
-            const concentrationMg = parseFloat(document.getElementById("concentracionMg").value);
-            const concentrationMl = parseFloat(document.getElementById("concentracionMl").value);
-            const frequency = parseInt(document.getElementById("frecuencia").value);
-            
-            // Validaciones
-            if (isNaN(weight) || weight < 0.5 || weight > 200) {
-                showAlert("Por favor, ingrese un peso válido (0.5 - 200 kg)", "danger");
-                return;
-            }
-            
-            if (!medId) {
-                showAlert("Por favor, seleccione un medicamento", "danger");
-                return;
-            }
-            
-            if (isNaN(concentrationMg) || concentrationMg <= 0) {
-                showAlert("Por favor, ingrese una concentración válida", "danger");
-                return;
-            }
-            
-            if ((presentation === "mg_ml" || presentation === "personalizado") && 
-                (isNaN(concentrationMl) || concentrationMl <= 0)) {
-                showAlert("Por favor, ingrese un volumen válido", "danger");
-                return;
-            }
-            
-            if (isNaN(frequency) || frequency < 1 || frequency > 24) {
-                showAlert("Por favor, ingrese una frecuencia válida (1-24 veces/día)", "danger");
-                return;
-            }
-            
-            const medication = medications.find(m => m.id === medId);
-            
-            // Cálculos
-            const dosePerTake = weight * medication.dosePerKg;
-            const appliedDose = Math.min(dosePerTake, medication.maxDose);
-            const dailyDose = weight * medication.maxDosePerDay;
-            const dosePerTakeDaily = dailyDose / frequency;
-            
-            // Validación de dosis máxima diaria
-            let alertType = "success";
-            let alertMessage = "Dosis segura";
-            
-            if (dosePerTake * frequency > dailyDose) {
-                alertType = "warning";
-                alertMessage = `ADVERTENCIA: La dosis diaria calculada (${(dosePerTake * frequency).toFixed(1)} mg) excede el máximo recomendado (${dailyDose} mg)`;
-            }
-            
-            // Cálculo de volumen/unidades
-            let volume = 0;
-            let units = 0;
-            let concentration = concentrationMg / concentrationMl;
-            
-            if (presentation === "mg_ml") {
-                volume = appliedDose / concentration;
-                units = volume;
-            } else if (presentation === "mg_comprimido" || presentation === "personalizado") {
-                units = appliedDose / concentrationMg;
-                volume = 0;
-            } else if (presentation === "ui_ampolla") {
-                units = appliedDose / concentrationMg;
-                volume = 0;
-            } else if (presentation === "gotas") {
-                // Para gotas, asumimos que 1 ml = 20 gotas
-                volume = appliedDose / concentrationMg;
-                units = volume * 20;
-            }
-            
-            // Redondeo inteligente
-            let roundedVolume = volume;
-            let roundedUnits = units;
-            
-            if (weight <= 15) {
-                // Para pesos ≤15 kg, redondear a 0.25 (suspensiones)
-                roundedVolume = Math.round(volume * 4) / 4;
-                roundedUnits = Math.round(units * 4) / 4;
-            } else {
-                // Para pesos >15 kg, redondear a unidad entera (tabletas)
-                roundedVolume = Math.round(volume);
-                roundedUnits = Math.round(units);
-            }
-            
-            // Generar horarios
-            const schedule = calculateSchedule(frequency);
-            
-            // Mostrar resultados
-            displayResults({
-                weight,
-                medication,
-                appliedDose,
-                dailyDose,
-                dosePerTakeDaily,
-                volume: roundedVolume,
-                units: roundedUnits,
-                frequency,
-                schedule,
-                presentation,
-                concentration: concentrationMg / concentrationMl,
-                alertType,
-                alertMessage
+        /* ---------- UI Tabs and sidebar ---------- */
+        function setupUI() {
+            // Tabs
+            els('nav button').forEach(b=>b.onclick = ()=>{
+                els('nav button').forEach(x=>x.classList.remove('active')); 
+                b.classList.add('active');
+                const t = b.dataset.tab; 
+                state.activeTab=t; 
+                els('main .tab').forEach(s=>s.style.display='none'); 
+                el('#'+t).style.display='block';
+                
+                // Cerrar sidebar en móviles
+                if (window.innerWidth <= 900) {
+                    toggleSidebar(false);
+                }
             });
-            
-            // Guardar en historial
-            saveToHistory({
-                weight,
-                medication: medication.name,
-                appliedDose,
-                volume: roundedVolume,
-                units: roundedUnits,
-                frequency,
-                timestamp: new Date().toLocaleString()
-            });
-        }
 
-        function calculateSchedule(frequency) {
-            const startHour = 8; // Comenzar a las 8:00 AM
-            const interval = 24 / frequency;
-            const schedule = [];
-            
-            for (let i = 0; i < frequency; i++) {
-                let hour = startHour + (i * interval);
-                if (hour >= 24) hour -= 24;
-                
-                const hourStr = Math.floor(hour).toString().padStart(2, '0');
-                const minStr = Math.round((hour % 1) * 60).toString().padStart(2, '0');
-                
-                schedule.push(`${hourStr}:${minStr}`);
-            }
-            
-            return schedule;
-        }
+            // Sidebar toggle
+            el('#sidebarToggle').onclick = () => {
+                toggleSidebar();
+            };
 
-        function displayResults(data) {
-            const resultsContent = document.getElementById("resultadosContenido");
-            
-            resultsContent.innerHTML = `
-                <div class="alert alert-${data.alertType}">
-                    <div class="alert-icon">${data.alertType === 'success' ? '✅' : '⚠️'}</div>
-                    <div class="alert-content">
-                        <strong>${data.alertMessage}</strong>
-                        <div>Dosis calculada para paciente de ${data.weight} kg</div>
-                    </div>
-                </div>
-                
-                <div class="results-grid">
-                    <div class="result-item">
-                        <div class="result-value">${data.appliedDose.toFixed(1)} mg</div>
-                        <div class="result-label">Dosis por toma</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="result-value">${data.frequency}</div>
-                        <div class="result-label">Veces al día</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="result-value">${data.volume.toFixed(2)}</div>
-                        <div class="result-label">${data.presentation === 'mg_comprimido' || data.presentation === 'personalizado' ? 'Tabletas' : 'ml'}</div>
-                    </div>
-                    <div class="result-item">
-                        <div class="result-value">${data.units.toFixed(1)}</div>
-                        <div class="result-label">${data.presentation === 'gotas' ? 'Gotas' : 'Unidades'}</div>
-                    </div>
-                </div>
-                
-                <div class="alert alert-info">
-                    <div class="alert-icon">⏰</div>
-                    <div class="alert-content">
-                        <strong>Horario sugerido:</strong> ${data.schedule.join(", ")}
-                    </div>
-                </div>
-                
-                <div class="alert">
-                    <div class="alert-icon">💊</div>
-                    <div class="alert-content">
-                        <strong>Consideraciones:</strong> ${data.medication.considerations}
-                    </div>
-                </div>
-            `;
-            
-            // Cambiar a pestaña de resultados si no está activa
-            if (currentTab !== "resultados") {
-                document.querySelectorAll(".tab").forEach(tab => {
-                    tab.classList.remove("active");
-                    if (tab.getAttribute("data-tab") === "resultados") {
-                        tab.classList.add("active");
-                    }
-                });
-                
-                document.querySelectorAll(".tab-content").forEach(content => {
-                    content.classList.remove("active");
-                    if (content.id === "resultados") {
-                        content.classList.add("active");
-                    }
-                });
-                
-                currentTab = "resultados";
-            }
-        }
+            // Overlay para cerrar sidebar en móviles
+            el('#overlay').onclick = () => {
+                toggleSidebar(false);
+            };
 
-        function saveToHistory(calculation) {
-            history.unshift(calculation);
+            // Configuración de tema
+            el('#themeSel').value = localStorage.getItem('pcalc_theme') || 'light';
+            el('#contrastSel').value = localStorage.getItem('pcalc_contrast') || 'normal';
             
-            // Mantener solo los últimos 10 cálculos
-            if (history.length > 10) {
-                history = history.slice(0, 10);
-            }
-            
-            localStorage.setItem("pediacalc_history", JSON.stringify(history));
-            updateHistoryDisplay();
-        }
-
-        function updateHistoryDisplay() {
-            const historyContent = document.getElementById("historialContenido");
-            
-            if (history.length === 0) {
-                historyContent.innerHTML = `
-                    <div class="alert alert-info">
-                        <div class="alert-content">
-                            Aún no hay cálculos en el historial.
-                        </div>
-                    </div>
-                `;
-                return;
-            }
-            
-            historyContent.innerHTML = "";
-            
-            history.forEach((calc, index) => {
-                const item = document.createElement("div");
-                item.className = "history-item";
-                item.innerHTML = `
-                    <div class="history-date">${calc.timestamp}</div>
-                    <div class="history-details">
-                        <strong>${calc.medication}</strong> - ${calc.weight} kg: ${calc.appliedDose.toFixed(1)} mg (${calc.frequency}x/día)
-                    </div>
-                `;
-                
-                item.addEventListener("click", function() {
-                    // Cargar este cálculo
-                    document.getElementById("peso").value = calc.weight;
-                    document.getElementById("frecuencia").value = calc.frequency;
-                    
-                    const medOption = document.getElementById("medicamento").querySelector(`option[value="${medications.find(m => m.name === calc.medication)?.id}"]`);
-                    if (medOption) {
-                        document.getElementById("medicamento").value = medOption.value;
-                    }
-                    
-                    calculateDose();
-                });
-                
-                historyContent.appendChild(item);
-            });
-        }
-
-        function guardarMedicamentoPersonalizado() {
-            const nombre = document.getElementById("nuevoMedNombre").value.trim();
-            const dosisKg = parseFloat(document.getElementById("nuevoMedDosisKg").value);
-            const maxDosis = parseFloat(document.getElementById("nuevoMedMaxDosis").value);
-            const maxDosisDia = parseFloat(document.getElementById("nuevoMedMaxDosisDia").value);
-            const frecuencia = parseInt(document.getElementById("nuevoMedFrecuencia").value);
-            const consideraciones = document.getElementById("nuevoMedConsideraciones").value.trim();
-            
-            // Validaciones
-            if (!nombre) {
-                alert("Por favor, ingrese el nombre del medicamento");
-                return;
-            }
-            
-            if (isNaN(dosisKg) || dosisKg <= 0) {
-                alert("Por favor, ingrese una dosis por kg válida");
-                return;
-            }
-            
-            if (isNaN(maxDosis) || maxDosis <= 0) {
-                alert("Por favor, ingrese una dosis máxima por toma válida");
-                return;
-            }
-            
-            if (isNaN(maxDosisDia) || maxDosisDia <= 0) {
-                alert("Por favor, ingrese una dosis máxima diaria válida");
-                return;
-            }
-            
-            if (isNaN(frecuencia) || frecuencia < 1 || frecuencia > 24) {
-                alert("Por favor, ingrese una frecuencia válida (1-24 veces/día)");
-                return;
-            }
-            
-            // Crear nuevo medicamento
-            const nuevoMed = {
-                id: nombre.toLowerCase().replace(/\s+/g, '_'),
-                name: nombre,
-                dosePerKg: dosisKg,
-                maxDose: maxDosis,
-                maxDosePerDay: maxDosisDia,
-                frequency: `Cada ${24/frecuencia} horas`,
-                standardFrequency: frecuencia,
-                route: "Oral",
-                considerations: consideraciones || "Sin consideraciones especiales",
-                presentation: "mg_ml",
-                commonConcentrationMg: 100,
-                commonConcentrationMl: 5,
-                weightBasedPresentation: true,
-                custom: true
+            el('#themeSel').onchange = (e) => {
+                document.body.setAttribute('data-theme', e.target.value);
+                localStorage.setItem('pcalc_theme', e.target.value);
             };
             
-            // Guardar en localStorage
-            customMeds.push(nuevoMed);
-            localStorage.setItem("pediacalc_custom_meds", JSON.stringify(customMeds));
-            
-            // Actualizar lista de medicamentos
-            medications.push(nuevoMed);
-            loadMedications();
-            
-            // Mostrar mensaje de éxito
-            const alert = document.getElementById("medicamentoGuardado");
-            alert.classList.remove("hidden");
-            
-            // Limpiar formulario
-            document.getElementById("nuevoMedNombre").value = "";
-            document.getElementById("nuevoMedDosisKg").value = "";
-            document.getElementById("nuevoMedMaxDosis").value = "";
-            document.getElementById("nuevoMedMaxDosisDia").value = "";
-            document.getElementById("nuevoMedFrecuencia").value = "1";
-            document.getElementById("nuevoMedConsideraciones").value = "";
-            
-            // Ocultar mensaje después de 3 segundos
-            setTimeout(() => {
-                alert.classList.add("hidden");
-            }, 3000);
+            el('#contrastSel').onchange = (e) => {
+                document.body.setAttribute('data-contrast', e.target.value);
+                localStorage.setItem('pcalc_contrast', e.target.value);
+            };
+
+            // Aplicar tema guardado
+            document.body.setAttribute('data-theme', localStorage.getItem('pcalc_theme') || 'light');
+            document.body.setAttribute('data-contrast', localStorage.getItem('pcalc_contrast') || 'normal');
         }
 
-        function showAlert(message, type) {
-            const resultsContent = document.getElementById("resultadosContenido");
-            
-            resultsContent.innerHTML = `
-                <div class="alert alert-${type}">
-                    <div class="alert-icon">${type === 'danger' ? '❌' : '⚠️'}</div>
-                    <div class="alert-content">${message}</div>
-                </div>
-            `;
-            
-            // Cambiar a pestaña de resultados
-            document.querySelectorAll(".tab").forEach(tab => {
-                tab.classList.remove("active");
-                if (tab.getAttribute("data-tab") === "resultados") {
-                    tab.classList.add("active");
-                }
-            });
-            
-            document.querySelectorAll(".tab-content").forEach(content => {
-                content.classList.remove("active");
-                if (content.id === "resultados") {
-                    content.classList.add("active");
-                }
-            });
-            
-            currentTab = "resultados";
-        }
-
-        function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            localStorage.setItem("pediacalc_darkmode", isDarkMode);
-            applyTheme();
-        }
-
-        function applyTheme() {
-            if (isDarkMode) {
-                document.body.classList.add("dark-mode");
-                document.getElementById("themeToggle").textContent = "☀️";
+        function toggleSidebar(force) {
+            if (force !== undefined) {
+                state.sidebarOpen = force;
             } else {
-                document.body.classList.remove("dark-mode");
-                document.getElementById("themeToggle").textContent = "🌙";
+                state.sidebarOpen = !state.sidebarOpen;
+            }
+            
+            if (window.innerWidth > 900) {
+                // Escritorio
+                if (state.sidebarOpen) {
+                    el('#sidebar').classList.remove('collapsed');
+                    el('#main').classList.remove('expanded');
+                } else {
+                    el('#sidebar').classList.add('collapsed');
+                    el('#main').classList.add('expanded');
+                }
+            } else {
+                // Móvil
+                if (state.sidebarOpen) {
+                    el('#sidebar').classList.add('open');
+                    el('#overlay').classList.add('open');
+                } else {
+                    el('#sidebar').classList.remove('open');
+                    el('#overlay').classList.remove('open');
+                }
             }
         }
+
+        /* ---------- Init ---------- */
+        async function refreshAll(){ 
+            await renderMeds(el('#searchMed').value); 
+            await renderDx(); 
+            await renderProt(); 
+            await setupAutocomplete();
+        }
+        
+        async function init(){
+            await seedIfEmpty(); 
+            await refreshAll();
+            setupUI();
+            
+            // Ajustar sidebar según tamaño de pantalla
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 900) {
+                    state.sidebarOpen = true;
+                    el('#sidebar').classList.remove('open');
+                    el('#overlay').classList.remove('open');
+                } else {
+                    state.sidebarOpen = false;
+                }
+            });
+        }
+
+        init();
+    </script>
+
+    <!-- Minimal manifest inline (browser support limited) -->
+    <script type="application/json" id="manifest">
+    {
+        "name":"PediaCalc v9.1.0",
+        "short_name":"PediaCalc",
+        "start_url":".",
+        "display":"standalone",
+        "background_color":"#f0f8ff",
+        "theme_color":"#0077cc"
+    }
     </script>
 </body>
 </html>
