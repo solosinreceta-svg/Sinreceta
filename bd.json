@@ -1,0 +1,2792 @@
+{
+  "version": "1.0",
+  "lastUpdated": "2025-01-20",
+  "medicines": [
+    {
+      "id": "amoxicilina",
+      "nombre": "Amoxicilina",
+      "familia": "antibioticos",
+      "dosisHabitual": 80,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "250mg/5ml",
+          "presentacion": "Frasco 60ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "500mg",
+          "presentacion": "Cápsulas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 80,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infecciones respiratorias", "Otitis media", "Infecciones de piel"],
+      "alertas": ["Puede causar diarrea", "Alergia a penicilinas"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "penicilina-cristalina",
+      "nombre": "Penicilina Cristalina",
+      "familia": "antibioticos",
+      "dosisHabitual": 250000,
+      "unidad": "UI",
+      "frecuencia": "Cada 6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1000000UI",
+          "presentacion": "Bbo 1M UI",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 12000000,
+      "dosisMaximaSingle": 3000000,
+      "indicaciones": ["Infecciones graves", "Meningitis", "Neumonía"],
+      "alertas": ["Máximo 3.000.000 UI por dosis", "Máximo 12.000.000 UI al día"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "penicilina-rapilenta",
+      "nombre": "Penicilina Rapilenta",
+      "familia": "antibioticos",
+      "dosisHabitual": 50000,
+      "unidad": "UI",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1000000UI",
+          "presentacion": "Bbo 1M UI",
+          "via": "im"
+        }
+      ],
+      "dosisMaximaDiaria": 50000,
+      "dosisMaximaSingle": 1000000,
+      "indicaciones": ["Infecciones por estreptococo"],
+      "alertas": ["Diluir en 2ml de agua estéril"],
+      "liofilizado": false,
+      "dilucionEspecial": 2
+    },
+    {
+      "id": "penicilina-benzatinica",
+      "nombre": "Penicilina Benzatinica",
+      "familia": "antibioticos",
+      "dosisHabitual": 600000,
+      "unidad": "UI",
+      "frecuencia": "Dosis única",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1200000UI",
+          "presentacion": "Bbo 1.2M UI",
+          "via": "im"
+        }
+      ],
+      "dosisMaximaDiaria": 1200000,
+      "dosisMaximaSingle": 1200000,
+      "indicaciones": ["Fiebre reumática", "Sífilis"],
+      "alertas": ["Administrar profundamente IM"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ceftriaxona",
+      "nombre": "Ceftriaxona",
+      "familia": "antibioticos",
+      "dosisHabitual": 100,
+      "unidad": "mg",
+      "frecuencia": "Cada 24 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1g",
+          "presentacion": "Bbo 1g",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 4000,
+      "dosisMaximaSingle": 2000,
+      "indicaciones": ["Infecciones graves", "Meningitis"],
+      "alertas": ["No usar en neonatos con hiperbilirrubinemia"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "cefalesxina",
+      "nombre": "Cefalesxina",
+      "familia": "antibioticos",
+      "dosisHabitual": 80,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "500mg",
+          "presentacion": "Cápsulas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "250mg/5ml",
+          "presentacion": "Frasco 60ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 80,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infecciones de piel", "Infecciones urinarias", "Sinusitis"],
+      "alertas": ["Monitorizar función renal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "cefazolina",
+      "nombre": "Cefazolina",
+      "familia": "antibioticos",
+      "dosisHabitual": 100,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg",
+          "presentacion": "Bbo 0.5g",
+          "via": "iv/im"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1g",
+          "presentacion": "Bbo 1g",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 100,
+      "dosisMaximaSingle": 2000,
+      "indicaciones": ["Infecciones graves", "Profilaxis quirúrgica"],
+      "alertas": ["Administrar lentamente en IV"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "cefaclor",
+      "nombre": "Cefaclor",
+      "familia": "antibioticos",
+      "dosisHabitual": 40,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "125mg/5ml",
+          "presentacion": "Frasco 60ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 40,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Infecciones respiratorias", "Otitis media"],
+      "alertas": ["Puede causar diarrea"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "cefuroxima",
+      "nombre": "Cefuroxima",
+      "familia": "antibioticos",
+      "dosisHabitual": 100,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "750mg",
+          "presentacion": "Bbo 750mg",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 100,
+      "dosisMaximaSingle": 1500,
+      "indicaciones": ["Infecciones respiratorias", "Infecciones urinarias"],
+      "alertas": ["Administrar con precaución en insuficiencia renal"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "cefixime",
+      "nombre": "Cefixime",
+      "familia": "antibioticos",
+      "dosisHabitual": 10,
+      "unidad": "mg",
+      "frecuencia": "Cada 12-24 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "100mg/5ml",
+          "presentacion": "Frasco 60ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "200mg/5ml",
+          "presentacion": "Frasco 60ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 12,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Infecciones respiratorias", "Otitis media"],
+      "alertas": ["Puede causar diarrea"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "cefotaxima",
+      "nombre": "Cefotaxima",
+      "familia": "antibioticos",
+      "dosisHabitual": 100,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1g",
+          "presentacion": "Bbo 1g",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 100,
+      "dosisMaximaSingle": 2000,
+      "indicaciones": ["Infecciones graves", "Meningitis"],
+      "alertas": ["Monitorizar función renal"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "azitromicina",
+      "nombre": "Azitromicina",
+      "familia": "antibioticos",
+      "dosisHabitual": 10,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "200mg/5ml",
+          "presentacion": "Frasco 30ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 10,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Infecciones respiratorias", "Infecciones de piel"],
+      "alertas": ["Puede prolongar intervalo QT"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "eritromicina",
+      "nombre": "Eritromicina",
+      "familia": "antibioticos",
+      "dosisHabitual": 40,
+      "unidad": "mg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "250mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 50,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infecciones respiratorias", "Tos ferina"],
+      "alertas": ["Puede causar molestias gastrointestinales"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "claritromicina",
+      "nombre": "Claritromicina",
+      "familia": "antibioticos",
+      "dosisHabitual": 15,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "125mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 30,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infecciones respiratorias", "Infecciones de piel"],
+      "alertas": ["Puede prolongar intervalo QT"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "amikacina",
+      "nombre": "Amikacina",
+      "familia": "antibioticos",
+      "dosisHabitual": 15,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg/2ml",
+          "presentacion": "Bbo 500mg/2ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 15,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Infecciones graves por gramnegativos"],
+      "alertas": ["Nefrotoxicidad", "Ototoxicidad", "Monitorizar niveles séricos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "gentamicina",
+      "nombre": "Gentamicina",
+      "familia": "antibioticos",
+      "dosisHabitual": 6,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "80mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "10mg/1ml",
+          "presentacion": "Ampolla 1ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 7,
+      "dosisMaximaSingle": 80,
+      "indicaciones": ["Infecciones graves por gramnegativos"],
+      "alertas": ["Nefrotoxicidad", "Ototoxicidad", "Monitorizar niveles séricos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "cotrimoxazol",
+      "nombre": "Cotrimoxazol",
+      "familia": "antibioticos",
+      "dosisHabitual": 60,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "480mg",
+          "presentacion": "Tabletas 480mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "200mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "400mg/5ml",
+          "presentacion": "Ampolla 5ml",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 80,
+      "dosisMaximaSingle": 960,
+      "indicaciones": ["Infecciones urinarias", "Neumonía por Pneumocystis"],
+      "alertas": ["Puede causar hiperkalemia", "Monitorizar función renal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ciprofloxacino",
+      "nombre": "Ciprofloxacino",
+      "familia": "antibioticos",
+      "dosisHabitual": 20,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "250mg",
+          "presentacion": "Tabletas 250mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "200mg/100ml",
+          "presentacion": "Bbo 200mg/100ml",
+          "via": "iv"
+        },
+        {
+          "tipo": "Colirio",
+          "concentracion": "0.3%",
+          "presentacion": "Frasco 5ml",
+          "via": "oftalmica"
+        }
+      ],
+      "dosisMaximaDiaria": 20,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Infecciones urinarias", "Infecciones gastrointestinales"],
+      "alertas": ["Artropatía en niños", "Fotosensibilidad"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "amoxicilina-sulbactam",
+      "nombre": "Amoxicilina/Sulbactam",
+      "familia": "antibioticos",
+      "dosisHabitual": 80,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "750mg",
+          "presentacion": "Bbo 750mg",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 80,
+      "dosisMaximaSingle": 1500,
+      "indicaciones": ["Infecciones por betalactamasa"],
+      "alertas": ["Monitorizar función hepática"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "clindamicina",
+      "nombre": "Clindamicina",
+      "familia": "antibioticos",
+      "dosisHabitual": 30,
+      "unidad": "mg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "150mg",
+          "presentacion": "Cápsulas 150mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "300mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 40,
+      "dosisMaximaSingle": 600,
+      "indicaciones": ["Infecciones anaerobias", "Infecciones de piel"],
+      "alertas": ["Riesgo de colitis pseudomembranosa"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "vancomicina",
+      "nombre": "Vancomicina",
+      "familia": "antibioticos",
+      "dosisHabitual": 50,
+      "unidad": "mg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg",
+          "presentacion": "Bbo 500mg",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 60,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infecciones por MRSA", "Endocarditis"],
+      "alertas": ["Nefrotoxicidad", "Monitorizar niveles séricos"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "meropenem",
+      "nombre": "Meropenem",
+      "familia": "antibioticos",
+      "dosisHabitual": 60,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg",
+          "presentacion": "Bbo 500mg",
+          "via": "iv"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1g",
+          "presentacion": "Bbo 1g",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 80,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infecciones graves", "Meningitis"],
+      "alertas": ["Puede causar convulsiones"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "imipenem-cilastatina",
+      "nombre": "Imipenem/Cilastatina",
+      "familia": "antibioticos",
+      "dosisHabitual": 60,
+      "unidad": "mg",
+      "frecuencia": "Cada 6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg",
+          "presentacion": "Bbo 500mg",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 100,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infecciones graves", "Infecciones intraabdominales"],
+      "alertas": ["Puede causar convulsiones"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "fosfomicina",
+      "nombre": "Fosfomicina",
+      "familia": "antibioticos",
+      "dosisHabitual": 100,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "500mg",
+          "presentacion": "Cápsulas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "1g",
+          "presentacion": "Bbo 1g",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 100,
+      "dosisMaximaSingle": 2000,
+      "indicaciones": ["Infecciones urinarias"],
+      "alertas": ["Puede causar diarrea"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "paracetamol",
+      "nombre": "Paracetamol",
+      "familia": "analgesicos",
+      "dosisHabitual": 15,
+      "unidad": "mg",
+      "frecuencia": "Cada 6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "120mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Supositorios",
+          "concentracion": "300mg",
+          "presentacion": "Supositorios 300mg",
+          "via": "rectal"
+        }
+      ],
+      "dosisMaximaDiaria": 60,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Fiebre", "Dolor leve a moderado"],
+      "alertas": ["No exceder dosis máxima diaria", "Riesgo de hepatotoxicidad"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ibuprofeno",
+      "nombre": "Ibuprofeno",
+      "familia": "analgesicos",
+      "dosisHabitual": 10,
+      "unidad": "mg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "100mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "400mg",
+          "presentacion": "Tabletas 400mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 40,
+      "dosisMaximaSingle": 800,
+      "indicaciones": ["Fiebre", "Dolor", "Inflamación"],
+      "alertas": ["Administrar con alimentos", "Riesgo de sangrado gastrointestinal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "dipirona",
+      "nombre": "Dipirona",
+      "familia": "analgesicos",
+      "dosisHabitual": 15,
+      "unidad": "mg",
+      "frecuencia": "Cada 6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "600mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        },
+        {
+          "tipo": "Supositorios",
+          "concentracion": "300mg",
+          "presentacion": "Supositorios 300mg",
+          "via": "rectal"
+        }
+      ],
+      "dosisMaximaDiaria": 65,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Fiebre", "Dolor intenso"],
+      "alertas": ["Riesgo de agranulocitosis"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "naproxeno",
+      "nombre": "Naproxeno",
+      "familia": "analgesicos",
+      "dosisHabitual": 7.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "250mg",
+          "presentacion": "Tabletas 250mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "125mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 30,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Dolor", "Inflamación", "Fiebre"],
+      "alertas": ["Administrar con alimentos", "Riesgo gastrointestinal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "tramadol",
+      "nombre": "Tramadol",
+      "familia": "analgesicos",
+      "dosisHabitual": 1.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "50mg",
+          "presentacion": "Tabletas 50mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "100mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 6,
+      "dosisMaximaSingle": 100,
+      "indicaciones": ["Dolor moderado a severo"],
+      "alertas": ["Riesgo de depresión respiratoria", "Puede causar náuseas"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "codeina",
+      "nombre": "Codeína",
+      "familia": "analgesicos",
+      "dosisHabitual": 0.75,
+      "unidad": "mg",
+      "frecuencia": "Cada 6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "30mg",
+          "presentacion": "Tabletas 30mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 3,
+      "dosisMaximaSingle": 60,
+      "indicaciones": ["Dolor moderado", "Tos seca"],
+      "alertas": ["Riesgo de depresión respiratoria", "Solo para mayores de 12 años"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "salbutamol",
+      "nombre": "Salbutamol",
+      "familia": "broncodilatadores",
+      "dosisHabitual": 0.15,
+      "unidad": "mg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Aerosol",
+          "concentracion": "5mg/1ml",
+          "presentacion": "Nebulizador",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Inhalador",
+          "concentracion": "100mcg/dosis",
+          "presentacion": "Inhalador 200 dosis",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "2mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.6,
+      "dosisMaximaSingle": 0.15,
+      "indicaciones": ["Asma", "Broncoespasmo"],
+      "alertas": ["Puede causar temblor", "Monitorizar frecuencia cardíaca"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "bromuro-ipratropio",
+      "nombre": "Bromuro de Ipratropio",
+      "familia": "broncodilatadores",
+      "dosisHabitual": 250,
+      "unidad": "mcg",
+      "frecuencia": "Cada 6-8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Nebulizador",
+          "concentracion": "250mcg/ml",
+          "presentacion": "Nebulizador",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Nebulizador",
+          "concentracion": "500mcg/ml",
+          "presentacion": "Nebulizador",
+          "via": "inhalatoria"
+        }
+      ],
+      "dosisMaximaDiaria": 1000,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Broncoespasmo", "Asma"],
+      "alertas": ["Puede causar sequedad bucal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "salmeterol",
+      "nombre": "Salmeterol",
+      "familia": "broncodilatadores",
+      "dosisHabitual": 50,
+      "unidad": "mcg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inhalador",
+          "concentracion": "25mcg/dosis",
+          "presentacion": "Inhalador 120 dosis",
+          "via": "inhalatoria"
+        }
+      ],
+      "dosisMaximaDiaria": 100,
+      "dosisMaximaSingle": 50,
+      "indicaciones": ["Asma persistente", "Prevención de broncoespasmo"],
+      "alertas": ["No usar para alivio inmediato", "Solo para mayores de 4 años"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "formoterol",
+      "nombre": "Formoterol",
+      "familia": "broncodilatadores",
+      "dosisHabitual": 12,
+      "unidad": "mcg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inhalador",
+          "concentracion": "6mcg/dosis",
+          "presentacion": "Inhalador 120 dosis",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Inhalador",
+          "concentracion": "12mcg/dosis",
+          "presentacion": "Inhalador 120 dosis",
+          "via": "inhalatoria"
+        }
+      ],
+      "dosisMaximaDiaria": 24,
+      "dosisMaximaSingle": 12,
+      "indicaciones": ["Asma persistente", "EPOC"],
+      "alertas": ["No usar para alivio inmediato", "Solo para mayores de 5 años"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "teofilina",
+      "nombre": "Teofilina",
+      "familia": "broncodilatadores",
+      "dosisHabitual": 12,
+      "unidad": "mg",
+      "frecuencia": "Cada 8-12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "100mg",
+          "presentacion": "Tabletas 100mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "200mg",
+          "presentacion": "Tabletas 200mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 24,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Asma", "Broncoespasmo"],
+      "alertas": ["Monitorizar niveles séricos", "Múltiples interacciones"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "montelukast",
+      "nombre": "Montelukast",
+      "familia": "broncodilatadores",
+      "dosisHabitual": 5,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "4mg",
+          "presentacion": "Tabletas 4mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "5mg",
+          "presentacion": "Tabletas 5mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 10,
+      "dosisMaximaSingle": 10,
+      "indicaciones": ["Asma", "Rinitis alérgica"],
+      "alertas": ["Puede causar cambios de comportamiento"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "loratadina",
+      "nombre": "Loratadina",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 0.2,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Jarabe",
+          "concentracion": "1mg/1ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.2,
+      "dosisMaximaSingle": 10,
+      "indicaciones": ["Rinitis alérgica", "Urticaria"],
+      "alertas": ["Puede causar somnolencia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "cetirizina",
+      "nombre": "Cetirizina",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 0.25,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Jarabe",
+          "concentracion": "1mg/1ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.5,
+      "dosisMaximaSingle": 10,
+      "indicaciones": ["Rinitis alérgica", "Urticaria"],
+      "alertas": ["Puede causar somnolencia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "desloratadina",
+      "nombre": "Desloratadina",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 0.15,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "5mg",
+          "presentacion": "Tabletas 5mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.3,
+      "dosisMaximaSingle": 5,
+      "indicaciones": ["Rinitis alérgica", "Urticaria"],
+      "alertas": ["Menos somnolencia que otros antihistamínicos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "fexofenadina",
+      "nombre": "Fexofenadina",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 1.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "120mg",
+          "presentacion": "Tabletas 120mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "180mg",
+          "presentacion": "Tabletas 180mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 3,
+      "dosisMaximaSingle": 180,
+      "indicaciones": ["Rinitis alérgica", "Urticaria"],
+      "alertas": ["No causa somnolencia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "difenhidramina",
+      "nombre": "Difenhidramina",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 5,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "25mg",
+          "presentacion": "Tabletas 25mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "20mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 15,
+      "dosisMaximaSingle": 50,
+      "indicaciones": ["Alergias", "Insomnio"],
+      "alertas": ["Causa somnolencia intensa", "Evitar conducir"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "dimenhidrinato",
+      "nombre": "Dimenhidrinato",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 5,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "50mg",
+          "presentacion": "Tabletas 50mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "50mg/1ml",
+          "presentacion": "Ampolla 1ml",
+          "via": "im"
+        },
+        {
+          "tipo": "Supositorios",
+          "concentracion": "100mg",
+          "presentacion": "Supositorios 100mg",
+          "via": "rectal"
+        }
+      ],
+      "dosisMaximaDiaria": 15,
+      "dosisMaximaSingle": 100,
+      "indicaciones": ["Mareo", "Vómito"],
+      "alertas": ["Causa somnolencia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ciproheptadina",
+      "nombre": "Ciproheptadina",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 0.4,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "4mg",
+          "presentacion": "Tabletas 4mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.8,
+      "dosisMaximaSingle": 8,
+      "indicaciones": ["Alergias", "Estimulante del apetito"],
+      "alertas": ["Puede causar aumento de peso"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ketotifeno",
+      "nombre": "Ketotifeno",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 0.05,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "1mg",
+          "presentacion": "Tabletas 1mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Jarabe",
+          "concentracion": "1mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.1,
+      "dosisMaximaSingle": 2,
+      "indicaciones": ["Asma alérgica", "Conjuntivitis alérgica"],
+      "alertas": ["Puede causar somnolencia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "dexclorfeniramina",
+      "nombre": "Dexclorfeniramina",
+      "familia": "antihistaminicos",
+      "dosisHabitual": 0.15,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "2mg",
+          "presentacion": "Tabletas 2mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.45,
+      "dosisMaximaSingle": 4,
+      "indicaciones": ["Alergias"],
+      "alertas": ["Causa somnolencia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "dexametasona",
+      "nombre": "Dexametasona",
+      "familia": "corticoides",
+      "dosisHabitual": 0.3,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "0.75mg",
+          "presentacion": "Tabletas 0.75mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "4mg",
+          "presentacion": "Tabletas 4mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "4mg/ml",
+          "presentacion": "Ampolla 1ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 0.6,
+      "dosisMaximaSingle": 8,
+      "indicaciones": ["Inflamación", "Alergias graves", "Edema cerebral"],
+      "alertas": ["No suspender abruptamente", "Monitorizar glucosa"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "prednisona",
+      "nombre": "Prednisona",
+      "familia": "corticoides",
+      "dosisHabitual": 1.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "5mg",
+          "presentacion": "Tabletas 5mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "20mg",
+          "presentacion": "Tabletas 20mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 3,
+      "dosisMaximaSingle": 40,
+      "indicaciones": ["Inflamación", "Alergias", "Enfermedades autoinmunes"],
+      "alertas": ["No suspender abruptamente", "Administrar con alimentos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "metilprednisolona",
+      "nombre": "Metilprednisolona",
+      "familia": "corticoides",
+      "dosisHabitual": 1.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg/10ml",
+          "presentacion": "Bbo 500mg/10ml",
+          "via": "iv"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "40mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 3,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Inflamación grave", "Shock", "Edema cerebral"],
+      "alertas": ["No suspender abruptamente", "Monitorizar electrolitos"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "hidrocortisona",
+      "nombre": "Hidrocortisona",
+      "familia": "corticoides",
+      "dosisHabitual": 12.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "100mg/20ml",
+          "presentacion": "Bbo 100mg/20ml",
+          "via": "iv"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg/20ml",
+          "presentacion": "Bbo 500mg/20ml",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 50,
+      "dosisMaximaSingle": 200,
+      "indicaciones": ["Insuficiencia suprarrenal", "Shock"],
+      "alertas": ["Monitorizar glucosa", "Hidratar adecuadamente"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "beclometasona",
+      "nombre": "Beclometasona",
+      "familia": "corticoides",
+      "dosisHabitual": 200,
+      "unidad": "mcg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inhalador",
+          "concentracion": "50mcg/dosis",
+          "presentacion": "Inhalador 200 dosis",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Inhalador",
+          "concentracion": "250mcg/dosis",
+          "presentacion": "Inhalador 200 dosis",
+          "via": "inhalatoria"
+        }
+      ],
+      "dosisMaximaDiaria": 400,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Asma persistente"],
+      "alertas": ["Enjuagar boca después de usar", "Riesgo de candidiasis oral"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "fluticasona",
+      "nombre": "Fluticasona",
+      "familia": "corticoides",
+      "dosisHabitual": 100,
+      "unidad": "mcg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inhalador",
+          "concentracion": "50mcg/dosis",
+          "presentacion": "Inhalador 120 dosis",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Inhalador",
+          "concentracion": "125mcg/dosis",
+          "presentacion": "Inhalador 120 dosis",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Inhalador",
+          "concentracion": "250mcg/dosis",
+          "presentacion": "Inhalador 120 dosis",
+          "via": "inhalatoria"
+        }
+      ],
+      "dosisMaximaDiaria": 200,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Asma persistente"],
+      "alertas": ["Enjuagar boca después de usar"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "budesonida",
+      "nombre": "Budesonida",
+      "familia": "corticoides",
+      "dosisHabitual": 200,
+      "unidad": "mcg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inhalador",
+          "concentracion": "100mcg/dosis",
+          "presentacion": "Inhalador 200 dosis",
+          "via": "inhalatoria"
+        },
+        {
+          "tipo": "Inhalador",
+          "concentracion": "200mcg/dosis",
+          "presentacion": "Inhalador 200 dosis",
+          "via": "inhalatoria"
+        }
+      ],
+      "dosisMaximaDiaria": 400,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Asma persistente"],
+      "alertas": ["Enjuagar boca después de usar"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "omeprazol",
+      "nombre": "Omeprazol",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 1,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "20mg",
+          "presentacion": "Cápsulas 20mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "40mg",
+          "presentacion": "Bbo 40mg",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 2,
+      "dosisMaximaSingle": 40,
+      "indicaciones": ["Úlcera gástrica", "Reflujo gastroesofágico"],
+      "alertas": ["Administrar antes de alimentos"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "ranitidina",
+      "nombre": "Ranitidina",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 4,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "150mg",
+          "presentacion": "Tabletas 150mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "50mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "25mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 8,
+      "dosisMaximaSingle": 150,
+      "indicaciones": ["Úlcera gástrica", "Reflujo"],
+      "alertas": ["Puede causar cefalea"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "metoclopramida",
+      "nombre": "Metoclopramida",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 0.3,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "10mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        },
+        {
+          "tipo": "Gotas",
+          "concentracion": "1mg/1ml",
+          "presentacion": "Frasco 30ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.9,
+      "dosisMaximaSingle": 10,
+      "indicaciones": ["Náuseas", "Vómitos", "Reflujo"],
+      "alertas": ["Puede causar reacciones extrapiramidales"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "domperidona",
+      "nombre": "Domperidona",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 0.2,
+      "unidad": "mg",
+      "frecuencia": "15 min antes de alimentos",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "5mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.6,
+      "dosisMaximaSingle": 10,
+      "indicaciones": ["Náuseas", "Vómitos", "Reflujo"],
+      "alertas": ["Administrar antes de alimentos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ondansetron",
+      "nombre": "Ondansetrón",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 0.15,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "4mg",
+          "presentacion": "Tabletas 4mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "8mg",
+          "presentacion": "Tabletas 8mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "4mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 0.45,
+      "dosisMaximaSingle": 8,
+      "indicaciones": ["Náuseas", "Vómitos por quimioterapia"],
+      "alertas": ["Puede causar estreñimiento"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "loperamida",
+      "nombre": "Loperamida",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 0.2,
+      "unidad": "mg",
+      "frecuencia": "Después de cada deposición",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "2mg",
+          "presentacion": "Cápsulas 2mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.8,
+      "dosisMaximaSingle": 4,
+      "indicaciones": ["Diarrea aguda"],
+      "alertas": ["No usar en diarrea con fiebre", "Riesgo de íleo paralítico"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "picosulfato-sodio",
+      "nombre": "Picosulfato de Sodio",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 0.25,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Gotas",
+          "concentracion": "7.5mg/ml",
+          "presentacion": "Frasco 30ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.5,
+      "dosisMaximaSingle": 15,
+      "indicaciones": ["Estreñimiento"],
+      "alertas": ["No usar por más de 7 días"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "lactulosa",
+      "nombre": "Lactulosa",
+      "familia": "gastrointestinales",
+      "dosisHabitual": 1,
+      "unidad": "ml",
+      "frecuencia": "1-2 veces al día",
+      "presentaciones": [
+        {
+          "tipo": "Solución",
+          "concentracion": "10g/15ml",
+          "presentacion": "Frasco 200ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 2,
+      "dosisMaximaSingle": 30,
+      "indicaciones": ["Estreñimiento", "Encefalopatía hepática"],
+      "alertas": ["Puede causar flatulencia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "diazepam",
+      "nombre": "Diazepam",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 0.3,
+      "unidad": "mg",
+      "frecuencia": "Según necesidad",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "10mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "5mg",
+          "presentacion": "Tabletas 5mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 1,
+      "dosisMaximaSingle": 10,
+      "indicaciones": ["Estatus epiléptico", "Ansiedad", "Espasmos musculares"],
+      "alertas": ["Riesgo de depresión respiratoria", "Monitorizar signos vitales"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "fenitoina",
+      "nombre": "Fenitoína",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "100mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv"
+        },
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "100mg",
+          "presentacion": "Cápsulas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 10,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Convulsiones", "Estatus epiléptico"],
+      "alertas": ["Monitorizar niveles séricos", "Administrar lentamente en IV"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "fenobarbital",
+      "nombre": "Fenobarbital",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 3,
+      "unidad": "mg",
+      "frecuencia": "Cada 12-24 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "100mg/1ml",
+          "presentacion": "Ampolla 1ml",
+          "via": "iv/im"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "100mg",
+          "presentacion": "Tabletas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 5,
+      "dosisMaximaSingle": 200,
+      "indicaciones": ["Convulsiones", "Estatus epiléptico"],
+      "alertas": ["Monitorizar niveles séricos", "Puede causar sedación"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "acido-valproico",
+      "nombre": "Ácido Valproico",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 20,
+      "unidad": "mg",
+      "frecuencia": "Cada 8-12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "200mg",
+          "presentacion": "Tabletas 200mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Jarabe",
+          "concentracion": "200mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 30,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Convulsiones", "Maniaco-depresión"],
+      "alertas": ["Monitorizar función hepática", "Riesgo de teratogenicidad"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "carbamazepina",
+      "nombre": "Carbamazepina",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 15,
+      "unidad": "mg",
+      "frecuencia": "Cada 8-12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "200mg",
+          "presentacion": "Tabletas 200mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 30,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Convulsiones", "Neuralgia del trigémino"],
+      "alertas": ["Monitorizar hemograma", "Riesgo de anemia aplásica"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "levetiracetam",
+      "nombre": "Levetiracetam",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 30,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "1000mg",
+          "presentacion": "Tabletas 1000mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 60,
+      "dosisMaximaSingle": 1500,
+      "indicaciones": ["Convulsiones parciales"],
+      "alertas": ["Puede causar cambios de comportamiento"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "topiramato",
+      "nombre": "Topiramato",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 6,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "25mg",
+          "presentacion": "Tabletas 25mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "100mg",
+          "presentacion": "Tabletas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 12,
+      "dosisMaximaSingle": 200,
+      "indicaciones": ["Convulsiones", "Migraña"],
+      "alertas": ["Puede causar pérdida de peso", "Riesgo de cálculos renales"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "lamotrigina",
+      "nombre": "Lamotrigina",
+      "familia": "anticonvulsivantes",
+      "dosisHabitual": 3,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "25mg",
+          "presentacion": "Tabletas 25mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "100mg",
+          "presentacion": "Tabletas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 6,
+      "dosisMaximaSingle": 100,
+      "indicaciones": ["Convulsiones", "Trastorno bipolar"],
+      "alertas": ["Riesgo de rash cutáneo", "Inicio lento de dosis"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "metronidazol",
+      "nombre": "Metronidazol",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 15,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "250mg",
+          "presentacion": "Tabletas 250mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg/100ml",
+          "presentacion": "Bbo 500mg/100ml",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 30,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Amebiasis", "Giardiasis", "Infecciones anaerobias"],
+      "alertas": ["No consumir alcohol", "Puede causar sabor metálico"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "albendazol",
+      "nombre": "Albendazol",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 15,
+      "unidad": "mg",
+      "frecuencia": "Dosis única",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "200mg",
+          "presentacion": "Tabletas 200mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "100mg/5ml",
+          "presentacion": "Frasco 10ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 15,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Parásitos intestinales", "Giardiasis"],
+      "alertas": ["Administrar con alimentos grasos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "mebendazol",
+      "nombre": "Mebendazol",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 100,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "100mg",
+          "presentacion": "Tabletas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 200,
+      "dosisMaximaSingle": 100,
+      "indicaciones": ["Parásitos intestinales"],
+      "alertas": ["Administrar con alimentos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "praziquantel",
+      "nombre": "Praziquantel",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 10,
+      "unidad": "mg",
+      "frecuencia": "Dosis única",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "600mg",
+          "presentacion": "Tabletas 600mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 10,
+      "dosisMaximaSingle": 600,
+      "indicaciones": ["Esquistosomiasis", "Teniasis"],
+      "alertas": ["Administrar con alimentos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "levamisol",
+      "nombre": "Levamisol",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 2.5,
+      "unidad": "mg",
+      "frecuencia": "Una vez por semana",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "150mg",
+          "presentacion": "Tabletas 150mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Gotas",
+          "concentracion": "50mg/5ml",
+          "presentacion": "Frasco 30ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 2.5,
+      "dosisMaximaSingle": 150,
+      "indicaciones": ["Parásitos intestinales", "Modulador inmune"],
+      "alertas": ["Ciclos de 8 semanas con descanso de 4 semanas"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "tiabendazol",
+      "nombre": "Tiabendazol",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 40,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 50,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Strongyloidiasis", "Larva migrans"],
+      "alertas": ["Puede causar molestias gastrointestinales"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "secnidazol",
+      "nombre": "Secnidazol",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 30,
+      "unidad": "mg",
+      "frecuencia": "Dosis única",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 30,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Amebiasis", "Giardiasis"],
+      "alertas": ["No consumir alcohol"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "tinidazol",
+      "nombre": "Tinidazol",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 50,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 50,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Amebiasis", "Giardiasis"],
+      "alertas": ["No consumir alcohol"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "quinacrina",
+      "nombre": "Quinacrina",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 6,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "100mg",
+          "presentacion": "Tabletas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 7,
+      "dosisMaximaSingle": 100,
+      "indicaciones": ["Giardiasis"],
+      "alertas": ["Puede teñir la piel de amarillo"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ivermectina",
+      "nombre": "Ivermectina",
+      "familia": "antiparasitarios",
+      "dosisHabitual": 0.2,
+      "unidad": "mg",
+      "frecuencia": "Dosis única",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "3mg",
+          "presentacion": "Tabletas 3mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "6mg",
+          "presentacion": "Tabletas 6mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.2,
+      "dosisMaximaSingle": 12,
+      "indicaciones": ["Escabiosis", "Strongyloidiasis"],
+      "alertas": ["Administrar con el estómago vacío"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "aciclovir",
+      "nombre": "Aciclovir",
+      "familia": "antivirales",
+      "dosisHabitual": 7.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "200mg",
+          "presentacion": "Tabletas 200mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "200mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg",
+          "presentacion": "Bbo 500mg",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 15,
+      "dosisMaximaSingle": 800,
+      "indicaciones": ["Herpes", "Varicela"],
+      "alertas": ["Mantener buena hidratación"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "oseltamivir",
+      "nombre": "Oseltamivir",
+      "familia": "antivirales",
+      "dosisHabitual": 4,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "75mg",
+          "presentacion": "Cápsulas 75mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "20mg/5ml",
+          "presentacion": "Frasco 60ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 8,
+      "dosisMaximaSingle": 75,
+      "indicaciones": ["Influenza"],
+      "alertas": ["Iniciar dentro de las 48 horas de síntomas"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "valaciclovir",
+      "nombre": "Valaciclovir",
+      "familia": "antivirales",
+      "dosisHabitual": 20,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 60,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Herpes", "Herpes zóster"],
+      "alertas": ["Mantener buena hidratación"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "ganciclovir",
+      "nombre": "Ganciclovir",
+      "familia": "antivirales",
+      "dosisHabitual": 10,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "500mg",
+          "presentacion": "Bbo 500mg",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 20,
+      "dosisMaximaSingle": 1000,
+      "indicaciones": ["Infección por CMV"],
+      "alertas": ["Mielosupresión", "Monitorizar hemograma"],
+      "liofilizado": true,
+      "dilucionEspecial": 10
+    },
+    {
+      "id": "ketoconazol",
+      "nombre": "Ketoconazol",
+      "familia": "antifungicos",
+      "dosisHabitual": 7.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12-24 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "200mg",
+          "presentacion": "Tabletas 200mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Crema",
+          "concentracion": "2%",
+          "presentacion": "Tubo 30g",
+          "via": "topica"
+        }
+      ],
+      "dosisMaximaDiaria": 10,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Infecciones por hongos"],
+      "alertas": ["Hepatotoxicidad", "Monitorizar función hepática"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "fluconazol",
+      "nombre": "Fluconazol",
+      "familia": "antifungicos",
+      "dosisHabitual": 5,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "150mg",
+          "presentacion": "Cápsulas 150mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Suspensión",
+          "concentracion": "50mg/5ml",
+          "presentacion": "Frasco 35ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "200mg/100ml",
+          "presentacion": "Bbo 200mg/100ml",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 6,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Candidiasis", "Micosis"],
+      "alertas": ["Monitorizar función hepática"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "itraconazol",
+      "nombre": "Itraconazol",
+      "familia": "antifungicos",
+      "dosisHabitual": 7.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Cápsulas",
+          "concentracion": "100mg",
+          "presentacion": "Cápsulas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 10,
+      "dosisMaximaSingle": 200,
+      "indicaciones": ["Micosis profundas"],
+      "alertas": ["Administrar con alimentos", "Monitorizar función hepática"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "nistatina",
+      "nombre": "Nistatina",
+      "familia": "antifungicos",
+      "dosisHabitual": 100000,
+      "unidad": "UI",
+      "frecuencia": "Cada 6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Suspensión",
+          "concentracion": "500000UI/5ml",
+          "presentacion": "Frasco 60ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500000UI",
+          "presentacion": "Tabletas 500000UI",
+          "via": "oral"
+        },
+        {
+          "tipo": "Crema",
+          "concentracion": "100000UI/g",
+          "presentacion": "Tubo 30g",
+          "via": "topica"
+        }
+      ],
+      "dosisMaximaDiaria": 400000,
+      "dosisMaximaSingle": 500000,
+      "indicaciones": ["Candidiasis oral", "Candidiasis intestinal"],
+      "alertas": ["No se absorbe sistémicamente"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "clotrimazol",
+      "nombre": "Clotrimazol",
+      "familia": "antifungicos",
+      "dosisHabitual": 1,
+      "unidad": "%",
+      "frecuencia": "2 veces al día",
+      "presentaciones": [
+        {
+          "tipo": "Crema",
+          "concentracion": "1%",
+          "presentacion": "Tubo 30g",
+          "via": "topica"
+        }
+      ],
+      "dosisMaximaDiaria": 2,
+      "dosisMaximaSingle": 1,
+      "indicaciones": ["Candidiasis cutánea"],
+      "alertas": ["Aplicar capa fina"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "terbinafina",
+      "nombre": "Terbinafina",
+      "familia": "antifungicos",
+      "dosisHabitual": 5,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "250mg",
+          "presentacion": "Tabletas 250mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Crema",
+          "concentracion": "1%",
+          "presentacion": "Tubo 15g",
+          "via": "topica"
+        }
+      ],
+      "dosisMaximaDiaria": 5,
+      "dosisMaximaSingle": 250,
+      "indicaciones": ["Dermatofitosis", "Onicomicosis"],
+      "alertas": ["Monitorizar función hepática"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "sulfato-zinc",
+      "nombre": "Sulfato de Zinc",
+      "familia": "suplementos",
+      "dosisHabitual": 20,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Solución",
+          "concentracion": "10mg/5ml",
+          "presentacion": "Frasco 100ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 20,
+      "dosisMaximaSingle": 20,
+      "indicaciones": ["Suplemento mineral", "Diarrea aguda"],
+      "alertas": ["Administrar alejado de las comidas"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "hierro",
+      "nombre": "Hierro",
+      "familia": "suplementos",
+      "dosisHabitual": 3,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Jarabe",
+          "concentracion": "25mg/5ml",
+          "presentacion": "Frasco 120ml",
+          "via": "oral"
+        },
+        {
+          "tipo": "Gotas",
+          "concentracion": "15mg/0.6ml",
+          "presentacion": "Frasco 30ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 6,
+      "dosisMaximaSingle": 50,
+      "indicaciones": ["Anemia ferropénica"],
+      "alertas": ["Puede causar estreñimiento", "Administrar con vitamina C"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "vitamina-d",
+      "nombre": "Vitamina D",
+      "familia": "suplementos",
+      "dosisHabitual": 400,
+      "unidad": "UI",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Gotas",
+          "concentracion": "400UI/gota",
+          "presentacion": "Frasco 30ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 600,
+      "dosisMaximaSingle": 400,
+      "indicaciones": ["Suplemento vitamínico", "Raquitismo"],
+      "alertas": ["No exceder dosis recomendada"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "acido-folico",
+      "nombre": "Ácido Fólico",
+      "familia": "suplementos",
+      "dosisHabitual": 0.5,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "1mg",
+          "presentacion": "Tabletas 1mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "5mg",
+          "presentacion": "Tabletas 5mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 1,
+      "dosisMaximaSingle": 5,
+      "indicaciones": ["Anemia megaloblástica", "Prevención defectos tubo neural"],
+      "alertas": ["Administrar con alimentos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "calcio",
+      "nombre": "Calcio",
+      "familia": "suplementos",
+      "dosisHabitual": 50,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "500mg",
+          "presentacion": "Tabletas 500mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 100,
+      "dosisMaximaSingle": 500,
+      "indicaciones": ["Suplemento mineral"],
+      "alertas": ["Administrar separado de otros medicamentos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "multivitaminico",
+      "nombre": "Multivitamínico",
+      "familia": "suplementos",
+      "dosisHabitual": 5,
+      "unidad": "ml",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Jarabe",
+          "concentracion": "Multivitamínico",
+          "presentacion": "Frasco 200ml",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 10,
+      "dosisMaximaSingle": 10,
+      "indicaciones": ["Suplemento vitamínico"],
+      "alertas": ["No exceder dosis recomendada"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "nitrofurantoina",
+      "nombre": "Nitrofurantoína",
+      "familia": "antisepticos",
+      "dosisHabitual": 6,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "100mg",
+          "presentacion": "Tabletas 100mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 7,
+      "dosisMaximaSingle": 100,
+      "indicaciones": ["Infecciones urinarias bajas"],
+      "alertas": ["Puede causar neuropatía periférica"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "furosemida",
+      "nombre": "Furosemida",
+      "familia": "diureticos",
+      "dosisHabitual": 1.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "40mg",
+          "presentacion": "Tabletas 40mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "20mg/2ml",
+          "presentacion": "Ampolla 2ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 6,
+      "dosisMaximaSingle": 80,
+      "indicaciones": ["Edema", "Insuficiencia cardíaca"],
+      "alertas": ["Monitorizar electrolitos", "Riesgo de deshidratación"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "hidroclorotiazida",
+      "nombre": "Hidroclorotiazida",
+      "familia": "diureticos",
+      "dosisHabitual": 3,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "25mg",
+          "presentacion": "Tabletas 25mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 4,
+      "dosisMaximaSingle": 50,
+      "indicaciones": ["Hipertensión", "Edema"],
+      "alertas": ["Monitorizar electrolitos"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "espironolactona",
+      "nombre": "Espironolactona",
+      "familia": "diureticos",
+      "dosisHabitual": 1.5,
+      "unidad": "mg",
+      "frecuencia": "Cada 12 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "25mg",
+          "presentacion": "Tabletas 25mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 3,
+      "dosisMaximaSingle": 50,
+      "indicaciones": ["Edema", "Hipertensión"],
+      "alertas": ["Puede causar hiperkalemia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "manitol",
+      "nombre": "Manitol",
+      "familia": "diureticos",
+      "dosisHabitual": 0.5,
+      "unidad": "g",
+      "frecuencia": "Cada 4 horas",
+      "presentaciones": [
+        {
+          "tipo": "Inyectable",
+          "concentracion": "5g/20ml",
+          "presentacion": "Ampolla 20ml",
+          "via": "iv"
+        },
+        {
+          "tipo": "Solución",
+          "concentracion": "20g/250ml",
+          "presentacion": "Bbo 250ml",
+          "via": "iv"
+        }
+      ],
+      "dosisMaximaDiaria": 1.5,
+      "dosisMaximaSingle": 25,
+      "indicaciones": ["Edema cerebral", "Hipertensión intracraneal"],
+      "alertas": ["Monitorizar función renal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "nifedipino",
+      "nombre": "Nifedipino",
+      "familia": "antihipertensivos",
+      "dosisHabitual": 0.4,
+      "unidad": "mg",
+      "frecuencia": "Cada 4-6 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 2,
+      "dosisMaximaSingle": 20,
+      "indicaciones": ["Hipertensión", "Crisis hipertensiva"],
+      "alertas": ["Puede causar taquicardia refleja"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "captopril",
+      "nombre": "Captopril",
+      "familia": "antihipertensivos",
+      "dosisHabitual": 2,
+      "unidad": "mg",
+      "frecuencia": "Cada 8 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "25mg",
+          "presentacion": "Tabletas 25mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "50mg",
+          "presentacion": "Tabletas 50mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 6,
+      "dosisMaximaSingle": 50,
+      "indicaciones": ["Hipertensión", "Insuficiencia cardíaca"],
+      "alertas": ["Puede causar tos", "Monitorizar función renal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "enalapril",
+      "nombre": "Enalapril",
+      "familia": "antihipertensivos",
+      "dosisHabitual": 0.4,
+      "unidad": "mg",
+      "frecuencia": "Cada 8-24 horas",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "10mg",
+          "presentacion": "Tabletas 10mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Tabletas",
+          "concentracion": "20mg",
+          "presentacion": "Tabletas 20mg",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 0.8,
+      "dosisMaximaSingle": 20,
+      "indicaciones": ["Hipertensión", "Insuficiencia cardíaca"],
+      "alertas": ["Puede causar tos", "Monitorizar función renal"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "hidralazina",
+      "nombre": "Hidralazina",
+      "familia": "antihipertensivos",
+      "dosisHabitual": 1.5,
+      "unidad": "mg",
+      "frecuencia": "Una vez al día",
+      "presentaciones": [
+        {
+          "tipo": "Tabletas",
+          "concentracion": "50mg",
+          "presentacion": "Tabletas 50mg",
+          "via": "oral"
+        },
+        {
+          "tipo": "Inyectable",
+          "concentracion": "20mg/1ml",
+          "presentacion": "Ampolla 1ml",
+          "via": "iv/im"
+        }
+      ],
+      "dosisMaximaDiaria": 3,
+      "dosisMaximaSingle": 100,
+      "indicaciones": ["Hipertensión"],
+      "alertas": ["Puede causar taquicardia"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    },
+    {
+      "id": "carbón-activado",
+      "nombre": "Carbón Activado",
+      "familia": "antidotos",
+      "dosisHabitual": 1,
+      "unidad": "g",
+      "frecuencia": "Dosis única",
+      "presentaciones": [
+        {
+          "tipo": "Polvo",
+          "concentracion": "Carbón activado",
+          "presentacion": "Frasco 50g",
+          "via": "oral"
+        }
+      ],
+      "dosisMaximaDiaria": 2,
+      "dosisMaximaSingle": 50,
+      "indicaciones": ["Intoxicaciones"],
+      "alertas": ["No usar en intoxicación por cianuro o alcohol"],
+      "liofilizado": false,
+      "dilucionEspecial": 0
+    }
+  ]
+}
