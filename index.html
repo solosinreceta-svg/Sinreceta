@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PediaCalc HPJRM v9.3.1</title>
+    <title>PediaCalc HPJRM v9.4.0</title>
     <style>
         :root {
             --primary-color: #1a73e8;
@@ -654,6 +654,32 @@
             width: 100%;
             margin-bottom: 10px;
         }
+
+        .import-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .import-option {
+            flex: 1;
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .import-option:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(26, 115, 232, 0.1);
+        }
+
+        .import-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -662,12 +688,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Términos y Condiciones</h3>
-                <button class="modal-close" id="termsClose">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="terms-content">
                     <h4>1. Aceptación de los Términos</h4>
-                    <p>Al utilizar PediaCalc HPJRM v9.3.1, usted acepta cumplir con estos términos y condiciones.</p>
+                    <p>Al utilizar PediaCalc HPJRM v9.4.0, usted acepta cumplir con estos términos y condiciones.</p>
                     
                     <h4>2. Propósito de la Aplicación</h4>
                     <p>PediaCalc es una herramienta de cálculo de dosis pediátricas diseñada para profesionales de la salud.</p>
@@ -677,6 +702,9 @@
                     
                     <h4>4. Uso Apropiado</h4>
                     <p>Esta aplicación está destinada exclusivamente para uso por parte de profesionales de la salud calificados.</p>
+                    
+                    <h4>5. Importación de Base de Datos</h4>
+                    <p>Es obligatorio importar una base de datos de medicamentos antes de usar la aplicación. Sin datos, la calculadora no funcionará.</p>
                 </div>
                 <div class="countdown" id="countdown">Aceptar términos en: 10 segundos</div>
             </div>
@@ -686,11 +714,61 @@
         </div>
     </div>
 
+    <!-- Import Modal -->
+    <div class="modal" id="importModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Importar Base de Datos</h3>
+            </div>
+            <div class="modal-body">
+                <p>Para usar PediaCalc, debe importar una base de datos de medicamentos. Seleccione una opción:</p>
+                
+                <div class="import-options">
+                    <div class="import-option" id="importLocalOption">
+                        <div class="import-icon">📁</div>
+                        <h4>Archivo Local</h4>
+                        <p>Importar desde un archivo JSON en su dispositivo</p>
+                    </div>
+                    <div class="import-option" id="importDriveOption">
+                        <div class="import-icon">🌐</div>
+                        <h4>Desde URL</h4>
+                        <p>Importar desde una URL de GitHub o Google Drive</p>
+                    </div>
+                </div>
+
+                <div id="localImportSection" style="display: none;">
+                    <div class="form-group">
+                        <label class="file-label" for="importFile">
+                            📥 Seleccionar archivo JSON
+                        </label>
+                        <input type="file" id="importFile" class="file-input" accept=".json">
+                    </div>
+                </div>
+
+                <div id="driveImportSection" style="display: none;">
+                    <div class="form-group">
+                        <label for="importUrl">URL del archivo JSON:</label>
+                        <input type="text" id="importUrl" class="github-url" placeholder="https://raw.githubusercontent.com/... o https://drive.google.com/...">
+                    </div>
+                    <div class="alert alert-info">
+                        <strong>Ejemplos:</strong><br>
+                        GitHub: https://raw.githubusercontent.com/usuario/repo/main/database.json<br>
+                        Google Drive: https://drive.google.com/uc?id=FILE_ID
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="backToOptions" style="display: none;">← Volver</button>
+                <button class="btn" id="confirmImport" disabled>Importar Base de Datos</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Welcome Screen -->
     <div class="section active" id="welcomeSection">
         <div class="welcome-container">
             <div class="welcome-icon">👶</div>
-            <h1>Bienvenido a PediaCalc HPJRM v9.3.1</h1>
+            <h1>Bienvenido a PediaCalc HPJRM v9.4.0</h1>
             <p>Herramienta avanzada para cálculo de dosis pediátricas</p>
             <div class="welcome-buttons">
                 <button class="btn" id="startApp">Comenzar</button>
@@ -705,7 +783,7 @@
             <div class="container">
                 <div class="header-content">
                     <div class="logo">
-                        <h1>PediaCalc HPJRM v9.3.1</h1>
+                        <h1>PediaCalc HPJRM v9.4.0</h1>
                     </div>
                     <button class="menu-toggle" id="menuToggle">☰</button>
                 </div>
@@ -738,118 +816,30 @@
                         <p>Calcule dosis de medicamentos de forma rápida y precisa</p>
                     </div>
                     
-                    <div class="calculator-steps">
-                        <div class="step active" id="step1">1. Peso</div>
-                        <div class="step" id="step2">2. Medicamento</div>
-                        <div class="step" id="step3">3. Presentación</div>
-                        <div class="step" id="step4">4. Calcular</div>
+                    <div id="noDataAlert" class="alert alert-warning">
+                        <strong>⚠️ Base de datos requerida</strong><br>
+                        Para usar la calculadora, primero debe importar una base de datos de medicamentos.
+                        <button class="btn btn-secondary" style="margin-top: 10px;" id="importFromCalculator">Importar Base de Datos</button>
                     </div>
                     
-                    <div class="card">
-                        <div class="form-group">
-                            <label for="patientWeight">Peso (kg)</label>
-                            <input type="number" id="patientWeight" min="0.1" step="0.1" placeholder="Ej: 15.5" required>
+                    <div id="calculatorContent" style="display: none;">
+                        <div class="calculator-steps">
+                            <div class="step active" id="step1">1. Peso</div>
+                            <div class="step" id="step2">2. Medicamento</div>
+                            <div class="step" id="step3">3. Presentación</div>
+                            <div class="step" id="step4">4. Calcular</div>
                         </div>
                         
-                        <div class="form-group">
-                            <label for="medicineCategory">Categoría de Medicamento</label>
-                            <select id="medicineCategory">
-                                <option value="">Todas las categorías</option>
-                                <option value="antibioticos">Antibióticos</option>
-                                <option value="analgesicos">Analgésicos/Antipiréticos</option>
-                                <option value="broncodilatadores">Broncodilatadores</option>
-                                <option value="antihistaminicos">Antihistamínicos</option>
-                                <option value="corticoides">Corticoides</option>
-                                <option value="gastrointestinales">Gastrointestinales</option>
-                                <option value="anticonvulsivantes">Anticonvulsivantes</option>
-                                <option value="antiparasitarios">Antiparasitarios</option>
-                                <option value="antivirales">Antivirales</option>
-                                <option value="antifungicos">Antifúngicos</option>
-                                <option value="suplementos">Suplementos</option>
-                                <option value="otros">Otros</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="medicineSelect">Medicamento</label>
-                            <select id="medicineSelect" required>
-                                <option value="">Seleccione un medicamento</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="presentationSelect">Presentación</label>
-                            <select id="presentationSelect" required>
-                                <option value="">Seleccione una presentación</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group" id="dilutionGroup" style="display: none;">
-                            <label for="dilutionVolume">Volumen de Dilución (ml)</label>
-                            <input type="number" id="dilutionVolume" min="1" placeholder="Ej: 5">
-                        </div>
-                        
-                        <button class="btn btn-block" id="calculateBtn">Calcular Dosis</button>
-                    </div>
-                    
-                    <div class="card result-card" id="resultCard">
-                        <div class="card-header">
-                            <h3 class="card-title">Resultado del Cálculo</h3>
-                            <button class="btn btn-secondary" id="closeResult">Cerrar</button>
-                        </div>
-                        <div id="resultContent"></div>
-                    </div>
-                </section>
-
-                <!-- Database Section -->
-                <section class="section" id="databaseSection">
-                    <div class="section-header">
-                        <h2>Base de Datos de Medicamentos</h2>
-                        <p>Explore la completa base de datos de medicamentos pediátricos</p>
-                    </div>
-                    
-                    <div class="search-box">
-                        <input type="text" id="searchInput" placeholder="Buscar medicamento por nombre, familia o vía...">
-                    </div>
-                    
-                    <div class="medicines-grid" id="medicinesGrid"></div>
-                </section>
-
-                <!-- Management Section -->
-                <section class="section" id="managementSection">
-                    <div class="section-header">
-                        <h2>Gestión de Medicamentos</h2>
-                        <p>Agregue, edite o elimine medicamentos de la base de datos</p>
-                    </div>
-                    
-                    <div class="data-actions">
-                        <button class="btn" id="addMedicineBtn">➕ Agregar Medicamento</button>
-                        <button class="btn btn-secondary" id="exportDataBtn">📤 Exportar Datos</button>
-                        <label class="file-label" for="importFile">📥 Importar Datos</label>
-                        <input type="file" id="importFile" class="file-input" accept=".json">
-                        <button class="btn btn-secondary" id="updateFromGithubBtn">🔄 Actualizar desde GitHub</button>
-                    </div>
-                    
-                    <div class="card">
-                        <input type="text" id="githubUrl" class="github-url" placeholder="URL del archivo JSON en GitHub (opcional)">
-                    </div>
-                    
-                    <div class="card medicine-form" id="medicineForm" style="display: none;">
-                        <div class="card-header">
-                            <h3 class="card-title" id="formTitle">Agregar Nuevo Medicamento</h3>
-                        </div>
-                        <form id="medicineFormElement">
-                            <input type="hidden" id="medicineId">
-                            
+                        <div class="card">
                             <div class="form-group">
-                                <label for="formName">Nombre del Medicamento *</label>
-                                <input type="text" id="formName" required>
+                                <label for="patientWeight">Peso (kg)</label>
+                                <input type="number" id="patientWeight" min="0.1" step="0.1" placeholder="Ej: 15.5" required>
                             </div>
                             
                             <div class="form-group">
-                                <label for="formFamily">Familia/Categoría *</label>
-                                <select id="formFamily" required>
-                                    <option value="">Seleccione una familia</option>
+                                <label for="medicineCategory">Categoría de Medicamento</label>
+                                <select id="medicineCategory">
+                                    <option value="">Todas las categorías</option>
                                     <option value="antibioticos">Antibióticos</option>
                                     <option value="analgesicos">Analgésicos/Antipiréticos</option>
                                     <option value="broncodilatadores">Broncodilatadores</option>
@@ -866,72 +856,184 @@
                             </div>
                             
                             <div class="form-group">
-                                <label for="formDoseHabitual">Dosis Habitual (por kg/día) *</label>
-                                <input type="number" id="formDoseHabitual" step="0.1" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="formUnit">Unidad de medida *</label>
-                                <select id="formUnit" required>
-                                    <option value="mg">mg</option>
-                                    <option value="UI">UI</option>
-                                    <option value="mcg">mcg</option>
-                                    <option value="g">g</option>
-                                    <option value="ml">ml</option>
-                                    <option value="gotas">gotas</option>
+                                <label for="medicineSelect">Medicamento</label>
+                                <select id="medicineSelect" required>
+                                    <option value="">Seleccione un medicamento</option>
                                 </select>
                             </div>
                             
                             <div class="form-group">
-                                <label for="formFrequency">Frecuencia de Administración *</label>
-                                <input type="text" id="formFrequency" placeholder="Ej: Cada 8 horas" required>
+                                <label for="presentationSelect">Presentación</label>
+                                <select id="presentationSelect" required>
+                                    <option value="">Seleccione una presentación</option>
+                                </select>
                             </div>
                             
-                            <div class="form-group">
-                                <label>Presentaciones *</label>
-                                <div id="presentationsContainer"></div>
-                                <button type="button" class="btn btn-secondary" id="addPresentationBtn">➕ Agregar Presentación</button>
+                            <div class="form-group" id="dilutionGroup" style="display: none;">
+                                <label for="dilutionVolume">Volumen de Dilución (ml)</label>
+                                <input type="number" id="dilutionVolume" min="1" placeholder="Ej: 5">
                             </div>
                             
-                            <div class="form-group">
-                                <label for="formDoseMaxDaily">Dosis Máxima Diaria (opcional)</label>
-                                <input type="number" id="formDoseMaxDaily" step="0.1">
+                            <button class="btn btn-block" id="calculateBtn">Calcular Dosis</button>
+                        </div>
+                        
+                        <div class="card result-card" id="resultCard">
+                            <div class="card-header">
+                                <h3 class="card-title">Resultado del Cálculo</h3>
+                                <button class="btn btn-secondary" id="closeResult">Cerrar</button>
                             </div>
-                            
-                            <div class="form-group">
-                                <label for="formDoseMaxSingle">Dosis Máxima por Toma (opcional)</label>
-                                <input type="number" id="formDoseMaxSingle" step="0.1">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="formIndications">Indicaciones (separadas por coma)</label>
-                                <textarea id="formIndications" rows="3"></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="formAlerts">Alertas/Precauciones (separadas por coma)</label>
-                                <textarea id="formAlerts" rows="3"></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label>
-                                    <input type="checkbox" id="formLiofilizado"> Requiere reconstitución (liofilizado)
-                                </label>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="formDilution">Volumen de dilución estándar (ml)</label>
-                                <input type="number" id="formDilution" min="0" step="0.1" value="10">
-                            </div>
-                            
-                            <div class="form-group">
-                                <button type="submit" class="btn btn-block">💾 Guardar Medicamento</button>
-                                <button type="button" class="btn btn-secondary btn-block" id="cancelFormBtn">❌ Cancelar</button>
-                            </div>
-                        </form>
+                            <div id="resultContent"></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Database Section -->
+                <section class="section" id="databaseSection">
+                    <div class="section-header">
+                        <h2>Base de Datos de Medicamentos</h2>
+                        <p>Explore la completa base de datos de medicamentos pediátricos</p>
                     </div>
                     
-                    <div id="managementList" class="medicine-list"></div>
+                    <div id="databaseNoData" class="alert alert-warning">
+                        <strong>No hay datos disponibles</strong><br>
+                        Importe una base de datos para ver los medicamentos.
+                        <button class="btn btn-secondary" style="margin-top: 10px;" id="importFromDatabase">Importar Base de Datos</button>
+                    </div>
+                    
+                    <div id="databaseContent" style="display: none;">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="Buscar medicamento por nombre, familia o vía...">
+                        </div>
+                        
+                        <div class="medicines-grid" id="medicinesGrid"></div>
+                    </div>
+                </section>
+
+                <!-- Management Section -->
+                <section class="section" id="managementSection">
+                    <div class="section-header">
+                        <h2>Gestión de Medicamentos</h2>
+                        <p>Agregue, edite o elimine medicamentos de la base de datos</p>
+                    </div>
+                    
+                    <div id="managementNoData" class="alert alert-warning">
+                        <strong>No hay datos disponibles</strong><br>
+                        Importe una base de datos para gestionar medicamentos.
+                        <button class="btn btn-secondary" style="margin-top: 10px;" id="importFromManagement">Importar Base de Datos</button>
+                    </div>
+                    
+                    <div id="managementContent" style="display: none;">
+                        <div class="data-actions">
+                            <button class="btn" id="addMedicineBtn">➕ Agregar Medicamento</button>
+                            <button class="btn btn-secondary" id="exportDataBtn">📤 Exportar Datos</button>
+                            <label class="file-label" for="importFileManagement">📥 Importar Datos</label>
+                            <input type="file" id="importFileManagement" class="file-input" accept=".json">
+                            <button class="btn btn-secondary" id="updateFromGithubBtn">🔄 Actualizar desde URL</button>
+                        </div>
+                        
+                        <div class="card">
+                            <input type="text" id="githubUrl" class="github-url" placeholder="URL del archivo JSON (GitHub o Google Drive)">
+                        </div>
+                        
+                        <div class="card medicine-form" id="medicineForm" style="display: none;">
+                            <div class="card-header">
+                                <h3 class="card-title" id="formTitle">Agregar Nuevo Medicamento</h3>
+                            </div>
+                            <form id="medicineFormElement">
+                                <input type="hidden" id="medicineId">
+                                
+                                <div class="form-group">
+                                    <label for="formName">Nombre del Medicamento *</label>
+                                    <input type="text" id="formName" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formFamily">Familia/Categoría *</label>
+                                    <select id="formFamily" required>
+                                        <option value="">Seleccione una familia</option>
+                                        <option value="antibioticos">Antibióticos</option>
+                                        <option value="analgesicos">Analgésicos/Antipiréticos</option>
+                                        <option value="broncodilatadores">Broncodilatadores</option>
+                                        <option value="antihistaminicos">Antihistamínicos</option>
+                                        <option value="corticoides">Corticoides</option>
+                                        <option value="gastrointestinales">Gastrointestinales</option>
+                                        <option value="anticonvulsivantes">Anticonvulsivantes</option>
+                                        <option value="antiparasitarios">Antiparasitarios</option>
+                                        <option value="antivirales">Antivirales</option>
+                                        <option value="antifungicos">Antifúngicos</option>
+                                        <option value="suplementos">Suplementos</option>
+                                        <option value="otros">Otros</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formDoseHabitual">Dosis Habitual (por kg/día) *</label>
+                                    <input type="number" id="formDoseHabitual" step="0.1" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formUnit">Unidad de medida *</label>
+                                    <select id="formUnit" required>
+                                        <option value="mg">mg</option>
+                                        <option value="UI">UI</option>
+                                        <option value="mcg">mcg</option>
+                                        <option value="g">g</option>
+                                        <option value="ml">ml</option>
+                                        <option value="gotas">gotas</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formFrequency">Frecuencia de Administración *</label>
+                                    <input type="text" id="formFrequency" placeholder="Ej: Cada 8 horas" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Presentaciones *</label>
+                                    <div id="presentationsContainer"></div>
+                                    <button type="button" class="btn btn-secondary" id="addPresentationBtn">➕ Agregar Presentación</button>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formDoseMaxDaily">Dosis Máxima Diaria (opcional)</label>
+                                    <input type="number" id="formDoseMaxDaily" step="0.1">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formDoseMaxSingle">Dosis Máxima por Toma (opcional)</label>
+                                    <input type="number" id="formDoseMaxSingle" step="0.1">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formIndications">Indicaciones (separadas por coma)</label>
+                                    <textarea id="formIndications" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formAlerts">Alertas/Precauciones (separadas por coma)</label>
+                                    <textarea id="formAlerts" rows="3"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" id="formLiofilizado"> Requiere reconstitución (liofilizado)
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="formDilution">Volumen de dilución estándar (ml)</label>
+                                    <input type="number" id="formDilution" min="0" step="0.1" value="10">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-block">💾 Guardar Medicamento</button>
+                                    <button type="button" class="btn btn-secondary btn-block" id="cancelFormBtn">❌ Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="managementList" class="medicine-list"></div>
+                    </div>
                 </section>
 
                 <!-- Settings Section -->
@@ -975,10 +1077,10 @@
                         
                         <div class="settings-option">
                             <div>
-                                <h3>Restablecer Datos</h3>
-                                <p>Volver a la base de datos original</p>
+                                <h3>Importar Datos</h3>
+                                <p>Cargar una base de datos de medicamentos</p>
                             </div>
-                            <button class="btn btn-danger" id="resetDataBtn">🔄 Restablecer</button>
+                            <button class="btn btn-secondary" id="importFromSettings">📥 Importar</button>
                         </div>
                         
                         <div class="settings-option">
@@ -995,319 +1097,25 @@
 
         <footer>
             <div class="container">
-                <p>PediaCalc HPJRM v9.3.1 &copy; 2025 - Herramienta para Profesionales de la Salud</p>
+                <p>PediaCalc HPJRM v9.4.0 &copy; 2025 - Herramienta para Profesionales de la Salud</p>
             </div>
         </footer>
     </div>
 
     <script>
-        // Base de datos completa de medicamentos pediátricos
-        const initialMedicines = [
-            // Antibióticos
-            {
-                id: "amoxicilina",
-                nombre: "Amoxicilina",
-                familia: "antibioticos",
-                dosisHabitual: 80,
-                unidad: "mg",
-                frecuencia: "Cada 8 horas",
-                presentaciones: [
-                    { tipo: "Suspensión", concentracion: "250mg/5ml", presentacion: "Frasco 60ml", via: "oral" },
-                    { tipo: "Cápsulas", concentracion: "500mg", presentacion: "Cápsulas 500mg", via: "oral" }
-                ],
-                dosisMaximaDiaria: 80,
-                dosisMaximaSingle: 1000,
-                indicaciones: ["Infecciones respiratorias", "Otitis media", "Infecciones de piel"],
-                alertas: ["Puede causar diarrea", "Alergia a penicilinas"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            {
-                id: "penicilina-cristalina",
-                nombre: "Penicilina Cristalina",
-                familia: "antibioticos",
-                dosisHabitual: 250000,
-                unidad: "UI",
-                frecuencia: "Cada 6 horas",
-                presentaciones: [
-                    { tipo: "Inyectable", concentracion: "1000000UI", presentacion: "Bbo 1M UI", via: "iv/im" }
-                ],
-                dosisMaximaDiaria: 12000000,
-                dosisMaximaSingle: 3000000,
-                indicaciones: ["Infecciones graves", "Meningitis", "Neumonía"],
-                alertas: ["Máximo 3.000.000 UI por dosis", "Máximo 12.000.000 UI al día"],
-                liofilizado: true,
-                dilucionEspecial: 10
-            },
-            {
-                id: "penicilina-rapilenta",
-                nombre: "Penicilina Rapilenta",
-                familia: "antibioticos",
-                dosisHabitual: 50000,
-                unidad: "UI",
-                frecuencia: "Una vez al día",
-                presentaciones: [
-                    { tipo: "Inyectable", concentracion: "1000000UI", presentacion: "Bbo 1M UI", via: "im" }
-                ],
-                dosisMaximaDiaria: 50000,
-                dosisMaximaSingle: 1000000,
-                indicaciones: ["Infecciones por estreptococo"],
-                alertas: ["Diluir en 2ml de agua estéril"],
-                liofilizado: false,
-                dilucionEspecial: 2
-            },
-            {
-                id: "ceftriaxona",
-                nombre: "Ceftriaxona",
-                familia: "antibioticos",
-                dosisHabitual: 100,
-                unidad: "mg",
-                frecuencia: "Cada 24 horas",
-                presentaciones: [
-                    { tipo: "Inyectable", concentracion: "1g", presentacion: "Bbo 1g", via: "iv/im" }
-                ],
-                dosisMaximaDiaria: 4000,
-                dosisMaximaSingle: 2000,
-                indicaciones: ["Infecciones graves", "Meningitis"],
-                alertas: ["No usar en neonatos con hiperbilirrubinemia"],
-                liofilizado: true,
-                dilucionEspecial: 10
-            },
-            {
-                id: "cefalesxina",
-                nombre: "Cefalesxina",
-                familia: "antibioticos",
-                dosisHabitual: 80,
-                unidad: "mg",
-                frecuencia: "Cada 8 horas",
-                presentaciones: [
-                    { tipo: "Cápsulas", concentracion: "500mg", presentacion: "Cápsulas 500mg", via: "oral" },
-                    { tipo: "Suspensión", concentracion: "250mg/5ml", presentacion: "Frasco 60ml", via: "oral" }
-                ],
-                dosisMaximaDiaria: 80,
-                dosisMaximaSingle: 1000,
-                indicaciones: ["Infecciones de piel", "Infecciones urinarias", "Sinusitis"],
-                alertas: ["Monitorizar función renal"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            {
-                id: "azitromicina",
-                nombre: "Azitromicina",
-                familia: "antibioticos",
-                dosisHabitual: 10,
-                unidad: "mg",
-                frecuencia: "Una vez al día",
-                presentaciones: [
-                    { tipo: "Tabletas", concentracion: "500mg", presentacion: "Tabletas 500mg", via: "oral" },
-                    { tipo: "Suspensión", concentracion: "200mg/5ml", presentacion: "Frasco 30ml", via: "oral" }
-                ],
-                dosisMaximaDiaria: 10,
-                dosisMaximaSingle: 500,
-                indicaciones: ["Infecciones respiratorias", "Infecciones de piel"],
-                alertas: ["Puede prolongar intervalo QT"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Analgésicos/Antipiréticos
-            {
-                id: "paracetamol",
-                nombre: "Paracetamol",
-                familia: "analgesicos",
-                dosisHabitual: 15,
-                unidad: "mg",
-                frecuencia: "Cada 6 horas",
-                presentaciones: [
-                    { tipo: "Suspensión", concentracion: "120mg/5ml", presentacion: "Frasco 100ml", via: "oral" },
-                    { tipo: "Tabletas", concentracion: "500mg", presentacion: "Tabletas 500mg", via: "oral" }
-                ],
-                dosisMaximaDiaria: 60,
-                dosisMaximaSingle: 1000,
-                indicaciones: ["Fiebre", "Dolor leve a moderado"],
-                alertas: ["No exceder dosis máxima diaria", "Riesgo de hepatotoxicidad"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            {
-                id: "ibuprofeno",
-                nombre: "Ibuprofeno",
-                familia: "analgesicos",
-                dosisHabitual: 10,
-                unidad: "mg",
-                frecuencia: "Cada 6-8 horas",
-                presentaciones: [
-                    { tipo: "Suspensión", concentracion: "100mg/5ml", presentacion: "Frasco 100ml", via: "oral" }
-                ],
-                dosisMaximaDiaria: 40,
-                dosisMaximaSingle: 800,
-                indicaciones: ["Fiebre", "Dolor", "Inflamación"],
-                alertas: ["Administrar con alimentos", "Riesgo de sangrado gastrointestinal"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            {
-                id: "dipirona",
-                nombre: "Dipirona",
-                familia: "analgesicos",
-                dosisHabitual: 15,
-                unidad: "mg",
-                frecuencia: "Cada 6 horas",
-                presentaciones: [
-                    { tipo: "Tabletas", concentracion: "500mg", presentacion: "Tabletas 500mg", via: "oral" },
-                    { tipo: "Inyectable", concentracion: "600mg/2ml", presentacion: "Ampolla 2ml", via: "iv/im" }
-                ],
-                dosisMaximaDiaria: 65,
-                dosisMaximaSingle: 1000,
-                indicaciones: ["Fiebre", "Dolor intenso"],
-                alertas: ["Riesgo de agranulocitosis"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Broncodilatadores
-            {
-                id: "salbutamol",
-                nombre: "Salbutamol",
-                familia: "broncodilatadores",
-                dosisHabitual: 0.15,
-                unidad: "mg",
-                frecuencia: "Cada 6-8 horas",
-                presentaciones: [
-                    { tipo: "Aerosol", concentracion: "5mg/1ml", presentacion: "Nebulizador", via: "inhalatoria" },
-                    { tipo: "Inhalador", concentracion: "100mcg/dosis", presentacion: "Inhalador 200 dosis", via: "inhalatoria" }
-                ],
-                dosisMaximaDiaria: 0.6,
-                dosisMaximaSingle: 0.15,
-                indicaciones: ["Asma", "Broncoespasmo"],
-                alertas: ["Puede causar temblor", "Monitorizar frecuencia cardíaca"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Antihistamínicos
-            {
-                id: "loratadina",
-                nombre: "Loratadina",
-                familia: "antihistaminicos",
-                dosisHabitual: 0.2,
-                unidad: "mg",
-                frecuencia: "Una vez al día",
-                presentaciones: [
-                    { tipo: "Tabletas", concentracion: "10mg", presentacion: "Tabletas 10mg", via: "oral" },
-                    { tipo: "Jarabe", concentracion: "1mg/1ml", presentacion: "Frasco 100ml", via: "oral" }
-                ],
-                dosisMaximaDiaria: 0.2,
-                dosisMaximaSingle: 10,
-                indicaciones: ["Rinitis alérgica", "Urticaria"],
-                alertas: ["Puede causar somnolencia"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Corticoides
-            {
-                id: "dexametasona",
-                nombre: "Dexametasona",
-                familia: "corticoides",
-                dosisHabitual: 0.3,
-                unidad: "mg",
-                frecuencia: "Cada 12 horas",
-                presentaciones: [
-                    { tipo: "Tabletas", concentracion: "0.75mg", presentacion: "Tabletas 0.75mg", via: "oral" },
-                    { tipo: "Inyectable", concentracion: "4mg/ml", presentacion: "Ampolla 1ml", via: "iv/im" }
-                ],
-                dosisMaximaDiaria: 0.6,
-                dosisMaximaSingle: 8,
-                indicaciones: ["Inflamación", "Alergias graves", "Edema cerebral"],
-                alertas: ["No suspender abruptamente", "Monitorizar glucosa"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Gastrointestinales
-            {
-                id: "omeprazol",
-                nombre: "Omeprazol",
-                familia: "gastrointestinales",
-                dosisHabitual: 1,
-                unidad: "mg",
-                frecuencia: "Una vez al día",
-                presentaciones: [
-                    { tipo: "Cápsulas", concentracion: "20mg", presentacion: "Cápsulas 20mg", via: "oral" }
-                ],
-                dosisMaximaDiaria: 2,
-                dosisMaximaSingle: 40,
-                indicaciones: ["Úlcera gástrica", "Reflujo gastroesofágico"],
-                alertas: ["Administrar antes de alimentos"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Anticonvulsivantes
-            {
-                id: "diazepam",
-                nombre: "Diazepam",
-                familia: "anticonvulsivantes",
-                dosisHabitual: 0.3,
-                unidad: "mg",
-                frecuencia: "Según necesidad",
-                presentaciones: [
-                    { tipo: "Inyectable", concentracion: "10mg/2ml", presentacion: "Ampolla 2ml", via: "iv/im" }
-                ],
-                dosisMaximaDiaria: 1,
-                dosisMaximaSingle: 10,
-                indicaciones: ["Estatus epiléptico", "Ansiedad", "Espasmos musculares"],
-                alertas: ["Riesgo de depresión respiratoria", "Monitorizar signos vitales"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Antiparasitarios
-            {
-                id: "albendazol",
-                nombre: "Albendazol",
-                familia: "antiparasitarios",
-                dosisHabitual: 15,
-                unidad: "mg",
-                frecuencia: "Dosis única",
-                presentaciones: [
-                    { tipo: "Tabletas", concentracion: "200mg", presentacion: "Tabletas 200mg", via: "oral" },
-                    { tipo: "Suspensión", concentracion: "100mg/5ml", presentacion: "Frasco 10ml", via: "oral" }
-                ],
-                dosisMaximaDiaria: 15,
-                dosisMaximaSingle: 400,
-                indicaciones: ["Parásitos intestinales", "Giardiasis"],
-                alertas: ["Administrar con alimentos grasos"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            },
-            // Suplementos
-            {
-                id: "sulfato-zinc",
-                nombre: "Sulfato de Zinc",
-                familia: "suplementos",
-                dosisHabitual: 20,
-                unidad: "mg",
-                frecuencia: "Una vez al día",
-                presentaciones: [
-                    { tipo: "Tabletas", concentracion: "10mg", presentacion: "Tabletas 10mg", via: "oral" },
-                    { tipo: "Solución", concentracion: "10mg/5ml", presentacion: "Frasco 100ml", via: "oral" }
-                ],
-                dosisMaximaDiaria: 20,
-                dosisMaximaSingle: 20,
-                indicaciones: ["Suplemento mineral", "Diarrea aguda"],
-                alertas: ["Administrar alejado de las comidas"],
-                liofilizado: false,
-                dilucionEspecial: 0
-            }
-        ];
+        // NO HAY BASE DE DATOS INICIAL - Se requiere importación
+        const initialMedicines = [];
 
         // Aplicación principal
         document.addEventListener('DOMContentLoaded', function() {
             initializeApp();
             setupEventListeners();
-            loadMedicinesToSelect();
+            checkDatabaseStatus();
         });
 
         function initializeApp() {
             loadSettings();
-            if (!localStorage.getItem('medicines')) {
-                saveMedicines(initialMedicines);
-            }
+            // No cargar medicamentos iniciales - requerir importación
         }
 
         function setupEventListeners() {
@@ -1315,8 +1123,22 @@
             document.getElementById('viewTerms').addEventListener('click', showTermsModal);
             document.getElementById('viewTermsSettings').addEventListener('click', showTermsModal);
             document.getElementById('acceptTerms').addEventListener('click', acceptTerms);
-            document.getElementById('termsClose').addEventListener('click', closeTermsModal);
-            document.getElementById('startApp').addEventListener('click', startApp);
+
+            // Importación desde diferentes secciones
+            document.getElementById('importFromCalculator').addEventListener('click', showImportModal);
+            document.getElementById('importFromDatabase').addEventListener('click', showImportModal);
+            document.getElementById('importFromManagement').addEventListener('click', showImportModal);
+            document.getElementById('importFromSettings').addEventListener('click', showImportModal);
+
+            // Opciones de importación
+            document.getElementById('importLocalOption').addEventListener('click', showLocalImport);
+            document.getElementById('importDriveOption').addEventListener('click', showDriveImport);
+            document.getElementById('backToOptions').addEventListener('click', showImportOptions);
+            document.getElementById('confirmImport').addEventListener('click', confirmImport);
+
+            // Archivos de importación
+            document.getElementById('importFile').addEventListener('change', handleFileSelect);
+            document.getElementById('importFileManagement').addEventListener('change', importData);
 
             // Navegación
             document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
@@ -1338,14 +1160,12 @@
             document.getElementById('medicineFormElement').addEventListener('submit', saveMedicine);
             document.getElementById('addPresentationBtn').addEventListener('click', addPresentationField);
             document.getElementById('exportDataBtn').addEventListener('click', exportData);
-            document.getElementById('importFile').addEventListener('change', importData);
             document.getElementById('updateFromGithubBtn').addEventListener('click', updateFromGithub);
 
             // Configuración
             document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
             document.getElementById('fontSizeSelect').addEventListener('change', changeFontSize);
             document.getElementById('exportSettingsBtn').addEventListener('click', exportData);
-            document.getElementById('resetDataBtn').addEventListener('click', resetData);
         }
 
         // Funciones de términos y condiciones
@@ -1375,20 +1195,150 @@
 
         function acceptTerms() {
             document.getElementById('termsModal').classList.remove('active');
-            document.getElementById('welcomeSection').classList.remove('active');
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('calculatorSection').classList.add('active');
+            // Mostrar modal de importación inmediatamente después de aceptar términos
+            setTimeout(() => {
+                showImportModal();
+            }, 500);
         }
 
-        function closeTermsModal() {
-            document.getElementById('termsModal').classList.remove('active');
+        // Funciones de importación
+        function showImportModal() {
+            document.getElementById('importModal').classList.add('active');
+            showImportOptions();
         }
 
-        function startApp() {
-            document.getElementById('welcomeSection').classList.remove('active');
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('calculatorSection').classList.add('active');
+        function showImportOptions() {
+            document.getElementById('localImportSection').style.display = 'none';
+            document.getElementById('driveImportSection').style.display = 'none';
+            document.getElementById('backToOptions').style.display = 'none';
+            document.getElementById('confirmImport').disabled = true;
+            document.getElementById('confirmImport').textContent = 'Importar Base de Datos';
         }
+
+        function showLocalImport() {
+            document.getElementById('localImportSection').style.display = 'block';
+            document.getElementById('driveImportSection').style.display = 'none';
+            document.getElementById('backToOptions').style.display = 'block';
+            document.getElementById('confirmImport').disabled = true;
+        }
+
+        function showDriveImport() {
+            document.getElementById('localImportSection').style.display = 'none';
+            document.getElementById('driveImportSection').style.display = 'block';
+            document.getElementById('backToOptions').style.display = 'block';
+            document.getElementById('confirmImport').disabled = true;
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('confirmImport').disabled = false;
+            }
+        }
+
+        function confirmImport() {
+            const localFile = document.getElementById('importFile').files[0];
+            const driveUrl = document.getElementById('importUrl').value;
+
+            if (localFile) {
+                importFile(localFile);
+            } else if (driveUrl) {
+                updateFromUrl(driveUrl);
+            } else {
+                showAlert('Seleccione un archivo o ingrese una URL', 'danger');
+            }
+        }
+
+        function importFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    processImportedData(data);
+                } catch (error) {
+                    showAlert('Error al leer el archivo: ' + error.message, 'danger');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        async function updateFromUrl(url) {
+            try {
+                // Para Google Drive, necesitamos transformar la URL
+                let finalUrl = url;
+                if (url.includes('drive.google.com')) {
+                    const fileId = extractGoogleDriveFileId(url);
+                    if (fileId) {
+                        finalUrl = `https://drive.google.com/uc?id=${fileId}&export=download`;
+                    }
+                }
+
+                const response = await fetch(finalUrl);
+                if (!response.ok) throw new Error('Error al descargar el archivo');
+                
+                const data = await response.json();
+                processImportedData(data);
+            } catch (error) {
+                showAlert('Error al importar desde URL: ' + error.message, 'danger');
+            }
+        }
+
+        function extractGoogleDriveFileId(url) {
+            const match = url.match(/[?&]id=([^&]+)/) || url.match(/\/d\/([^\/]+)/);
+            return match ? match[1] : null;
+        }
+
+        function processImportedData(data) {
+            let medicines;
+            
+            // Manejar diferentes formatos
+            if (Array.isArray(data)) {
+                medicines = data;
+            } else if (data.medicines && Array.isArray(data.medicines)) {
+                medicines = data.medicines;
+            } else {
+                showAlert('El archivo no contiene una base de datos válida', 'danger');
+                return;
+            }
+            
+            // Validar estructura básica
+            const isValid = medicines.every(med => 
+                med.id && med.nombre && med.familia && med.dosisHabitual !== undefined
+            );
+            
+            if (isValid && medicines.length > 0) {
+                saveMedicines(medicines);
+                document.getElementById('importModal').classList.remove('active');
+                showAlert('Base de datos importada correctamente', 'success');
+                checkDatabaseStatus();
+                loadMedicinesToSelect();
+                loadManagementList();
+                loadMedicinesGrid();
+            } else {
+                showAlert('El archivo contiene datos incompletos o inválidos', 'danger');
+            }
+        }
+
+        function checkDatabaseStatus() {
+            const medicines = getMedicines();
+            const hasData = medicines.length > 0;
+
+            // Mostrar/ocultar contenido según disponibilidad de datos
+            document.getElementById('noDataAlert').style.display = hasData ? 'none' : 'block';
+            document.getElementById('calculatorContent').style.display = hasData ? 'block' : 'none';
+            document.getElementById('databaseNoData').style.display = hasData ? 'none' : 'block';
+            document.getElementById('databaseContent').style.display = hasData ? 'block' : 'none';
+            document.getElementById('managementNoData').style.display = hasData ? 'none' : 'block';
+            document.getElementById('managementContent').style.display = hasData ? 'block' : 'none';
+
+            if (!hasData) {
+                // Si no hay datos, mostrar alerta en todas las secciones
+                showAlert('Importe una base de datos para usar todas las funciones', 'warning');
+            }
+        }
+
+        // Resto del código permanece igual...
+        // [Las funciones restantes son idénticas a las versiones anteriores corregidas]
 
         // Funciones de navegación
         function toggleSidebar() {
@@ -1497,50 +1447,57 @@
             return true;
         }
 
+        // MÉTODO DE CÁLCULO CORREGIDO
         function calculateMedicineDose(weight, medicine, presentation, dilutionVolume) {
-            // Obtener concentración numérica
-            const concentrationMatch = presentation.concentracion.match(/(\d+(\.\d+)?)/);
-            const concentration = concentrationMatch ? parseFloat(concentrationMatch[1]) : 1;
-            
-            // Calcular dosis diaria total
+            // 1. Calcular dosis diaria total
             let dailyDose = weight * medicine.dosisHabitual;
             
-            // Aplicar límites
+            // 2. Aplicar límite diario máximo si existe
             if (medicine.dosisMaximaDiaria) {
                 dailyDose = Math.min(dailyDose, medicine.dosisMaximaDiaria);
             }
             
-            // Determinar número de tomas
+            // 3. Determinar número de tomas al día
             const dosesPerDay = getDosesPerDay(medicine.frecuencia);
             
-            // Calcular dosis por toma
+            // 4. Calcular dosis por toma
             let dosePerTake = dailyDose / dosesPerDay;
             
+            // 5. Aplicar límite por dosis si existe
             if (medicine.dosisMaximaSingle) {
                 dosePerTake = Math.min(dosePerTake, medicine.dosisMaximaSingle);
             }
             
-            // Calcular volumen según el tipo de medicamento
-            let volumePerTake;
-            let units;
+            // 6. Extraer concentración de la presentación
+            const concentration = extractConcentration(presentation.concentracion);
+            
+            // 7. Calcular según el tipo de presentación
+            let volumePerTake, units, resultText;
             
             if (medicine.liofilizado && dilutionVolume > 0) {
-                // FÓRMULA CORREGIDA para liofilizados: (Dosis × Dilución) ÷ Concentración
+                // FÓRMULA PARA LIOFILIZADOS: (Dosis × Dilución) ÷ Concentración
                 volumePerTake = (dosePerTake * dilutionVolume) / concentration;
-            } else if (presentation.via === 'inhalatoria' && medicine.unidad === 'mg') {
-                // Cálculo especial para aerosoles
+                resultText = `Volumen a administrar: ${volumePerTake.toFixed(2)} ml`;
+                
+            } else if (presentation.via === 'inhalatoria') {
+                // Cálculo especial para aerosoles (gotas)
                 volumePerTake = Math.min(weight * 0.4, 15);
+                resultText = `Gotas a administrar: ${volumePerTake.toFixed(1)} gotas`;
+                
             } else if (presentation.concentracion.includes('/')) {
-                // Para suspensiones: calcular ml basado en la concentración
+                // Para suspensiones: (Dosis × VolumenLíquido) ÷ CantidadMedicamento
                 const [medAmount, liquidAmount] = presentation.concentracion.split('/').map(part => parseFloat(part));
                 volumePerTake = (dosePerTake / medAmount) * liquidAmount;
+                resultText = `Volumen a administrar: ${volumePerTake.toFixed(2)} ml`;
+                
             } else {
                 // Para tabletas/cápsulas: calcular número de unidades
                 units = Math.ceil(dosePerTake / concentration);
                 if (medicine.dosisMaximaSingle && units > medicine.dosisMaximaSingle / concentration) {
                     units = Math.floor(medicine.dosisMaximaSingle / concentration);
                 }
-                volumePerTake = null; // No aplica volumen para formas sólidas
+                volumePerTake = null;
+                resultText = `Unidades a administrar: ${units} ${presentation.tipo.toLowerCase()}`;
             }
             
             return {
@@ -1553,8 +1510,15 @@
                 units,
                 dosesPerDay,
                 dilutionVolume,
-                concentration
+                concentration,
+                resultText
             };
+        }
+
+        function extractConcentration(concentracion) {
+            // Extraer el valor numérico de la concentración
+            const match = concentracion.match(/(\d+(\.\d+)?)/);
+            return match ? parseFloat(match[1]) : 1;
         }
 
         function getDosesPerDay(frequency) {
@@ -1574,22 +1538,15 @@
                 <p><strong>Frecuencia:</strong> ${result.medicine.frecuencia}</p>
                 <p><strong>Dosis diaria total:</strong> ${formatNumber(result.dailyDose)} ${result.medicine.unidad}</p>
                 <p><strong>Dosis por toma:</strong> ${formatNumber(result.dosePerTake)} ${result.medicine.unidad}</p>
+                <p><strong>${result.resultText}</strong></p>
             `;
             
-            if (result.presentation.via === 'inhalatoria' && result.medicine.unidad === 'mg') {
-                resultHTML += `<p><strong>Volumen a administrar:</strong> ${result.volumePerTake.toFixed(1)} gotas</p>`;
-            } else if (result.volumePerTake !== null) {
-                resultHTML += `<p><strong>Volumen a administrar:</strong> ${result.volumePerTake.toFixed(2)} ml</p>`;
+            if (result.medicine.liofilizado && result.dilutionVolume > 0) {
+                resultHTML += `<p><strong>Dilución utilizada:</strong> ${result.dilutionVolume} ml</p>`;
                 
-                if (result.medicine.liofilizado) {
-                    resultHTML += `<p><strong>Dilución utilizada:</strong> ${result.dilutionVolume} ml</p>`;
-                    
-                    if (result.volumePerTake < 10 && result.presentation.via === 'iv') {
-                        resultHTML += `<p><strong>Completar con:</strong> ${(10 - result.volumePerTake).toFixed(2)} ml de SSF 0.9%</p>`;
-                    }
+                if (result.volumePerTake < 10 && result.presentation.via === 'iv') {
+                    resultHTML += `<p><strong>Completar con:</strong> ${(10 - result.volumePerTake).toFixed(2)} ml de SSF 0.9%</p>`;
                 }
-            } else if (result.units) {
-                resultHTML += `<p><strong>Unidades a administrar:</strong> ${result.units} ${result.presentation.tipo.toLowerCase()}</p>`;
             }
             
             if (result.medicine.alertas && result.medicine.alertas.length > 0) {
@@ -1813,8 +1770,40 @@
         }
 
         // Funciones de importación/exportación
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    processImportedData(data);
+                } catch (error) {
+                    showAlert('Error al importar el archivo: ' + error.message, 'danger');
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset input
+        }
+
+        async function updateFromGithub() {
+            const url = document.getElementById('githubUrl').value;
+            if (!url) {
+                showAlert('Por favor ingrese una URL válida', 'danger');
+                return;
+            }
+            
+            await updateFromUrl(url);
+        }
+
         function exportData() {
             const medicines = getMedicines();
+            if (medicines.length === 0) {
+                showAlert('No hay datos para exportar', 'warning');
+                return;
+            }
+            
             const dataStr = JSON.stringify(medicines, null, 2);
             const dataBlob = new Blob([dataStr], {type: 'application/json'});
             
@@ -1828,51 +1817,6 @@
             URL.revokeObjectURL(url);
             
             showAlert('Base de datos exportada correctamente', 'success');
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const medicines = JSON.parse(e.target.result);
-                    if (Array.isArray(medicines)) {
-                        saveMedicines(medicines);
-                        showAlert('Base de datos importada correctamente', 'success');
-                        loadManagementList();
-                        loadMedicinesToSelect();
-                    } else {
-                        showAlert('El archivo no contiene una base de datos válida', 'danger');
-                    }
-                } catch (error) {
-                    showAlert('Error al importar el archivo: ' + error.message, 'danger');
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = ''; // Reset input
-        }
-
-        async function updateFromGithub() {
-            const url = document.getElementById('githubUrl').value || 'https://raw.githubusercontent.com/tu-usuario/pediacalc/main/database.json';
-            
-            try {
-                const response = await fetch(url);
-                if (!response.ok) throw new Error('Error al descargar el archivo');
-                
-                const medicines = await response.json();
-                if (Array.isArray(medicines)) {
-                    saveMedicines(medicines);
-                    showAlert('Base de datos actualizada desde GitHub correctamente', 'success');
-                    loadManagementList();
-                    loadMedicinesToSelect();
-                } else {
-                    showAlert('El archivo de GitHub no contiene una base de datos válida', 'danger');
-                }
-            } catch (error) {
-                showAlert('Error al actualizar desde GitHub: ' + error.message, 'danger');
-            }
         }
 
         // Funciones de configuración
@@ -1905,15 +1849,6 @@
             document.body.style.fontSize = size === 'small' ? '14px' : size === 'large' ? '18px' : '16px';
         }
 
-        function resetData() {
-            if (confirm('¿Está seguro de que desea restablecer la base de datos a los valores originales? Se perderán todos los cambios.')) {
-                saveMedicines(initialMedicines);
-                showAlert('Base de datos restablecida correctamente', 'success');
-                loadManagementList();
-                loadMedicinesToSelect();
-            }
-        }
-
         // Funciones auxiliares
         function getMedicines() {
             const stored = localStorage.getItem('medicines');
@@ -1942,6 +1877,14 @@
             
             setTimeout(() => alert.remove(), 5000);
         }
+
+        // Iniciar aplicación
+        document.getElementById('startApp').addEventListener('click', function() {
+            document.getElementById('welcomeSection').classList.remove('active');
+            document.getElementById('mainApp').style.display = 'block';
+            document.getElementById('calculatorSection').classList.add('active');
+            showTermsModal();
+        });
     </script>
 </body>
 </html>
