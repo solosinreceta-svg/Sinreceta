@@ -18,6 +18,10 @@
             --card-shadow: 0 2px 10px rgba(0,0,0,0.1);
             --transition: all 0.3s ease;
             --border-radius: 8px;
+            --step-1-color: #ea4335;
+            --step-2-color: #1a73e8;
+            --step-3-color: #8e44ad;
+            --step-4-color: #34a853;
         }
 
         .dark-theme {
@@ -302,10 +306,32 @@
             border-radius: var(--border-radius);
             margin: 0 5px;
             transition: var(--transition);
+            position: relative;
+            overflow: hidden;
         }
 
         .step.active {
-            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .step.step-1.active {
+            background-color: var(--step-1-color);
+        }
+
+        .step.step-2.active {
+            background-color: var(--step-2-color);
+        }
+
+        .step.step-3.active {
+            background-color: var(--step-3-color);
+        }
+
+        .step.step-4.active {
+            background-color: var(--step-4-color);
+        }
+
+        .step.completed {
+            background-color: #34a853;
             color: white;
         }
 
@@ -680,6 +706,12 @@
             font-size: 3rem;
             margin-bottom: 10px;
         }
+
+        /* Calculator step focus */
+        .calculator-step-focus {
+            transition: all 0.5s ease;
+            border-left: 4px solid var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -824,19 +856,19 @@
                     
                     <div id="calculatorContent" style="display: none;">
                         <div class="calculator-steps">
-                            <div class="step active" id="step1">1. Peso</div>
-                            <div class="step" id="step2">2. Medicamento</div>
-                            <div class="step" id="step3">3. Presentación</div>
-                            <div class="step" id="step4">4. Calcular</div>
+                            <div class="step step-1 active" id="step1">1. Peso</div>
+                            <div class="step step-2" id="step2">2. Medicamento</div>
+                            <div class="step step-3" id="step3">3. Presentación</div>
+                            <div class="step step-4" id="step4">4. Calcular</div>
                         </div>
                         
-                        <div class="card">
-                            <div class="form-group">
+                        <div class="card calculator-step-focus" id="calculatorForm">
+                            <div class="form-group" id="step1Form">
                                 <label for="patientWeight">Peso (kg)</label>
                                 <input type="number" id="patientWeight" min="0.1" step="0.1" placeholder="Ej: 15.5" required>
                             </div>
                             
-                            <div class="form-group">
+                            <div class="form-group" id="step2Form" style="display: none;">
                                 <label for="medicineCategory">Categoría de Medicamento</label>
                                 <select id="medicineCategory">
                                     <option value="">Todas las categorías</option>
@@ -853,28 +885,30 @@
                                     <option value="suplementos">Suplementos</option>
                                     <option value="otros">Otros</option>
                                 </select>
+                                
+                                <div class="form-group">
+                                    <label for="medicineSelect">Medicamento</label>
+                                    <select id="medicineSelect" required>
+                                        <option value="">Seleccione un medicamento</option>
+                                    </select>
+                                </div>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="medicineSelect">Medicamento</label>
-                                <select id="medicineSelect" required>
-                                    <option value="">Seleccione un medicamento</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
+                            <div class="form-group" id="step3Form" style="display: none;">
                                 <label for="presentationSelect">Presentación</label>
                                 <select id="presentationSelect" required>
                                     <option value="">Seleccione una presentación</option>
                                 </select>
+                                
+                                <div class="form-group" id="dilutionGroup" style="display: none;">
+                                    <label for="dilutionVolume">Volumen de Dilución (ml)</label>
+                                    <input type="number" id="dilutionVolume" min="1" placeholder="Ej: 5">
+                                </div>
                             </div>
                             
-                            <div class="form-group" id="dilutionGroup" style="display: none;">
-                                <label for="dilutionVolume">Volumen de Dilución (ml)</label>
-                                <input type="number" id="dilutionVolume" min="1" placeholder="Ej: 5">
+                            <div class="form-group" id="step4Form" style="display: none;">
+                                <button class="btn btn-block" id="calculateBtn">Calcular Dosis</button>
                             </div>
-                            
-                            <button class="btn btn-block" id="calculateBtn">Calcular Dosis</button>
                         </div>
                         
                         <div class="card result-card" id="resultCard">
@@ -1111,11 +1145,27 @@
             initializeApp();
             setupEventListeners();
             checkDatabaseStatus();
+            
+            // Verificar si ya se aceptaron términos y se importó base de datos
+            checkInitialSetup();
         });
 
         function initializeApp() {
             loadSettings();
             // No cargar medicamentos iniciales - requerir importación
+        }
+
+        function checkInitialSetup() {
+            const termsAccepted = localStorage.getItem('termsAccepted') === 'true';
+            const databaseImported = localStorage.getItem('databaseImported') === 'true';
+            
+            if (termsAccepted && databaseImported) {
+                // Si ya se aceptaron términos y se importó base de datos, iniciar directamente
+                document.getElementById('welcomeSection').classList.remove('active');
+                document.getElementById('mainApp').style.display = 'block';
+                document.getElementById('calculatorSection').classList.add('active');
+                checkDatabaseStatus();
+            }
         }
 
         function setupEventListeners() {
@@ -1148,6 +1198,7 @@
             });
 
             // Calculadora
+            document.getElementById('patientWeight').addEventListener('input', updateCalculatorSteps);
             document.getElementById('medicineCategory').addEventListener('change', updateMedicineSelect);
             document.getElementById('medicineSelect').addEventListener('change', updatePresentationSelect);
             document.getElementById('presentationSelect').addEventListener('change', checkDilutionRequired);
@@ -1194,6 +1245,7 @@
         }
 
         function acceptTerms() {
+            localStorage.setItem('termsAccepted', 'true');
             document.getElementById('termsModal').classList.remove('active');
             // Mostrar modal de importación inmediatamente después de aceptar términos
             setTimeout(() => {
@@ -1308,6 +1360,7 @@
             
             if (isValid && medicines.length > 0) {
                 saveMedicines(medicines);
+                localStorage.setItem('databaseImported', 'true');
                 document.getElementById('importModal').classList.remove('active');
                 showAlert('Base de datos importada correctamente', 'success');
                 checkDatabaseStatus();
@@ -1337,9 +1390,6 @@
             }
         }
 
-        // Resto del código permanece igual...
-        // [Las funciones restantes son idénticas a las versiones anteriores corregidas]
-
         // Funciones de navegación
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('active');
@@ -1367,6 +1417,46 @@
         }
 
         // Funciones de la calculadora
+        function updateCalculatorSteps() {
+            const weight = document.getElementById('patientWeight').value;
+            const medicine = document.getElementById('medicineSelect').value;
+            const presentation = document.getElementById('presentationSelect').value;
+            
+            // Resetear todos los pasos
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Ocultar todos los formularios
+            document.getElementById('step1Form').style.display = 'none';
+            document.getElementById('step2Form').style.display = 'none';
+            document.getElementById('step3Form').style.display = 'none';
+            document.getElementById('step4Form').style.display = 'none';
+            
+            if (weight) {
+                document.getElementById('step1').classList.add('active');
+                document.getElementById('step1Form').style.display = 'block';
+                document.getElementById('step2').classList.add('active');
+                document.getElementById('step2Form').style.display = 'block';
+                
+                if (medicine) {
+                    document.getElementById('step3').classList.add('active');
+                    document.getElementById('step3Form').style.display = 'block';
+                    
+                    if (presentation) {
+                        document.getElementById('step4').classList.add('active');
+                        document.getElementById('step4Form').style.display = 'block';
+                    }
+                }
+            }
+            
+            // Desplazar al formulario activo
+            const activeForm = document.querySelector('.form-group[style*="display: block"]');
+            if (activeForm) {
+                activeForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
         function loadMedicinesToSelect() {
             const medicines = getMedicines();
             const categorySelect = document.getElementById('medicineCategory');
@@ -1383,12 +1473,15 @@
                 option.textContent = med.nombre;
                 medicineSelect.appendChild(option);
             });
+            
+            updateCalculatorSteps();
         }
 
         function updateMedicineSelect() {
             loadMedicinesToSelect();
             document.getElementById('presentationSelect').innerHTML = '<option value="">Seleccione una presentación</option>';
             document.getElementById('dilutionGroup').style.display = 'none';
+            updateCalculatorSteps();
         }
 
         function updatePresentationSelect() {
@@ -1406,6 +1499,8 @@
                     presentationSelect.appendChild(option);
                 });
             }
+            
+            updateCalculatorSteps();
         }
 
         function checkDilutionRequired() {
@@ -1414,6 +1509,7 @@
                 const medicine = getMedicineById(medicineId);
                 document.getElementById('dilutionGroup').style.display = medicine.liofilizado ? 'block' : 'none';
             }
+            updateCalculatorSteps();
         }
 
         function calculateDose() {
@@ -1887,4 +1983,4 @@
         });
     </script>
 </body>
-</html>
+                        </html>
