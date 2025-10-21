@@ -3,1983 +3,1219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PediaCalc HPJRM v9.4.0</title>
+    <title>PediaCalc HPJRM</title>
     <style>
         :root {
-            --primary-color: #1a73e8;
-            --secondary-color: #34a853;
-            --accent-color: #fbbc05;
-            --danger-color: #ea4335;
-            --light-bg: #f8f9fa;
-            --dark-bg: #202124;
-            --light-text: #333;
-            --dark-text: #f8f9fa;
-            --card-bg: #ffffff;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            --transition: all 0.3s ease;
-            --border-radius: 8px;
-            --step-1-color: #ea4335;
-            --step-2-color: #1a73e8;
-            --step-3-color: #8e44ad;
-            --step-4-color: #34a853;
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
         }
-
-        .dark-theme {
-            --light-bg: #202124;
-            --dark-bg: #f8f9fa;
-            --light-text: #f8f9fa;
-            --dark-text: #333;
-            --card-bg: #303134;
-            --card-shadow: 0 2px 10px rgba(0,0,0,0.3);
-        }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            background-color: var(--light-bg);
-            color: var(--light-text);
-            transition: var(--transition);
-            overflow-x: hidden;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
         }
-
+        
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
+            max-width: 100%;
+            padding: 15px;
+            margin-bottom: 70px;
         }
-
-        /* Header Styles */
+        
         header {
-            background-color: var(--primary-color);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
         }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo h1 {
+        
+        h1 {
             font-size: 1.5rem;
-            margin-left: 10px;
+            margin-bottom: 5px;
         }
-
-        .menu-toggle {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            transition: var(--transition);
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
         }
-
-        .menu-toggle:hover {
-            background-color: rgba(255,255,255,0.1);
-        }
-
-        /* Sidebar Styles */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 300px;
-            height: 100vh;
-            background-color: var(--card-bg);
-            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            transition: var(--transition);
-            z-index: 1000;
-            overflow-y: auto;
-            padding: 20px;
-        }
-
-        .sidebar.active {
-            right: 0;
-        }
-
-        .sidebar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .sidebar-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--light-text);
-        }
-
-        .sidebar-nav ul {
-            list-style: none;
-        }
-
-        .sidebar-nav li {
-            margin-bottom: 10px;
-        }
-
-        .sidebar-nav a {
-            display: block;
-            padding: 12px 15px;
-            color: var(--light-text);
-            text-decoration: none;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .sidebar-nav a:hover, .sidebar-nav a.active {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        /* Main Content Styles */
-        main {
-            padding: 20px 0;
-            min-height: calc(100vh - 140px);
-        }
-
-        .section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .section-header {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .section-header h2 {
-            font-size: 1.8rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        /* Card Styles */
+        
         .card {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            box-shadow: var(--card-shadow);
+            background: white;
+            border-radius: 10px;
             padding: 20px;
             margin-bottom: 20px;
-            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            color: var(--primary-color);
-        }
-
-        /* Form Styles */
+        
         .form-group {
             margin-bottom: 15px;
         }
-
+        
         label {
             display: block;
             margin-bottom: 5px;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--primary);
         }
-
-        input, select, textarea {
+        
+        input, select {
             width: 100%;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            background-color: var(--card-bg);
-            color: var(--light-text);
-            transition: var(--transition);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
         }
-
-        input:focus, select:focus, textarea:focus {
+        
+        input:focus, select:focus {
+            border-color: var(--secondary);
             outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
         }
-
+        
         .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--primary-color);
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: var(--secondary);
             color: white;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            font-weight: 500;
-            transition: var(--transition);
+            transition: all 0.3s;
             text-align: center;
-            text-decoration: none;
         }
-
+        
         .btn:hover {
-            background-color: #0d62d9;
-            transform: translateY(-2px);
+            background-color: #2980b9;
         }
-
-        .btn-secondary {
-            background-color: var(--secondary-color);
+        
+        .btn-success {
+            background-color: var(--success);
         }
-
-        .btn-secondary:hover {
-            background-color: #2e8b47;
+        
+        .btn-success:hover {
+            background-color: #219653;
         }
-
+        
+        .btn-warning {
+            background-color: var(--warning);
+        }
+        
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+        
         .btn-danger {
-            background-color: var(--danger-color);
+            background-color: var(--danger);
         }
-
+        
         .btn-danger:hover {
-            background-color: #d33426;
+            background-color: #c0392b;
         }
-
-        .btn-block {
-            display: block;
-            width: 100%;
-        }
-
-        .btn-small {
-            padding: 5px 10px;
-            font-size: 0.8rem;
-        }
-
-        /* Calculator Styles */
-        .calculator-steps {
-            display: flex;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .step {
-            flex: 1;
-            min-width: 150px;
-            text-align: center;
-            padding: 10px;
-            background-color: #e9ecef;
-            color: #6c757d;
-            border-radius: var(--border-radius);
-            margin: 0 5px;
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .step.active {
-            color: white;
-        }
-
-        .step.step-1.active {
-            background-color: var(--step-1-color);
-        }
-
-        .step.step-2.active {
-            background-color: var(--step-2-color);
-        }
-
-        .step.step-3.active {
-            background-color: var(--step-3-color);
-        }
-
-        .step.step-4.active {
-            background-color: var(--step-4-color);
-        }
-
-        .step.completed {
-            background-color: #34a853;
-            color: white;
-        }
-
+        
         .result-card {
-            display: none;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
             margin-top: 20px;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .result-card.active {
-            display: block;
-        }
-
-        /* Database Styles */
-        .search-box {
-            margin-bottom: 20px;
-        }
-
-        .medicines-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .medicine-card {
-            cursor: pointer;
-        }
-
-        .medicine-family {
-            font-size: 0.9rem;
-            color: var(--secondary-color);
-            margin-bottom: 5px;
-        }
-
-        .medicine-details {
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-
-        .medicine-details p {
-            margin-bottom: 5px;
-        }
-
-        /* Management Styles */
-        .management-actions {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .medicine-form {
-            max-width: 600px;
-        }
-
-        .presentation-item {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-            align-items: center;
-        }
-
-        .presentation-item input {
-            flex: 1;
-        }
-
-        .medicine-list {
-            display: grid;
-            gap: 15px;
-        }
-
-        .medicine-item {
-            display: flex;
-            justify-content: between;
-            align-items: center;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-        }
-
-        .medicine-info {
-            flex: 1;
-        }
-
-        .medicine-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Settings Styles */
-        .settings-option {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .toggle-switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .toggle-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-            border-radius: 34px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--primary-color);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        /* Footer Styles */
-        footer {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 0;
-            text-align: center;
-        }
-
-        /* Responsive Styles */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                right: -100%;
-            }
-            
-            .calculator-steps {
-                flex-direction: column;
-            }
-            
-            .step {
-                margin: 5px 0;
-            }
-            
-            .medicines-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .management-actions {
-                flex-direction: column;
-            }
-            
-            .medicine-item {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .medicine-actions {
-                margin-top: 10px;
-                width: 100%;
-                justify-content: flex-end;
-            }
-        }
-
-        /* Terms Styles */
-        .terms-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .terms-content {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: var(--border-radius);
-        }
-
-        .countdown {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-
-        /* Welcome Styles */
-        .welcome-container {
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .welcome-icon {
-            font-size: 4rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .welcome-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-
-        /* Alert Styles */
-        .alert {
-            padding: 15px;
-            border-radius: var(--border-radius);
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-danger {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .alert-warning {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeaa7;
-        }
-
-        .alert-info {
-            background-color: #d1ecf1;
-            color: #0c5460;
-            border: 1px solid #bee5eb;
-        }
-
-        /* Modal Styles */
-        .modal {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--secondary);
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
         }
-
-        .modal.active {
-            display: flex;
+        
+        .result-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
         }
-
-        .modal-content {
-            background-color: var(--card-bg);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+        
+        .result-detail {
+            margin-bottom: 10px;
             padding-bottom: 10px;
             border-bottom: 1px solid #eee;
         }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--light-text);
+        
+        .calculation-steps {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: monospace;
+            font-size: 14px;
         }
-
-        .modal-body {
+        
+        .alert {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .alert-warning {
+            background-color: #fef5e7;
+            color: var(--warning);
+            border-left: 4px solid var(--warning);
+        }
+        
+        .alert-danger {
+            background-color: #fdedec;
+            color: var(--danger);
+            border-left: 4px solid var(--danger);
+        }
+        
+        .alert-success {
+            background-color: #eafaf1;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        .terms-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             margin-bottom: 20px;
+            background-color: #f9f9f9;
         }
-
-        .modal-footer {
+        
+        .terms-text {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
             display: flex;
-            justify-content: flex-end;
-            gap: 10px;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
         }
-
-        /* Import/Export Styles */
-        .data-actions {
+        
+        .nav-item {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            font-size: 12px;
+            color: var(--dark);
+            text-decoration: none;
+            flex: 1;
         }
-
-        .file-input {
+        
+        .nav-item.active {
+            color: var(--secondary);
+        }
+        
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+        
+        .screen {
             display: none;
         }
-
-        .file-label {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: var(--secondary-color);
-            color: white;
-            border-radius: var(--border-radius);
+        
+        .screen.active {
+            display: block;
+        }
+        
+        .medicamento-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
             cursor: pointer;
-            transition: var(--transition);
+            transition: background-color 0.2s;
         }
-
-        .file-label:hover {
-            background-color: #2e8b47;
+        
+        .medicamento-item:hover {
+            background-color: #f5f7fa;
         }
-
-        .github-url {
-            width: 100%;
-            margin-bottom: 10px;
+        
+        .medicamento-nombre {
+            font-weight: 600;
+            color: var(--primary);
         }
-
-        .import-options {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+        
+        .medicamento-familia {
+            font-size: 0.8rem;
+            color: #7f8c8d;
         }
-
-        .import-option {
-            flex: 1;
+        
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+        
+        .search-input {
+            padding-left: 40px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .countdown {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--secondary);
             text-align: center;
-            padding: 20px;
-            border: 2px dashed #ddd;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .import-option:hover {
-            border-color: var(--primary-color);
-            background-color: rgba(26, 115, 232, 0.1);
-        }
-
-        .import-icon {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-
-        /* Calculator step focus */
-        .calculator-step-focus {
-            transition: all 0.5s ease;
-            border-left: 4px solid var(--primary-color);
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <!-- Terms Modal -->
-    <div class="modal" id="termsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Términos y Condiciones</h3>
-            </div>
-            <div class="modal-body">
-                <div class="terms-content">
-                    <h4>1. Aceptación de los Términos</h4>
-                    <p>Al utilizar PediaCalc HPJRM v9.4.0, usted acepta cumplir con estos términos y condiciones.</p>
-                    
-                    <h4>2. Propósito de la Aplicación</h4>
-                    <p>PediaCalc es una herramienta de cálculo de dosis pediátricas diseñada para profesionales de la salud.</p>
-                    
-                    <h4>3. Limitación de Responsabilidad</h4>
-                    <p>Los desarrolladores no se hacen responsables de errores en los cálculos. El usuario es responsable de verificar todas las dosificaciones.</p>
-                    
-                    <h4>4. Uso Apropiado</h4>
-                    <p>Esta aplicación está destinada exclusivamente para uso por parte de profesionales de la salud calificados.</p>
-                    
-                    <h4>5. Importación de Base de Datos</h4>
-                    <p>Es obligatorio importar una base de datos de medicamentos antes de usar la aplicación. Sin datos, la calculadora no funcionará.</p>
+    <header>
+        <h1>PediaCalc HPJRM</h1>
+        <div class="subtitle">Sistema Completo de Cálculo Pediátrico</div>
+    </header>
+    
+    <div class="container">
+        <!-- Pantalla de Términos y Condiciones -->
+        <div id="screen-terms" class="screen active">
+            <div class="card">
+                <h2>Términos y Condiciones</h2>
+                <div class="terms-container">
+                    <div class="terms-text">
+                        <p><strong>IMPORTANTE:</strong> Esta aplicación está diseñada como herramienta de apoyo para profesionales de la salud. No sustituye el criterio médico ni la evaluación clínica individualizada.</p>
+                        
+                        <p><strong>Responsabilidades del usuario:</strong></p>
+                        <ul>
+                            <li>Verificar siempre los cálculos realizados por la aplicación</li>
+                            <li>Confirmar las dosis con fuentes oficiales y literatura médica actualizada</li>
+                            <li>Ajustar las dosis según las condiciones clínicas del paciente</li>
+                            <li>Considerar contraindicaciones, interacciones y condiciones especiales</li>
+                            <li>Validar la compatibilidad de medicamentos antes de su administración</li>
+                        </ul>
+                        
+                        <p><strong>Limitaciones de responsabilidad:</strong></p>
+                        <ul>
+                            <li>Los desarrolladores no se responsabilizan por errores en los cálculos</li>
+                            <li>La aplicación puede contener imprecisiones o errores</li>
+                            <li>El usuario final es responsable de la validación clínica de los resultados</li>
+                            <li>Se recomienda utilizar esta herramienta junto con otras fuentes de información</li>
+                        </ul>
+                        
+                        <p>Al utilizar esta aplicación, acepta estos términos y reconoce que es un profesional de la salud calificado para prescribir medicamentos.</p>
+                    </div>
                 </div>
-                <div class="countdown" id="countdown">Aceptar términos en: 10 segundos</div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" id="acceptTerms" disabled>Aceptar Términos</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Import Modal -->
-    <div class="modal" id="importModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Importar Base de Datos</h3>
-            </div>
-            <div class="modal-body">
-                <p>Para usar PediaCalc, debe importar una base de datos de medicamentos. Seleccione una opción:</p>
                 
-                <div class="import-options">
-                    <div class="import-option" id="importLocalOption">
-                        <div class="import-icon">📁</div>
-                        <h4>Archivo Local</h4>
-                        <p>Importar desde un archivo JSON en su dispositivo</p>
-                    </div>
-                    <div class="import-option" id="importDriveOption">
-                        <div class="import-icon">🌐</div>
-                        <h4>Desde URL</h4>
-                        <p>Importar desde una URL de GitHub o Google Drive</p>
-                    </div>
+                <div class="countdown" id="countdown">10</div>
+                
+                <button id="btn-accept-terms" class="btn btn-success" disabled>Aceptar Términos</button>
+            </div>
+        </div>
+        
+        <!-- Pantalla de Importación de Base de Datos -->
+        <div id="screen-import" class="screen">
+            <div class="card">
+                <h2>Importar Base de Datos</h2>
+                <p>Para comenzar, importe la base de datos de medicamentos.</p>
+                
+                <div class="form-group">
+                    <label for="file-import">Seleccionar archivo JSON</label>
+                    <input type="file" id="file-import" accept=".json">
                 </div>
-
-                <div id="localImportSection" style="display: none;">
-                    <div class="form-group">
-                        <label class="file-label" for="importFile">
-                            📥 Seleccionar archivo JSON
-                        </label>
-                        <input type="file" id="importFile" class="file-input" accept=".json">
-                    </div>
+                
+                <div class="alert alert-warning" id="import-alert">
+                    Es necesario importar la base de datos para utilizar la calculadora.
                 </div>
-
-                <div id="driveImportSection" style="display: none;">
-                    <div class="form-group">
-                        <label for="importUrl">URL del archivo JSON:</label>
-                        <input type="text" id="importUrl" class="github-url" placeholder="https://raw.githubusercontent.com/... o https://drive.google.com/...">
-                    </div>
-                    <div class="alert alert-info">
-                        <strong>Ejemplos:</strong><br>
-                        GitHub: https://raw.githubusercontent.com/usuario/repo/main/database.json<br>
-                        Google Drive: https://drive.google.com/uc?id=FILE_ID
-                    </div>
+                
+                <button id="btn-import" class="btn btn-success">Importar Base de Datos</button>
+                
+                <div class="alert alert-success hidden" id="import-success">
+                    Base de datos importada correctamente.
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="backToOptions" style="display: none;">← Volver</button>
-                <button class="btn" id="confirmImport" disabled>Importar Base de Datos</button>
+            
+            <div class="card">
+                <h3>Base de Datos Actual</h3>
+                <div id="db-status" class="alert alert-warning">
+                    No se ha importado ninguna base de datos.
+                </div>
+                
+                <div id="db-info" class="hidden">
+                    <p><strong>Versión:</strong> <span id="db-version"></span></p>
+                    <p><strong>Medicamentos:</strong> <span id="db-count"></span></p>
+                    <p><strong>Última actualización:</strong> <span id="db-updated"></span></p>
+                </div>
+                
+                <button id="btn-export" class="btn btn-warning">Exportar Base de Datos</button>
+            </div>
+        </div>
+        
+        <!-- Pantalla de Calculadora -->
+        <div id="screen-calculator" class="screen">
+            <div class="card">
+                <h2>Calculadora de Dosis</h2>
+                
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-med" class="search-input" placeholder="Buscar medicamento...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="select-med">Medicamento</label>
+                    <select id="select-med">
+                        <option value="">Seleccione un medicamento</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="input-weight">Peso del paciente (kg)</label>
+                    <input type="number" id="input-weight" min="0.1" step="0.1" placeholder="Ej: 15.5">
+                </div>
+                
+                <div class="form-group">
+                    <label for="select-presentation">Presentación</label>
+                    <select id="select-presentation">
+                        <option value="">Seleccione una presentación</option>
+                    </select>
+                </div>
+                
+                <div class="form-group hidden" id="dilution-group">
+                    <label for="input-dilution">Volumen de dilución (ml)</label>
+                    <input type="number" id="input-dilution" min="1" placeholder="Ej: 10">
+                </div>
+                
+                <button id="btn-calculate" class="btn">Calcular Dosis</button>
+            </div>
+            
+            <div id="result-card" class="result-card">
+                <div class="result-title" id="result-title">Resultado del Cálculo</div>
+                
+                <div id="result-alerts"></div>
+                
+                <div class="result-detail">
+                    <strong>Administrar:</strong> <span id="result-dose"></span>
+                </div>
+                
+                <div class="result-detail">
+                    <strong>Frecuencia:</strong> <span id="result-frequency"></span>
+                </div>
+                
+                <div class="result-detail">
+                    <strong>Vía:</strong> <span id="result-route"></span>
+                </div>
+                
+                <div class="calculation-steps" id="calculation-steps"></div>
+            </div>
+        </div>
+        
+        <!-- Pantalla de Base de Datos -->
+        <div id="screen-database" class="screen">
+            <div class="card">
+                <h2>Base de Datos de Medicamentos</h2>
+                
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="search-db" class="search-input" placeholder="Buscar en base de datos...">
+                </div>
+                
+                <div id="medicamentos-list"></div>
             </div>
         </div>
     </div>
-
-    <!-- Welcome Screen -->
-    <div class="section active" id="welcomeSection">
-        <div class="welcome-container">
-            <div class="welcome-icon">👶</div>
-            <h1>Bienvenido a PediaCalc HPJRM v9.4.0</h1>
-            <p>Herramienta avanzada para cálculo de dosis pediátricas</p>
-            <div class="welcome-buttons">
-                <button class="btn" id="startApp">Comenzar</button>
-                <button class="btn btn-secondary" id="viewTerms">Ver Términos</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main App -->
-    <div id="mainApp" style="display: none;">
-        <header>
-            <div class="container">
-                <div class="header-content">
-                    <div class="logo">
-                        <h1>PediaCalc HPJRM v9.4.0</h1>
-                    </div>
-                    <button class="menu-toggle" id="menuToggle">☰</button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h3>Menú</h3>
-                <button class="sidebar-close" id="sidebarClose">&times;</button>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li><a href="#" class="nav-link active" data-section="calculator">Calculadora</a></li>
-                    <li><a href="#" class="nav-link" data-section="database">Base de Datos</a></li>
-                    <li><a href="#" class="nav-link" data-section="management">Gestión</a></li>
-                    <li><a href="#" class="nav-link" data-section="settings">Configuración</a></li>
-                </ul>
-            </nav>
-        </div>
-
-        <!-- Main Content -->
-        <main>
-            <div class="container">
-                <!-- Calculator Section -->
-                <section class="section active" id="calculatorSection">
-                    <div class="section-header">
-                        <h2>Calculadora de Dosis Pediátricas</h2>
-                        <p>Calcule dosis de medicamentos de forma rápida y precisa</p>
-                    </div>
-                    
-                    <div id="noDataAlert" class="alert alert-warning">
-                        <strong>⚠️ Base de datos requerida</strong><br>
-                        Para usar la calculadora, primero debe importar una base de datos de medicamentos.
-                        <button class="btn btn-secondary" style="margin-top: 10px;" id="importFromCalculator">Importar Base de Datos</button>
-                    </div>
-                    
-                    <div id="calculatorContent" style="display: none;">
-                        <div class="calculator-steps">
-                            <div class="step step-1 active" id="step1">1. Peso</div>
-                            <div class="step step-2" id="step2">2. Medicamento</div>
-                            <div class="step step-3" id="step3">3. Presentación</div>
-                            <div class="step step-4" id="step4">4. Calcular</div>
-                        </div>
-                        
-                        <div class="card calculator-step-focus" id="calculatorForm">
-                            <div class="form-group" id="step1Form">
-                                <label for="patientWeight">Peso (kg)</label>
-                                <input type="number" id="patientWeight" min="0.1" step="0.1" placeholder="Ej: 15.5" required>
-                            </div>
-                            
-                            <div class="form-group" id="step2Form" style="display: none;">
-                                <label for="medicineCategory">Categoría de Medicamento</label>
-                                <select id="medicineCategory">
-                                    <option value="">Todas las categorías</option>
-                                    <option value="antibioticos">Antibióticos</option>
-                                    <option value="analgesicos">Analgésicos/Antipiréticos</option>
-                                    <option value="broncodilatadores">Broncodilatadores</option>
-                                    <option value="antihistaminicos">Antihistamínicos</option>
-                                    <option value="corticoides">Corticoides</option>
-                                    <option value="gastrointestinales">Gastrointestinales</option>
-                                    <option value="anticonvulsivantes">Anticonvulsivantes</option>
-                                    <option value="antiparasitarios">Antiparasitarios</option>
-                                    <option value="antivirales">Antivirales</option>
-                                    <option value="antifungicos">Antifúngicos</option>
-                                    <option value="suplementos">Suplementos</option>
-                                    <option value="otros">Otros</option>
-                                </select>
-                                
-                                <div class="form-group">
-                                    <label for="medicineSelect">Medicamento</label>
-                                    <select id="medicineSelect" required>
-                                        <option value="">Seleccione un medicamento</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group" id="step3Form" style="display: none;">
-                                <label for="presentationSelect">Presentación</label>
-                                <select id="presentationSelect" required>
-                                    <option value="">Seleccione una presentación</option>
-                                </select>
-                                
-                                <div class="form-group" id="dilutionGroup" style="display: none;">
-                                    <label for="dilutionVolume">Volumen de Dilución (ml)</label>
-                                    <input type="number" id="dilutionVolume" min="1" placeholder="Ej: 5">
-                                </div>
-                            </div>
-                            
-                            <div class="form-group" id="step4Form" style="display: none;">
-                                <button class="btn btn-block" id="calculateBtn">Calcular Dosis</button>
-                            </div>
-                        </div>
-                        
-                        <div class="card result-card" id="resultCard">
-                            <div class="card-header">
-                                <h3 class="card-title">Resultado del Cálculo</h3>
-                                <button class="btn btn-secondary" id="closeResult">Cerrar</button>
-                            </div>
-                            <div id="resultContent"></div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Database Section -->
-                <section class="section" id="databaseSection">
-                    <div class="section-header">
-                        <h2>Base de Datos de Medicamentos</h2>
-                        <p>Explore la completa base de datos de medicamentos pediátricos</p>
-                    </div>
-                    
-                    <div id="databaseNoData" class="alert alert-warning">
-                        <strong>No hay datos disponibles</strong><br>
-                        Importe una base de datos para ver los medicamentos.
-                        <button class="btn btn-secondary" style="margin-top: 10px;" id="importFromDatabase">Importar Base de Datos</button>
-                    </div>
-                    
-                    <div id="databaseContent" style="display: none;">
-                        <div class="search-box">
-                            <input type="text" id="searchInput" placeholder="Buscar medicamento por nombre, familia o vía...">
-                        </div>
-                        
-                        <div class="medicines-grid" id="medicinesGrid"></div>
-                    </div>
-                </section>
-
-                <!-- Management Section -->
-                <section class="section" id="managementSection">
-                    <div class="section-header">
-                        <h2>Gestión de Medicamentos</h2>
-                        <p>Agregue, edite o elimine medicamentos de la base de datos</p>
-                    </div>
-                    
-                    <div id="managementNoData" class="alert alert-warning">
-                        <strong>No hay datos disponibles</strong><br>
-                        Importe una base de datos para gestionar medicamentos.
-                        <button class="btn btn-secondary" style="margin-top: 10px;" id="importFromManagement">Importar Base de Datos</button>
-                    </div>
-                    
-                    <div id="managementContent" style="display: none;">
-                        <div class="data-actions">
-                            <button class="btn" id="addMedicineBtn">➕ Agregar Medicamento</button>
-                            <button class="btn btn-secondary" id="exportDataBtn">📤 Exportar Datos</button>
-                            <label class="file-label" for="importFileManagement">📥 Importar Datos</label>
-                            <input type="file" id="importFileManagement" class="file-input" accept=".json">
-                            <button class="btn btn-secondary" id="updateFromGithubBtn">🔄 Actualizar desde URL</button>
-                        </div>
-                        
-                        <div class="card">
-                            <input type="text" id="githubUrl" class="github-url" placeholder="URL del archivo JSON (GitHub o Google Drive)">
-                        </div>
-                        
-                        <div class="card medicine-form" id="medicineForm" style="display: none;">
-                            <div class="card-header">
-                                <h3 class="card-title" id="formTitle">Agregar Nuevo Medicamento</h3>
-                            </div>
-                            <form id="medicineFormElement">
-                                <input type="hidden" id="medicineId">
-                                
-                                <div class="form-group">
-                                    <label for="formName">Nombre del Medicamento *</label>
-                                    <input type="text" id="formName" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formFamily">Familia/Categoría *</label>
-                                    <select id="formFamily" required>
-                                        <option value="">Seleccione una familia</option>
-                                        <option value="antibioticos">Antibióticos</option>
-                                        <option value="analgesicos">Analgésicos/Antipiréticos</option>
-                                        <option value="broncodilatadores">Broncodilatadores</option>
-                                        <option value="antihistaminicos">Antihistamínicos</option>
-                                        <option value="corticoides">Corticoides</option>
-                                        <option value="gastrointestinales">Gastrointestinales</option>
-                                        <option value="anticonvulsivantes">Anticonvulsivantes</option>
-                                        <option value="antiparasitarios">Antiparasitarios</option>
-                                        <option value="antivirales">Antivirales</option>
-                                        <option value="antifungicos">Antifúngicos</option>
-                                        <option value="suplementos">Suplementos</option>
-                                        <option value="otros">Otros</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formDoseHabitual">Dosis Habitual (por kg/día) *</label>
-                                    <input type="number" id="formDoseHabitual" step="0.1" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formUnit">Unidad de medida *</label>
-                                    <select id="formUnit" required>
-                                        <option value="mg">mg</option>
-                                        <option value="UI">UI</option>
-                                        <option value="mcg">mcg</option>
-                                        <option value="g">g</option>
-                                        <option value="ml">ml</option>
-                                        <option value="gotas">gotas</option>
-                                    </select>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formFrequency">Frecuencia de Administración *</label>
-                                    <input type="text" id="formFrequency" placeholder="Ej: Cada 8 horas" required>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>Presentaciones *</label>
-                                    <div id="presentationsContainer"></div>
-                                    <button type="button" class="btn btn-secondary" id="addPresentationBtn">➕ Agregar Presentación</button>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formDoseMaxDaily">Dosis Máxima Diaria (opcional)</label>
-                                    <input type="number" id="formDoseMaxDaily" step="0.1">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formDoseMaxSingle">Dosis Máxima por Toma (opcional)</label>
-                                    <input type="number" id="formDoseMaxSingle" step="0.1">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formIndications">Indicaciones (separadas por coma)</label>
-                                    <textarea id="formIndications" rows="3"></textarea>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formAlerts">Alertas/Precauciones (separadas por coma)</label>
-                                    <textarea id="formAlerts" rows="3"></textarea>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label>
-                                        <input type="checkbox" id="formLiofilizado"> Requiere reconstitución (liofilizado)
-                                    </label>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label for="formDilution">Volumen de dilución estándar (ml)</label>
-                                    <input type="number" id="formDilution" min="0" step="0.1" value="10">
-                                </div>
-                                
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-block">💾 Guardar Medicamento</button>
-                                    <button type="button" class="btn btn-secondary btn-block" id="cancelFormBtn">❌ Cancelar</button>
-                                </div>
-                            </form>
-                        </div>
-                        
-                        <div id="managementList" class="medicine-list"></div>
-                    </div>
-                </section>
-
-                <!-- Settings Section -->
-                <section class="section" id="settingsSection">
-                    <div class="section-header">
-                        <h2>Configuración</h2>
-                        <p>Personalice la aplicación según sus preferencias</p>
-                    </div>
-                    
-                    <div class="card">
-                        <div class="settings-option">
-                            <div>
-                                <h3>Tema Oscuro</h3>
-                                <p>Cambiar entre tema claro y oscuro</p>
-                            </div>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="darkModeToggle">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        
-                        <div class="settings-option">
-                            <div>
-                                <h3>Tamaño de Fuente</h3>
-                                <p>Ajustar el tamaño del texto</p>
-                            </div>
-                            <select id="fontSizeSelect">
-                                <option value="small">Pequeño</option>
-                                <option value="medium" selected>Mediano</option>
-                                <option value="large">Grande</option>
-                            </select>
-                        </div>
-                        
-                        <div class="settings-option">
-                            <div>
-                                <h3>Exportar Datos</h3>
-                                <p>Descargar una copia de la base de datos</p>
-                            </div>
-                            <button class="btn" id="exportSettingsBtn">📤 Exportar</button>
-                        </div>
-                        
-                        <div class="settings-option">
-                            <div>
-                                <h3>Importar Datos</h3>
-                                <p>Cargar una base de datos de medicamentos</p>
-                            </div>
-                            <button class="btn btn-secondary" id="importFromSettings">📥 Importar</button>
-                        </div>
-                        
-                        <div class="settings-option">
-                            <div>
-                                <h3>Términos y Condiciones</h3>
-                                <p>Ver los términos de uso de la aplicación</p>
-                            </div>
-                            <button class="btn btn-secondary" id="viewTermsSettings">📄 Ver Términos</button>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
-
-        <footer>
-            <div class="container">
-                <p>PediaCalc HPJRM v9.4.0 &copy; 2025 - Herramienta para Profesionales de la Salud</p>
-            </div>
-        </footer>
+    
+    <!-- Navegación Inferior -->
+    <div class="nav-bottom">
+        <a href="#" class="nav-item" data-screen="screen-calculator">
+            <span class="nav-icon">🧮</span>
+            <span>Calculadora</span>
+        </a>
+        <a href="#" class="nav-item" data-screen="screen-database">
+            <span class="nav-icon">💊</span>
+            <span>Medicamentos</span>
+        </a>
+        <a href="#" class="nav-item" data-screen="screen-import">
+            <span class="nav-icon">📁</span>
+            <span>Base de Datos</span>
+        </a>
     </div>
 
     <script>
-        // NO HAY BASE DE DATOS INICIAL - Se requiere importación
-        const initialMedicines = [];
-
-        // Aplicación principal
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeApp();
-            setupEventListeners();
-            checkDatabaseStatus();
-            
-            // Verificar si ya se aceptaron términos y se importó base de datos
-            checkInitialSetup();
-        });
-
-        function initializeApp() {
-            loadSettings();
-            // No cargar medicamentos iniciales - requerir importación
-        }
-
-        function checkInitialSetup() {
-            const termsAccepted = localStorage.getItem('termsAccepted') === 'true';
-            const databaseImported = localStorage.getItem('databaseImported') === 'true';
-            
-            if (termsAccepted && databaseImported) {
-                // Si ya se aceptaron términos y se importó base de datos, iniciar directamente
-                document.getElementById('welcomeSection').classList.remove('active');
-                document.getElementById('mainApp').style.display = 'block';
-                document.getElementById('calculatorSection').classList.add('active');
-                checkDatabaseStatus();
+        // Clase para gestionar la base de datos
+        class DatabaseManager {
+            constructor() {
+                this.database = null;
+                this.medicamentos = [];
             }
-        }
-
-        function setupEventListeners() {
-            // Términos y condiciones
-            document.getElementById('viewTerms').addEventListener('click', showTermsModal);
-            document.getElementById('viewTermsSettings').addEventListener('click', showTermsModal);
-            document.getElementById('acceptTerms').addEventListener('click', acceptTerms);
-
-            // Importación desde diferentes secciones
-            document.getElementById('importFromCalculator').addEventListener('click', showImportModal);
-            document.getElementById('importFromDatabase').addEventListener('click', showImportModal);
-            document.getElementById('importFromManagement').addEventListener('click', showImportModal);
-            document.getElementById('importFromSettings').addEventListener('click', showImportModal);
-
-            // Opciones de importación
-            document.getElementById('importLocalOption').addEventListener('click', showLocalImport);
-            document.getElementById('importDriveOption').addEventListener('click', showDriveImport);
-            document.getElementById('backToOptions').addEventListener('click', showImportOptions);
-            document.getElementById('confirmImport').addEventListener('click', confirmImport);
-
-            // Archivos de importación
-            document.getElementById('importFile').addEventListener('change', handleFileSelect);
-            document.getElementById('importFileManagement').addEventListener('change', importData);
-
-            // Navegación
-            document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
-            document.getElementById('sidebarClose').addEventListener('click', toggleSidebar);
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', handleNavigation);
-            });
-
-            // Calculadora
-            document.getElementById('patientWeight').addEventListener('input', updateCalculatorSteps);
-            document.getElementById('medicineCategory').addEventListener('change', updateMedicineSelect);
-            document.getElementById('medicineSelect').addEventListener('change', updatePresentationSelect);
-            document.getElementById('presentationSelect').addEventListener('change', checkDilutionRequired);
-            document.getElementById('calculateBtn').addEventListener('click', calculateDose);
-            document.getElementById('closeResult').addEventListener('click', closeResult);
-
-            // Gestión
-            document.getElementById('addMedicineBtn').addEventListener('click', showMedicineForm);
-            document.getElementById('cancelFormBtn').addEventListener('click', hideMedicineForm);
-            document.getElementById('medicineFormElement').addEventListener('submit', saveMedicine);
-            document.getElementById('addPresentationBtn').addEventListener('click', addPresentationField);
-            document.getElementById('exportDataBtn').addEventListener('click', exportData);
-            document.getElementById('updateFromGithubBtn').addEventListener('click', updateFromGithub);
-
-            // Configuración
-            document.getElementById('darkModeToggle').addEventListener('change', toggleDarkMode);
-            document.getElementById('fontSizeSelect').addEventListener('change', changeFontSize);
-            document.getElementById('exportSettingsBtn').addEventListener('click', exportData);
-        }
-
-        // Funciones de términos y condiciones
-        function showTermsModal() {
-            document.getElementById('termsModal').classList.add('active');
-            startCountdown();
-        }
-
-        function startCountdown() {
-            let countdown = 10;
-            const countdownElement = document.getElementById('countdown');
-            const acceptBtn = document.getElementById('acceptTerms');
             
-            acceptBtn.disabled = true;
-            acceptBtn.textContent = 'Aceptar Términos';
-            
-            const interval = setInterval(() => {
-                countdown--;
-                countdownElement.textContent = `Aceptar términos en: ${countdown} segundos`;
-                
-                if (countdown <= 0) {
-                    clearInterval(interval);
-                    acceptBtn.disabled = false;
-                }
-            }, 1000);
-        }
-
-        function acceptTerms() {
-            localStorage.setItem('termsAccepted', 'true');
-            document.getElementById('termsModal').classList.remove('active');
-            // Mostrar modal de importación inmediatamente después de aceptar términos
-            setTimeout(() => {
-                showImportModal();
-            }, 500);
-        }
-
-        // Funciones de importación
-        function showImportModal() {
-            document.getElementById('importModal').classList.add('active');
-            showImportOptions();
-        }
-
-        function showImportOptions() {
-            document.getElementById('localImportSection').style.display = 'none';
-            document.getElementById('driveImportSection').style.display = 'none';
-            document.getElementById('backToOptions').style.display = 'none';
-            document.getElementById('confirmImport').disabled = true;
-            document.getElementById('confirmImport').textContent = 'Importar Base de Datos';
-        }
-
-        function showLocalImport() {
-            document.getElementById('localImportSection').style.display = 'block';
-            document.getElementById('driveImportSection').style.display = 'none';
-            document.getElementById('backToOptions').style.display = 'block';
-            document.getElementById('confirmImport').disabled = true;
-        }
-
-        function showDriveImport() {
-            document.getElementById('localImportSection').style.display = 'none';
-            document.getElementById('driveImportSection').style.display = 'block';
-            document.getElementById('backToOptions').style.display = 'block';
-            document.getElementById('confirmImport').disabled = true;
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                document.getElementById('confirmImport').disabled = false;
-            }
-        }
-
-        function confirmImport() {
-            const localFile = document.getElementById('importFile').files[0];
-            const driveUrl = document.getElementById('importUrl').value;
-
-            if (localFile) {
-                importFile(localFile);
-            } else if (driveUrl) {
-                updateFromUrl(driveUrl);
-            } else {
-                showAlert('Seleccione un archivo o ingrese una URL', 'danger');
-            }
-        }
-
-        function importFile(file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
+            // Importar base de datos desde JSON
+            importFromJSON(jsonData) {
                 try {
-                    const data = JSON.parse(e.target.result);
-                    processImportedData(data);
-                } catch (error) {
-                    showAlert('Error al leer el archivo: ' + error.message, 'danger');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        async function updateFromUrl(url) {
-            try {
-                // Para Google Drive, necesitamos transformar la URL
-                let finalUrl = url;
-                if (url.includes('drive.google.com')) {
-                    const fileId = extractGoogleDriveFileId(url);
-                    if (fileId) {
-                        finalUrl = `https://drive.google.com/uc?id=${fileId}&export=download`;
-                    }
-                }
-
-                const response = await fetch(finalUrl);
-                if (!response.ok) throw new Error('Error al descargar el archivo');
-                
-                const data = await response.json();
-                processImportedData(data);
-            } catch (error) {
-                showAlert('Error al importar desde URL: ' + error.message, 'danger');
-            }
-        }
-
-        function extractGoogleDriveFileId(url) {
-            const match = url.match(/[?&]id=([^&]+)/) || url.match(/\/d\/([^\/]+)/);
-            return match ? match[1] : null;
-        }
-
-        function processImportedData(data) {
-            let medicines;
-            
-            // Manejar diferentes formatos
-            if (Array.isArray(data)) {
-                medicines = data;
-            } else if (data.medicines && Array.isArray(data.medicines)) {
-                medicines = data.medicines;
-            } else {
-                showAlert('El archivo no contiene una base de datos válida', 'danger');
-                return;
-            }
-            
-            // Validar estructura básica
-            const isValid = medicines.every(med => 
-                med.id && med.nombre && med.familia && med.dosisHabitual !== undefined
-            );
-            
-            if (isValid && medicines.length > 0) {
-                saveMedicines(medicines);
-                localStorage.setItem('databaseImported', 'true');
-                document.getElementById('importModal').classList.remove('active');
-                showAlert('Base de datos importada correctamente', 'success');
-                checkDatabaseStatus();
-                loadMedicinesToSelect();
-                loadManagementList();
-                loadMedicinesGrid();
-            } else {
-                showAlert('El archivo contiene datos incompletos o inválidos', 'danger');
-            }
-        }
-
-        function checkDatabaseStatus() {
-            const medicines = getMedicines();
-            const hasData = medicines.length > 0;
-
-            // Mostrar/ocultar contenido según disponibilidad de datos
-            document.getElementById('noDataAlert').style.display = hasData ? 'none' : 'block';
-            document.getElementById('calculatorContent').style.display = hasData ? 'block' : 'none';
-            document.getElementById('databaseNoData').style.display = hasData ? 'none' : 'block';
-            document.getElementById('databaseContent').style.display = hasData ? 'block' : 'none';
-            document.getElementById('managementNoData').style.display = hasData ? 'none' : 'block';
-            document.getElementById('managementContent').style.display = hasData ? 'block' : 'none';
-
-            if (!hasData) {
-                // Si no hay datos, mostrar alerta en todas las secciones
-                showAlert('Importe una base de datos para usar todas las funciones', 'warning');
-            }
-        }
-
-        // Funciones de navegación
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
-
-        function handleNavigation(e) {
-            e.preventDefault();
-            const targetSection = this.getAttribute('data-section');
-            
-            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            
-            this.classList.add('active');
-            document.getElementById(`${targetSection}Section`).classList.add('active');
-            
-            if (window.innerWidth <= 768) {
-                toggleSidebar();
-            }
-            
-            if (targetSection === 'database') {
-                loadMedicinesGrid();
-            } else if (targetSection === 'management') {
-                loadManagementList();
-            }
-        }
-
-        // Funciones de la calculadora
-        function updateCalculatorSteps() {
-            const weight = document.getElementById('patientWeight').value;
-            const medicine = document.getElementById('medicineSelect').value;
-            const presentation = document.getElementById('presentationSelect').value;
-            
-            // Resetear todos los pasos
-            document.querySelectorAll('.step').forEach(step => {
-                step.classList.remove('active');
-            });
-            
-            // Ocultar todos los formularios
-            document.getElementById('step1Form').style.display = 'none';
-            document.getElementById('step2Form').style.display = 'none';
-            document.getElementById('step3Form').style.display = 'none';
-            document.getElementById('step4Form').style.display = 'none';
-            
-            if (weight) {
-                document.getElementById('step1').classList.add('active');
-                document.getElementById('step1Form').style.display = 'block';
-                document.getElementById('step2').classList.add('active');
-                document.getElementById('step2Form').style.display = 'block';
-                
-                if (medicine) {
-                    document.getElementById('step3').classList.add('active');
-                    document.getElementById('step3Form').style.display = 'block';
+                    const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
                     
-                    if (presentation) {
-                        document.getElementById('step4').classList.add('active');
-                        document.getElementById('step4Form').style.display = 'block';
+                    // Validar estructura
+                    if (!data.version || !data.medicamentos || !Array.isArray(data.medicamentos)) {
+                        throw new Error("Estructura de JSON inválida");
                     }
+                    
+                    // Procesar medicamentos
+                    this.medicamentos = data.medicamentos.map(med => {
+                        // Asegurar que las presentaciones tengan valores numéricos
+                        if (med.presentaciones) {
+                            med.presentaciones = med.presentaciones.map(pres => {
+                                // Convertir concentración a valor numérico si es necesario
+                                if (typeof pres.presentacion === 'string') {
+                                    pres.presentacion = this.convertToMg(pres.presentacion);
+                                }
+                                
+                                // Extraer volumen de concentración para suspensiones
+                                if (pres.tipo === 'Suspensión' && pres.concentracion && pres.concentracion.includes('/')) {
+                                    const parts = pres.concentracion.split('/');
+                                    if (parts.length === 2) {
+                                        const volumePart = parts[1].toLowerCase();
+                                        if (volumePart.includes('ml')) {
+                                            pres.volumen = parseInt(volumePart.replace('ml', ''));
+                                        }
+                                    }
+                                }
+                                
+                                return pres;
+                            });
+                        }
+                        
+                        return med;
+                    });
+                    
+                    this.database = data;
+                    this.saveToLocalStorage();
+                    
+                    return true;
+                } catch (error) {
+                    console.error("Error importando base de datos:", error);
+                    return false;
                 }
             }
             
-            // Desplazar al formulario activo
-            const activeForm = document.querySelector('.form-group[style*="display: block"]');
-            if (activeForm) {
-                activeForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Convertir formato de texto a mg
+            convertToMg(value) {
+                if (typeof value !== 'string') return value;
+                
+                value = value.toLowerCase().trim();
+                
+                // Extraer número y unidad
+                const match = value.match(/(\d+(\.\d+)?)\s*([a-z]*)/);
+                if (!match) return 0;
+                
+                const num = parseFloat(match[1]);
+                const unit = match[3];
+                
+                // Convertir a mg
+                if (unit === 'g') return num * 1000;
+                return num;
+            }
+            
+            // Guardar en localStorage
+            saveToLocalStorage() {
+                if (this.database) {
+                    localStorage.setItem('pediaCalcDB', JSON.stringify(this.database));
+                    localStorage.setItem('pediaCalcLastUpdate', new Date().toISOString());
+                }
+            }
+            
+            // Cargar desde localStorage
+            loadFromLocalStorage() {
+                const storedDB = localStorage.getItem('pediaCalcDB');
+                if (storedDB) {
+                    return this.importFromJSON(storedDB);
+                }
+                return false;
+            }
+            
+            // Exportar base de datos
+            exportToJSON() {
+                return JSON.stringify(this.database, null, 2);
+            }
+            
+            // Obtener medicamento por ID
+            getMedicamento(id) {
+                return this.medicamentos.find(med => med.id === id);
+            }
+            
+            // Buscar medicamentos
+            searchMedicamentos(query) {
+                if (!query) return this.medicamentos;
+                
+                const lowerQuery = query.toLowerCase();
+                return this.medicamentos.filter(med => 
+                    med.nombre.toLowerCase().includes(lowerQuery) ||
+                    med.familia.toLowerCase().includes(lowerQuery) ||
+                    (med.indicaciones && med.indicaciones.some(ind => ind.toLowerCase().includes(lowerQuery)))
+                );
+            }
+            
+            // Obtener estadísticas
+            getStats() {
+                return {
+                    version: this.database ? this.database.version : 'N/A',
+                    count: this.medicamentos.length,
+                    lastUpdate: localStorage.getItem('pediaCalcLastUpdate') || 'N/A'
+                };
             }
         }
-
-        function loadMedicinesToSelect() {
-            const medicines = getMedicines();
-            const categorySelect = document.getElementById('medicineCategory');
-            const medicineSelect = document.getElementById('medicineSelect');
+        
+        // Clase para cálculos de dosis
+        class DoseCalculator {
+            constructor(databaseManager) {
+                this.db = databaseManager;
+            }
             
-            medicineSelect.innerHTML = '<option value="">Seleccione un medicamento</option>';
+            // Calcular dosis
+            calculate(medId, presentationIndex, weight, dilution = null) {
+                const medicamento = this.db.getMedicamento(medId);
+                if (!medicamento) {
+                    throw new Error("Medicamento no encontrado");
+                }
+                
+                const presentation = medicamento.presentaciones[presentationIndex];
+                if (!presentation) {
+                    throw new Error("Presentación no encontrada");
+                }
+                
+                // Validar peso
+                if (!weight || weight <= 0) {
+                    throw new Error("Peso inválido");
+                }
+                
+                let result = {
+                    medicamento: medicamento.nombre,
+                    presentacion: presentation.descripcion,
+                    via: presentation.via,
+                    frecuencia: medicamento.frecuencia,
+                    dosisDiaria: 0,
+                    dosisPorToma: 0,
+                    cantidad: 0,
+                    unidad: '',
+                    steps: [],
+                    alertas: []
+                };
+                
+                // Calcular según el tipo de presentación
+                switch (presentation.tipo) {
+                    case 'Suspensión':
+                        this.calculateSuspension(medicamento, presentation, weight, result);
+                        break;
+                    case 'Tableta':
+                        this.calculateTableta(medicamento, presentation, weight, result);
+                        break;
+                    case 'Inyectable':
+                        if (medicamento.liofilizado) {
+                            this.calculateLiofilizado(medicamento, presentation, weight, dilution, result);
+                        } else {
+                            this.calculateInyectable(medicamento, presentation, weight, result);
+                        }
+                        break;
+                    case 'Nebulización':
+                        this.calculateNebulizacion(medicamento, presentation, weight, result);
+                        break;
+                    default:
+                        throw new Error("Tipo de presentación no soportado");
+                }
+                
+                // Validar dosis máximas
+                this.validateDosisMaximas(medicamento, result);
+                
+                return result;
+            }
             
-            const filteredMedicines = categorySelect.value ? 
-                medicines.filter(med => med.familia === categorySelect.value) : medicines;
+            // Cálculo para suspensiones
+            calculateSuspension(medicamento, presentation, weight, result) {
+                const dosisDiaria = medicamento.dosisHabitual * weight;
+                const dosisPorToma = this.getDosisPorToma(medicamento, dosisDiaria);
+                
+                // (Dosis × Peso × ml_concentracion) ÷ mg_concentracion
+                const volumen = (dosisPorToma * presentation.volumen) / presentation.presentacion;
+                
+                result.dosisDiaria = dosisDiaria;
+                result.dosisPorToma = dosisPorToma;
+                result.cantidad = volumen;
+                result.unidad = 'ml';
+                
+                result.steps.push(`1. Dosis diaria: ${medicamento.dosisHabitual} ${medicamento.unidad} × ${weight} kg = ${dosisDiaria.toFixed(2)} mg/día`);
+                result.steps.push(`2. Dosis por toma: ${dosisDiaria.toFixed(2)} mg/día ÷ ${this.getNumTomas(medicamento)} tomas = ${dosisPorToma.toFixed(2)} mg`);
+                result.steps.push(`3. Volumen: (${dosisPorToma.toFixed(2)} mg × ${presentation.volumen} ml) ÷ ${presentation.presentacion} mg = ${volumen.toFixed(2)} ml`);
+            }
             
-            filteredMedicines.forEach(med => {
-                const option = document.createElement('option');
-                option.value = med.id;
-                option.textContent = med.nombre;
-                medicineSelect.appendChild(option);
-            });
+            // Cálculo para tabletas
+            calculateTableta(medicamento, presentation, weight, result) {
+                const dosisDiaria = medicamento.dosisHabitual * weight;
+                const dosisPorToma = this.getDosisPorToma(medicamento, dosisDiaria);
+                
+                // (Dosis × Peso) ÷ presentacion
+                const tabletas = dosisPorToma / presentation.presentacion;
+                
+                result.dosisDiaria = dosisDiaria;
+                result.dosisPorToma = dosisPorToma;
+                result.cantidad = tabletas;
+                result.unidad = 'tabletas';
+                
+                result.steps.push(`1. Dosis diaria: ${medicamento.dosisHabitual} ${medicamento.unidad} × ${weight} kg = ${dosisDiaria.toFixed(2)} mg/día`);
+                result.steps.push(`2. Dosis por toma: ${dosisDiaria.toFixed(2)} mg/día ÷ ${this.getNumTomas(medicamento)} tomas = ${dosisPorToma.toFixed(2)} mg`);
+                result.steps.push(`3. Tabletas: ${dosisPorToma.toFixed(2)} mg ÷ ${presentation.presentacion} mg/tableta = ${tabletas.toFixed(2)} tabletas`);
+            }
             
-            updateCalculatorSteps();
+            // Cálculo para inyectables liofilizados
+            calculateLiofilizado(medicamento, presentation, weight, dilution, result) {
+                const dosisDiaria = medicamento.dosisHabitual * weight;
+                const dosisPorToma = this.getDosisPorToma(medicamento, dosisDiaria);
+                
+                // Usar dilución proporcionada o la predeterminada
+                const dilucion = dilution || presentation.dilucion;
+                
+                // (Dosis × Peso × Dilución) ÷ Presentacion
+                const volumen = (dosisPorToma * dilucion) / presentation.presentacion;
+                
+                result.dosisDiaria = dosisDiaria;
+                result.dosisPorToma = dosisPorToma;
+                result.cantidad = volumen;
+                result.unidad = 'ml';
+                
+                result.steps.push(`1. Dosis diaria: ${medicamento.dosisHabitual} ${medicamento.unidad} × ${weight} kg = ${dosisDiaria.toFixed(2)} mg/día`);
+                result.steps.push(`2. Dosis por toma: ${dosisDiaria.toFixed(2)} mg/día ÷ ${this.getNumTomas(medicamento)} tomas = ${dosisPorToma.toFixed(2)} mg`);
+                result.steps.push(`3. Volumen: (${dosisPorToma.toFixed(2)} mg × ${dilucion} ml) ÷ ${presentation.presentacion} mg = ${volumen.toFixed(2)} ml`);
+            }
+            
+            // Cálculo para inyectables directos
+            calculateInyectable(medicamento, presentation, weight, result) {
+                const dosisDiaria = medicamento.dosisHabitual * weight;
+                const dosisPorToma = this.getDosisPorToma(medicamento, dosisDiaria);
+                
+                // Extraer concentración si está en formato mg/ml
+                let concentracion = presentation.presentacion;
+                if (presentation.concentracion && presentation.concentracion.includes('/')) {
+                    const parts = presentation.concentracion.split('/');
+                    if (parts.length === 2 && parts[1].includes('ml')) {
+                        concentracion = this.db.convertToMg(parts[0]) / parseInt(parts[1].replace('ml', ''));
+                    }
+                }
+                
+                // (Dosis × Peso) ÷ Concentracion
+                const volumen = dosisPorToma / concentracion;
+                
+                result.dosisDiaria = dosisDiaria;
+                result.dosisPorToma = dosisPorToma;
+                result.cantidad = volumen;
+                result.unidad = 'ml';
+                
+                result.steps.push(`1. Dosis diaria: ${medicamento.dosisHabitual} ${medicamento.unidad} × ${weight} kg = ${dosisDiaria.toFixed(2)} mg/día`);
+                result.steps.push(`2. Dosis por toma: ${dosisDiaria.toFixed(2)} mg/día ÷ ${this.getNumTomas(medicamento)} tomas = ${dosisPorToma.toFixed(2)} mg`);
+                result.steps.push(`3. Volumen: ${dosisPorToma.toFixed(2)} mg ÷ ${concentracion.toFixed(2)} mg/ml = ${volumen.toFixed(2)} ml`);
+            }
+            
+            // Cálculo para nebulizaciones
+            calculateNebulizacion(medicamento, presentation, weight, result) {
+                const dosisPorToma = medicamento.dosisHabitual * weight;
+                
+                // Extraer concentración si está en formato mg/ml
+                let concentracion = presentation.presentacion;
+                if (presentation.concentracion && presentation.concentracion.includes('/')) {
+                    const parts = presentation.concentracion.split('/');
+                    if (parts.length === 2 && parts[1].includes('ml')) {
+                        concentracion = this.db.convertToMg(parts[0]) / parseInt(parts[1].replace('ml', ''));
+                    }
+                }
+                
+                // Volumen = Dosis / Concentración
+                const volumen = dosisPorToma / concentracion;
+                
+                result.dosisDiaria = dosisPorToma; // Para nebulizaciones, la dosis es por toma
+                result.dosisPorToma = dosisPorToma;
+                result.cantidad = volumen;
+                result.unidad = 'ml';
+                
+                result.steps.push(`1. Dosis por toma: ${medicamento.dosisHabitual} ${medicamento.unidad} × ${weight} kg = ${dosisPorToma.toFixed(2)} mg`);
+                result.steps.push(`2. Volumen: ${dosisPorToma.toFixed(2)} mg ÷ ${concentracion.toFixed(2)} mg/ml = ${volumen.toFixed(2)} ml`);
+            }
+            
+            // Obtener número de tomas basado en la frecuencia
+            getNumTomas(medicamento) {
+                const freq = medicamento.frecuencia.toLowerCase();
+                if (freq.includes('cada 6')) return 4;
+                if (freq.includes('cada 8')) return 3;
+                if (freq.includes('cada 12')) return 2;
+                if (freq.includes('una vez')) return 1;
+                return 1; // Por defecto
+            }
+            
+            // Obtener dosis por toma
+            getDosisPorToma(medicamento, dosisDiaria) {
+                return dosisDiaria / this.getNumTomas(medicamento);
+            }
+            
+            // Validar dosis máximas
+            validateDosisMaximas(medicamento, result) {
+                // Validar dosis máxima diaria
+                if (medicamento.dosisMaximaDiaria && result.dosisDiaria > medicamento.dosisMaximaDiaria) {
+                    result.alertas.push({
+                        tipo: 'danger',
+                        mensaje: `¡EXCEDE DOSIS MÁXIMA DIARIA! Dosis calculada: ${result.dosisDiaria.toFixed(2)} mg, Máxima: ${medicamento.dosisMaximaDiaria} mg`
+                    });
+                }
+                
+                // Validar dosis máxima por toma
+                if (medicamento.dosisMaximaToma && result.dosisPorToma > medicamento.dosisMaximaToma) {
+                    result.alertas.push({
+                        tipo: 'danger',
+                        mensaje: `¡EXCEDE DOSIS MÁXIMA POR TOMA! Dosis calculada: ${result.dosisPorToma.toFixed(2)} mg, Máxima: ${medicamento.dosisMaximaToma} mg`
+                    });
+                }
+                
+                // Validar volumen razonable para inyectables
+                if (result.unidad === 'ml' && result.cantidad > 50) {
+                    result.alertas.push({
+                        tipo: 'warning',
+                        mensaje: `Volumen muy alto (${result.cantidad.toFixed(2)} ml), revisar cálculo`
+                    });
+                }
+                
+                // Validar tabletas razonables
+                if (result.unidad === 'tabletas' && result.cantidad > 5) {
+                    result.alertas.push({
+                        tipo: 'warning',
+                        mensaje: `¡Revisar cálculo! Demasiadas tabletas (${result.cantidad.toFixed(2)})`
+                    });
+                }
+                
+                // Añadir alertas del medicamento
+                if (medicamento.alertas) {
+                    medicamento.alertas.forEach(alerta => {
+                        result.alertas.push({
+                            tipo: 'warning',
+                            mensaje: alerta
+                        });
+                    });
+                }
+            }
         }
-
-        function updateMedicineSelect() {
-            loadMedicinesToSelect();
-            document.getElementById('presentationSelect').innerHTML = '<option value="">Seleccione una presentación</option>';
-            document.getElementById('dilutionGroup').style.display = 'none';
-            updateCalculatorSteps();
-        }
-
-        function updatePresentationSelect() {
-            const medicineId = document.getElementById('medicineSelect').value;
-            const presentationSelect = document.getElementById('presentationSelect');
+        
+        // Clase para gestionar la interfaz de usuario
+        class UIManager {
+            constructor(databaseManager, doseCalculator) {
+                this.db = databaseManager;
+                this.calculator = doseCalculator;
+                this.currentScreen = 'screen-terms';
+                this.initializeEventListeners();
+                this.checkDatabaseStatus();
+            }
             
-            presentationSelect.innerHTML = '<option value="">Seleccione una presentación</option>';
+            // Inicializar event listeners
+            initializeEventListeners() {
+                // Navegación
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const screen = item.getAttribute('data-screen');
+                        this.showScreen(screen);
+                    });
+                });
+                
+                // Términos y condiciones
+                document.getElementById('btn-accept-terms').addEventListener('click', () => {
+                    this.showScreen('screen-import');
+                });
+                
+                // Importación de base de datos
+                document.getElementById('btn-import').addEventListener('click', () => {
+                    this.importDatabase();
+                });
+                
+                // Exportación de base de datos
+                document.getElementById('btn-export').addEventListener('click', () => {
+                    this.exportDatabase();
+                });
+                
+                // Búsqueda de medicamentos
+                document.getElementById('search-med').addEventListener('input', () => {
+                    this.filterMedicamentos();
+                });
+                
+                // Selección de medicamento
+                document.getElementById('select-med').addEventListener('change', () => {
+                    this.updatePresentations();
+                });
+                
+                // Cálculo de dosis
+                document.getElementById('btn-calculate').addEventListener('click', () => {
+                    this.calculateDose();
+                });
+                
+                // Búsqueda en base de datos
+                document.getElementById('search-db').addEventListener('input', () => {
+                    this.filterDatabase();
+                });
+            }
             
-            if (medicineId) {
-                const medicine = getMedicineById(medicineId);
-                medicine.presentaciones.forEach(presentation => {
+            // Mostrar pantalla específica
+            showScreen(screenId) {
+                // Validar flujo obligatorio
+                if (screenId === 'screen-calculator' || screenId === 'screen-database') {
+                    if (!this.db.database) {
+                        alert('Debe importar la base de datos primero');
+                        this.showScreen('screen-import');
+                        return;
+                    }
+                }
+                
+                // Ocultar todas las pantallas
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                
+                // Mostrar pantalla seleccionada
+                document.getElementById(screenId).classList.add('active');
+                
+                // Actualizar navegación
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('data-screen') === screenId) {
+                        item.classList.add('active');
+                    }
+                });
+                
+                // Actualizar contenido según pantalla
+                if (screenId === 'screen-calculator') {
+                    this.populateMedicamentos();
+                } else if (screenId === 'screen-database') {
+                    this.populateDatabase();
+                }
+                
+                this.currentScreen = screenId;
+            }
+            
+            // Verificar estado de la base de datos
+            checkDatabaseStatus() {
+                if (this.db.loadFromLocalStorage()) {
+                    this.updateDatabaseStatus();
+                    // Si ya hay base de datos, saltar a la calculadora
+                    this.showScreen('screen-calculator');
+                } else {
+                    // Iniciar cuenta regresiva para términos
+                    this.startCountdown();
+                }
+            }
+            
+            // Iniciar cuenta regresiva para términos
+            startCountdown() {
+                let countdown = 10;
+                const countdownElement = document.getElementById('countdown');
+                const acceptButton = document.getElementById('btn-accept-terms');
+                
+                const interval = setInterval(() => {
+                    countdown--;
+                    countdownElement.textContent = countdown;
+                    
+                    if (countdown <= 0) {
+                        clearInterval(interval);
+                        acceptButton.disabled = false;
+                        countdownElement.style.display = 'none';
+                    }
+                }, 1000);
+            }
+            
+            // Importar base de datos
+            importDatabase() {
+                const fileInput = document.getElementById('file-import');
+                const file = fileInput.files[0];
+                
+                if (!file) {
+                    alert('Por favor, seleccione un archivo JSON');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const success = this.db.importFromJSON(e.target.result);
+                    
+                    if (success) {
+                        document.getElementById('import-success').classList.remove('hidden');
+                        document.getElementById('import-alert').classList.add('hidden');
+                        this.updateDatabaseStatus();
+                        this.populateMedicamentos();
+                        setTimeout(() => {
+                            this.showScreen('screen-calculator');
+                        }, 1000);
+                    } else {
+                        alert('Error al importar la base de datos. Verifique el formato del archivo.');
+                    }
+                };
+                
+                reader.readAsText(file);
+            }
+            
+            // Exportar base de datos
+            exportDatabase() {
+                if (!this.db.database) {
+                    alert('No hay base de datos para exportar');
+                    return;
+                }
+                
+                const dataStr = this.db.exportToJSON();
+                const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+                
+                const exportFileDefaultName = 'PediaCalcBD.json';
+                
+                const linkElement = document.createElement('a');
+                linkElement.setAttribute('href', dataUri);
+                linkElement.setAttribute('download', exportFileDefaultName);
+                linkElement.click();
+            }
+            
+            // Actualizar estado de la base de datos en la UI
+            updateDatabaseStatus() {
+                const stats = this.db.getStats();
+                
+                document.getElementById('db-version').textContent = stats.version;
+                document.getElementById('db-count').textContent = stats.count;
+                document.getElementById('db-updated').textContent = new Date(stats.lastUpdate).toLocaleString();
+                
+                document.getElementById('db-status').classList.add('hidden');
+                document.getElementById('db-info').classList.remove('hidden');
+            }
+            
+            // Poblar lista de medicamentos
+            populateMedicamentos() {
+                const select = document.getElementById('select-med');
+                select.innerHTML = '<option value="">Seleccione un medicamento</option>';
+                
+                this.db.medicamentos.forEach(med => {
                     const option = document.createElement('option');
-                    option.value = JSON.stringify(presentation);
-                    option.textContent = `${presentation.tipo} - ${presentation.concentracion} (${presentation.presentacion})`;
+                    option.value = med.id;
+                    option.textContent = `${med.nombre} (${med.familia})`;
+                    select.appendChild(option);
+                });
+            }
+            
+            // Filtrar medicamentos en búsqueda
+            filterMedicamentos() {
+                const query = document.getElementById('search-med').value;
+                const results = this.db.searchMedicamentos(query);
+                
+                const select = document.getElementById('select-med');
+                select.innerHTML = '<option value="">Seleccione un medicamento</option>';
+                
+                results.forEach(med => {
+                    const option = document.createElement('option');
+                    option.value = med.id;
+                    option.textContent = `${med.nombre} (${med.familia})`;
+                    select.appendChild(option);
+                });
+            }
+            
+            // Actualizar presentaciones según medicamento seleccionado
+            updatePresentations() {
+                const medId = document.getElementById('select-med').value;
+                const presentationSelect = document.getElementById('select-presentation');
+                const dilutionGroup = document.getElementById('dilution-group');
+                
+                presentationSelect.innerHTML = '<option value="">Seleccione una presentación</option>';
+                dilutionGroup.classList.add('hidden');
+                
+                if (!medId) return;
+                
+                const medicamento = this.db.getMedicamento(medId);
+                if (!medicamento || !medicamento.presentaciones) return;
+                
+                medicamento.presentaciones.forEach((pres, index) => {
+                    const option = document.createElement('option');
+                    option.value = index;
+                    option.textContent = `${pres.descripcion} (${pres.concentracion})`;
                     presentationSelect.appendChild(option);
                 });
-            }
-            
-            updateCalculatorSteps();
-        }
-
-        function checkDilutionRequired() {
-            const medicineId = document.getElementById('medicineSelect').value;
-            if (medicineId) {
-                const medicine = getMedicineById(medicineId);
-                document.getElementById('dilutionGroup').style.display = medicine.liofilizado ? 'block' : 'none';
-            }
-            updateCalculatorSteps();
-        }
-
-        function calculateDose() {
-            const weight = parseFloat(document.getElementById('patientWeight').value);
-            const medicineId = document.getElementById('medicineSelect').value;
-            const presentationValue = document.getElementById('presentationSelect').value;
-            const dilutionVolume = parseFloat(document.getElementById('dilutionVolume').value) || 0;
-
-            if (!validateInputs(weight, medicineId, presentationValue)) return;
-
-            const medicine = getMedicineById(medicineId);
-            const presentation = JSON.parse(presentationValue);
-            const result = calculateMedicineDose(weight, medicine, presentation, dilutionVolume);
-            
-            displayResult(result);
-        }
-
-        function validateInputs(weight, medicineId, presentationValue) {
-            if (!weight || weight < 0.1) {
-                showAlert('Por favor ingrese un peso válido (mínimo 0.1 kg)', 'danger');
-                return false;
-            }
-            if (!medicineId) {
-                showAlert('Por favor seleccione un medicamento', 'danger');
-                return false;
-            }
-            if (!presentationValue) {
-                showAlert('Por favor seleccione una presentación', 'danger');
-                return false;
-            }
-            return true;
-        }
-
-        // MÉTODO DE CÁLCULO CORREGIDO
-        function calculateMedicineDose(weight, medicine, presentation, dilutionVolume) {
-            // 1. Calcular dosis diaria total
-            let dailyDose = weight * medicine.dosisHabitual;
-            
-            // 2. Aplicar límite diario máximo si existe
-            if (medicine.dosisMaximaDiaria) {
-                dailyDose = Math.min(dailyDose, medicine.dosisMaximaDiaria);
-            }
-            
-            // 3. Determinar número de tomas al día
-            const dosesPerDay = getDosesPerDay(medicine.frecuencia);
-            
-            // 4. Calcular dosis por toma
-            let dosePerTake = dailyDose / dosesPerDay;
-            
-            // 5. Aplicar límite por dosis si existe
-            if (medicine.dosisMaximaSingle) {
-                dosePerTake = Math.min(dosePerTake, medicine.dosisMaximaSingle);
-            }
-            
-            // 6. Extraer concentración de la presentación
-            const concentration = extractConcentration(presentation.concentracion);
-            
-            // 7. Calcular según el tipo de presentación
-            let volumePerTake, units, resultText;
-            
-            if (medicine.liofilizado && dilutionVolume > 0) {
-                // FÓRMULA PARA LIOFILIZADOS: (Dosis × Dilución) ÷ Concentración
-                volumePerTake = (dosePerTake * dilutionVolume) / concentration;
-                resultText = `Volumen a administrar: ${volumePerTake.toFixed(2)} ml`;
                 
-            } else if (presentation.via === 'inhalatoria') {
-                // Cálculo especial para aerosoles (gotas)
-                volumePerTake = Math.min(weight * 0.4, 15);
-                resultText = `Gotas a administrar: ${volumePerTake.toFixed(1)} gotas`;
-                
-            } else if (presentation.concentracion.includes('/')) {
-                // Para suspensiones: (Dosis × VolumenLíquido) ÷ CantidadMedicamento
-                const [medAmount, liquidAmount] = presentation.concentracion.split('/').map(part => parseFloat(part));
-                volumePerTake = (dosePerTake / medAmount) * liquidAmount;
-                resultText = `Volumen a administrar: ${volumePerTake.toFixed(2)} ml`;
-                
-            } else {
-                // Para tabletas/cápsulas: calcular número de unidades
-                units = Math.ceil(dosePerTake / concentration);
-                if (medicine.dosisMaximaSingle && units > medicine.dosisMaximaSingle / concentration) {
-                    units = Math.floor(medicine.dosisMaximaSingle / concentration);
-                }
-                volumePerTake = null;
-                resultText = `Unidades a administrar: ${units} ${presentation.tipo.toLowerCase()}`;
-            }
-            
-            return {
-                medicine,
-                presentation,
-                weight,
-                dailyDose,
-                dosePerTake,
-                volumePerTake,
-                units,
-                dosesPerDay,
-                dilutionVolume,
-                concentration,
-                resultText
-            };
-        }
-
-        function extractConcentration(concentracion) {
-            // Extraer el valor numérico de la concentración
-            const match = concentracion.match(/(\d+(\.\d+)?)/);
-            return match ? parseFloat(match[1]) : 1;
-        }
-
-        function getDosesPerDay(frequency) {
-            if (frequency.includes('8 horas') || frequency.includes('3 veces')) return 3;
-            if (frequency.includes('6 horas') || frequency.includes('4 veces')) return 4;
-            if (frequency.includes('12 horas') || frequency.includes('2 veces')) return 2;
-            if (frequency.includes('24 horas') || frequency.includes('1 vez')) return 1;
-            return 1;
-        }
-
-        function displayResult(result) {
-            let resultHTML = `
-                <p><strong>Paciente:</strong> ${result.weight} kg</p>
-                <p><strong>Medicamento:</strong> ${result.medicine.nombre}</p>
-                <p><strong>Presentación:</strong> ${result.presentation.tipo} - ${result.presentation.concentracion}</p>
-                <p><strong>Vía:</strong> ${result.presentation.via}</p>
-                <p><strong>Frecuencia:</strong> ${result.medicine.frecuencia}</p>
-                <p><strong>Dosis diaria total:</strong> ${formatNumber(result.dailyDose)} ${result.medicine.unidad}</p>
-                <p><strong>Dosis por toma:</strong> ${formatNumber(result.dosePerTake)} ${result.medicine.unidad}</p>
-                <p><strong>${result.resultText}</strong></p>
-            `;
-            
-            if (result.medicine.liofilizado && result.dilutionVolume > 0) {
-                resultHTML += `<p><strong>Dilución utilizada:</strong> ${result.dilutionVolume} ml</p>`;
-                
-                if (result.volumePerTake < 10 && result.presentation.via === 'iv') {
-                    resultHTML += `<p><strong>Completar con:</strong> ${(10 - result.volumePerTake).toFixed(2)} ml de SSF 0.9%</p>`;
+                // Mostrar campo de dilución si es liofilizado
+                if (medicamento.liofilizado) {
+                    dilutionGroup.classList.remove('hidden');
+                    // Establecer dilución predeterminada si está disponible
+                    if (medicamento.presentaciones[0] && medicamento.presentaciones[0].dilucion) {
+                        document.getElementById('input-dilution').value = medicamento.presentaciones[0].dilucion;
+                    }
                 }
             }
             
-            if (result.medicine.alertas && result.medicine.alertas.length > 0) {
-                resultHTML += `<div class="alert alert-warning"><strong>Alertas:</strong> ${result.medicine.alertas.join(', ')}</div>`;
-            }
-            
-            document.getElementById('resultContent').innerHTML = resultHTML;
-            document.getElementById('resultCard').classList.add('active');
-            document.getElementById('resultCard').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function formatNumber(num) {
-            if (num >= 1000000) {
-                return (num / 1000000).toFixed(1) + ' millones';
-            } else if (num >= 1000) {
-                return num.toLocaleString();
-            }
-            return num.toFixed(2);
-        }
-
-        function closeResult() {
-            document.getElementById('resultCard').classList.remove('active');
-        }
-
-        // Funciones de gestión
-        function showMedicineForm() {
-            document.getElementById('medicineForm').style.display = 'block';
-            document.getElementById('formTitle').textContent = 'Agregar Nuevo Medicamento';
-            document.getElementById('medicineId').value = '';
-            document.getElementById('medicineFormElement').reset();
-            document.getElementById('presentationsContainer').innerHTML = '';
-            addPresentationField();
-        }
-
-        function hideMedicineForm() {
-            document.getElementById('medicineForm').style.display = 'none';
-        }
-
-        function addPresentationField() {
-            const container = document.getElementById('presentationsContainer');
-            const div = document.createElement('div');
-            div.className = 'presentation-item';
-            div.innerHTML = `
-                <input type="text" placeholder="Tipo (ej: Tabletas)" class="presentation-type" required>
-                <input type="text" placeholder="Concentración (ej: 500mg)" class="presentation-concentration" required>
-                <input type="text" placeholder="Presentación (ej: Tabletas 500mg)" class="presentation-presentation" required>
-                <input type="text" placeholder="Vía (ej: oral)" class="presentation-route" required>
-                <button type="button" class="btn btn-danger btn-small remove-presentation">✕</button>
-            `;
-            container.appendChild(div);
-            
-            div.querySelector('.remove-presentation').addEventListener('click', function() {
-                if (container.children.length > 1) {
-                    div.remove();
-                }
-            });
-        }
-
-        function saveMedicine(e) {
-            e.preventDefault();
-            
-            const medicine = {
-                id: document.getElementById('medicineId').value || generateId(),
-                nombre: document.getElementById('formName').value,
-                familia: document.getElementById('formFamily').value,
-                dosisHabitual: parseFloat(document.getElementById('formDoseHabitual').value),
-                unidad: document.getElementById('formUnit').value,
-                frecuencia: document.getElementById('formFrequency').value,
-                presentaciones: getPresentationsFromForm(),
-                dosisMaximaDiaria: document.getElementById('formDoseMaxDaily').value ? parseFloat(document.getElementById('formDoseMaxDaily').value) : null,
-                dosisMaximaSingle: document.getElementById('formDoseMaxSingle').value ? parseFloat(document.getElementById('formDoseMaxSingle').value) : null,
-                indicaciones: document.getElementById('formIndications').value ? document.getElementById('formIndications').value.split(',').map(s => s.trim()) : [],
-                alertas: document.getElementById('formAlerts').value ? document.getElementById('formAlerts').value.split(',').map(s => s.trim()) : [],
-                liofilizado: document.getElementById('formLiofilizado').checked,
-                dilucionEspecial: parseFloat(document.getElementById('formDilution').value) || 0
-            };
-            
-            const medicines = getMedicines();
-            const existingIndex = medicines.findIndex(m => m.id === medicine.id);
-            
-            if (existingIndex >= 0) {
-                medicines[existingIndex] = medicine;
-                showAlert('Medicamento actualizado correctamente', 'success');
-            } else {
-                medicines.push(medicine);
-                showAlert('Medicamento agregado correctamente', 'success');
-            }
-            
-            saveMedicines(medicines);
-            hideMedicineForm();
-            loadManagementList();
-            loadMedicinesToSelect();
-        }
-
-        function getPresentationsFromForm() {
-            const presentations = [];
-            document.querySelectorAll('.presentation-item').forEach(item => {
-                presentations.push({
-                    tipo: item.querySelector('.presentation-type').value,
-                    concentracion: item.querySelector('.presentation-concentration').value,
-                    presentacion: item.querySelector('.presentation-presentation').value,
-                    via: item.querySelector('.presentation-route').value
-                });
-            });
-            return presentations;
-        }
-
-        function loadManagementList() {
-            const container = document.getElementById('managementList');
-            const medicines = getMedicines();
-            
-            container.innerHTML = '';
-            
-            medicines.forEach(medicine => {
-                const div = document.createElement('div');
-                div.className = 'medicine-item card';
-                div.innerHTML = `
-                    <div class="medicine-info">
-                        <h3>${medicine.nombre}</h3>
-                        <p><strong>Familia:</strong> ${medicine.familia}</p>
-                        <p><strong>Dosis:</strong> ${medicine.dosisHabitual} ${medicine.unidad}/kg/día - ${medicine.frecuencia}</p>
-                        <p><strong>Presentaciones:</strong> ${medicine.presentaciones.map(p => p.tipo).join(', ')}</p>
-                    </div>
-                    <div class="medicine-actions">
-                        <button class="btn btn-secondary btn-small edit-medicine" data-id="${medicine.id}">✏️ Editar</button>
-                        <button class="btn btn-danger btn-small delete-medicine" data-id="${medicine.id}">🗑️ Eliminar</button>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-            
-            // Agregar event listeners para editar y eliminar
-            document.querySelectorAll('.edit-medicine').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    editMedicine(this.getAttribute('data-id'));
-                });
-            });
-            
-            document.querySelectorAll('.delete-medicine').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    deleteMedicine(this.getAttribute('data-id'));
-                });
-            });
-        }
-
-        function editMedicine(id) {
-            const medicine = getMedicineById(id);
-            if (!medicine) return;
-            
-            document.getElementById('medicineForm').style.display = 'block';
-            document.getElementById('formTitle').textContent = 'Editar Medicamento';
-            document.getElementById('medicineId').value = medicine.id;
-            document.getElementById('formName').value = medicine.nombre;
-            document.getElementById('formFamily').value = medicine.familia;
-            document.getElementById('formDoseHabitual').value = medicine.dosisHabitual;
-            document.getElementById('formUnit').value = medicine.unidad;
-            document.getElementById('formFrequency').value = medicine.frecuencia;
-            document.getElementById('formDoseMaxDaily').value = medicine.dosisMaximaDiaria || '';
-            document.getElementById('formDoseMaxSingle').value = medicine.dosisMaximaSingle || '';
-            document.getElementById('formIndications').value = medicine.indicaciones.join(', ');
-            document.getElementById('formAlerts').value = medicine.alertas.join(', ');
-            document.getElementById('formLiofilizado').checked = medicine.liofilizado || false;
-            document.getElementById('formDilution').value = medicine.dilucionEspecial || 10;
-            
-            // Cargar presentaciones
-            document.getElementById('presentationsContainer').innerHTML = '';
-            medicine.presentaciones.forEach((presentation, index) => {
-                addPresentationField();
-                const lastItem = document.getElementById('presentationsContainer').lastElementChild;
-                lastItem.querySelector('.presentation-type').value = presentation.tipo;
-                lastItem.querySelector('.presentation-concentration').value = presentation.concentracion;
-                lastItem.querySelector('.presentation-presentation').value = presentation.presentacion;
-                lastItem.querySelector('.presentation-route').value = presentation.via;
-            });
-        }
-
-        function deleteMedicine(id) {
-            if (confirm('¿Está seguro de que desea eliminar este medicamento?')) {
-                const medicines = getMedicines().filter(m => m.id !== id);
-                saveMedicines(medicines);
-                showAlert('Medicamento eliminado correctamente', 'success');
-                loadManagementList();
-                loadMedicinesToSelect();
-            }
-        }
-
-        function loadMedicinesGrid() {
-            const container = document.getElementById('medicinesGrid');
-            const medicines = getMedicines();
-            
-            container.innerHTML = '';
-            
-            medicines.forEach(medicine => {
-                const card = document.createElement('div');
-                card.className = 'card medicine-card';
-                card.innerHTML = `
-                    <div class="medicine-family">${medicine.familia}</div>
-                    <h3 class="card-title">${medicine.nombre}</h3>
-                    <div class="medicine-details">
-                        <p><strong>Dosis habitual:</strong> ${medicine.dosisHabitual} ${medicine.unidad}/kg/día</p>
-                        <p><strong>Frecuencia:</strong> ${medicine.frecuencia}</p>
-                        <p><strong>Presentaciones:</strong> ${medicine.presentaciones.map(p => `${p.tipo} (${p.concentracion})`).join(', ')}</p>
-                        <p><strong>Vías:</strong> ${[...new Set(medicine.presentaciones.map(p => p.via))].join(', ')}</p>
-                        ${medicine.indicaciones.length > 0 ? `<p><strong>Indicaciones:</strong> ${medicine.indicaciones.join(', ')}</p>` : ''}
-                        ${medicine.alertas.length > 0 ? `<p><strong>Alertas:</strong> ${medicine.alertas.join(', ')}</p>` : ''}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-            
-            // Implementar búsqueda
-            document.getElementById('searchInput').addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                const cards = container.querySelectorAll('.medicine-card');
+            // Calcular dosis
+            calculateDose() {
+                const medId = document.getElementById('select-med').value;
+                const presentationIndex = parseInt(document.getElementById('select-presentation').value);
+                const weight = parseFloat(document.getElementById('input-weight').value);
+                const dilution = document.getElementById('input-dilution').value ? 
+                    parseFloat(document.getElementById('input-dilution').value) : null;
                 
-                cards.forEach(card => {
-                    const text = card.textContent.toLowerCase();
-                    card.style.display = text.includes(searchTerm) ? 'block' : 'none';
-                });
-            });
-        }
-
-        // Funciones de importación/exportación
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
+                // Validaciones básicas
+                if (!medId) {
+                    alert('Seleccione un medicamento');
+                    return;
+                }
+                
+                if (isNaN(presentationIndex)) {
+                    alert('Seleccione una presentación');
+                    return;
+                }
+                
+                if (!weight || weight <= 0) {
+                    alert('Ingrese un peso válido (mínimo 0.1 kg)');
+                    return;
+                }
+                
                 try {
-                    const data = JSON.parse(e.target.result);
-                    processImportedData(data);
+                    const result = this.calculator.calculate(medId, presentationIndex, weight, dilution);
+                    this.displayResult(result);
                 } catch (error) {
-                    showAlert('Error al importar el archivo: ' + error.message, 'danger');
+                    alert('Error en el cálculo: ' + error.message);
                 }
-            };
-            reader.readAsText(file);
-            event.target.value = ''; // Reset input
-        }
-
-        async function updateFromGithub() {
-            const url = document.getElementById('githubUrl').value;
-            if (!url) {
-                showAlert('Por favor ingrese una URL válida', 'danger');
-                return;
             }
             
-            await updateFromUrl(url);
-        }
-
-        function exportData() {
-            const medicines = getMedicines();
-            if (medicines.length === 0) {
-                showAlert('No hay datos para exportar', 'warning');
-                return;
+            // Mostrar resultado del cálculo
+            displayResult(result) {
+                const resultCard = document.getElementById('result-card');
+                const alertsContainer = document.getElementById('result-alerts');
+                
+                // Limpiar alertas anteriores
+                alertsContainer.innerHTML = '';
+                
+                // Mostrar alertas
+                if (result.alertas && result.alertas.length > 0) {
+                    result.alertas.forEach(alerta => {
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = `alert alert-${alerta.tipo}`;
+                        alertDiv.textContent = alerta.mensaje;
+                        alertsContainer.appendChild(alertDiv);
+                    });
+                }
+                
+                // Actualizar información del resultado
+                document.getElementById('result-title').textContent = `${result.medicamento} - ${result.presentacion}`;
+                document.getElementById('result-dose').textContent = `${result.cantidad.toFixed(2)} ${result.unidad}`;
+                document.getElementById('result-frequency').textContent = result.frecuencia;
+                document.getElementById('result-route').textContent = result.via;
+                
+                // Mostrar pasos del cálculo
+                const stepsContainer = document.getElementById('calculation-steps');
+                stepsContainer.innerHTML = '<strong>DESGLOSE DEL CÁLCULO:</strong><br>';
+                result.steps.forEach(step => {
+                    stepsContainer.innerHTML += step + '<br>';
+                });
+                
+                // Mostrar tarjeta de resultado
+                resultCard.style.display = 'block';
             }
             
-            const dataStr = JSON.stringify(medicines, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'pediacalc_database.json';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-            
-            showAlert('Base de datos exportada correctamente', 'success');
-        }
-
-        // Funciones de configuración
-        function loadSettings() {
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            const fontSize = localStorage.getItem('fontSize') || 'medium';
-            
-            if (darkMode) {
-                document.body.classList.add('dark-theme');
-                document.getElementById('darkModeToggle').checked = true;
+            // Poblar base de datos en la UI
+            populateDatabase() {
+                const container = document.getElementById('medicamentos-list');
+                container.innerHTML = '';
+                
+                this.db.medicamentos.forEach(med => {
+                    const item = document.createElement('div');
+                    item.className = 'medicamento-item';
+                    
+                    let html = `
+                        <div class="medicamento-nombre">${med.nombre}</div>
+                        <div class="medicamento-familia">${med.familia}</div>
+                        <div><small>Dosis: ${med.dosisHabitual} ${med.unidad}</small></div>
+                        <div><small>Frecuencia: ${med.frecuencia}</small></div>
+                    `;
+                    
+                    if (med.indicaciones && med.indicaciones.length > 0) {
+                        html += `<div><small>Indicaciones: ${med.indicaciones.join(', ')}</small></div>`;
+                    }
+                    
+                    if (med.presentaciones && med.presentaciones.length > 0) {
+                        html += `<div><small>Presentaciones: ${med.presentaciones.map(p => p.descripcion).join(', ')}</small></div>`;
+                    }
+                    
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
             }
             
-            document.getElementById('fontSizeSelect').value = fontSize;
-            applyFontSize(fontSize);
+            // Filtrar base de datos
+            filterDatabase() {
+                const query = document.getElementById('search-db').value;
+                const results = this.db.searchMedicamentos(query);
+                
+                const container = document.getElementById('medicamentos-list');
+                container.innerHTML = '';
+                
+                results.forEach(med => {
+                    const item = document.createElement('div');
+                    item.className = 'medicamento-item';
+                    
+                    let html = `
+                        <div class="medicamento-nombre">${med.nombre}</div>
+                        <div class="medicamento-familia">${med.familia}</div>
+                        <div><small>Dosis: ${med.dosisHabitual} ${med.unidad}</small></div>
+                        <div><small>Frecuencia: ${med.frecuencia}</small></div>
+                    `;
+                    
+                    if (med.indicaciones && med.indicaciones.length > 0) {
+                        html += `<div><small>Indicaciones: ${med.indicaciones.join(', ')}</small></div>`;
+                    }
+                    
+                    item.innerHTML = html;
+                    container.appendChild(item);
+                });
+            }
         }
-
-        function toggleDarkMode() {
-            const isDark = document.getElementById('darkModeToggle').checked;
-            document.body.classList.toggle('dark-theme', isDark);
-            localStorage.setItem('darkMode', isDark);
-        }
-
-        function changeFontSize() {
-            const size = document.getElementById('fontSizeSelect').value;
-            applyFontSize(size);
-            localStorage.setItem('fontSize', size);
-        }
-
-        function applyFontSize(size) {
-            document.body.style.fontSize = size === 'small' ? '14px' : size === 'large' ? '18px' : '16px';
-        }
-
-        // Funciones auxiliares
-        function getMedicines() {
-            const stored = localStorage.getItem('medicines');
-            return stored ? JSON.parse(stored) : initialMedicines;
-        }
-
-        function saveMedicines(medicines) {
-            localStorage.setItem('medicines', JSON.stringify(medicines));
-        }
-
-        function getMedicineById(id) {
-            return getMedicines().find(med => med.id === id);
-        }
-
-        function generateId() {
-            return 'med-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-        }
-
-        function showAlert(message, type) {
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${type}`;
-            alert.textContent = message;
+        
+        // Inicializar la aplicación cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', () => {
+            const dbManager = new DatabaseManager();
+            const doseCalculator = new DoseCalculator(dbManager);
+            const uiManager = new UIManager(dbManager, doseCalculator);
             
-            const main = document.querySelector('main .container');
-            main.insertBefore(alert, main.firstChild);
-            
-            setTimeout(() => alert.remove(), 5000);
-        }
-
-        // Iniciar aplicación
-        document.getElementById('startApp').addEventListener('click', function() {
-            document.getElementById('welcomeSection').classList.remove('active');
-            document.getElementById('mainApp').style.display = 'block';
-            document.getElementById('calculatorSection').classList.add('active');
-            showTermsModal();
+            // Hacer accesibles desde la consola para debugging
+            window.dbManager = dbManager;
+            window.doseCalculator = doseCalculator;
+            window.uiManager = uiManager;
         });
     </script>
 </body>
