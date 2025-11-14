@@ -249,19 +249,41 @@
         .strike-negative { color: var(--danger); font-weight: bold; }
         .strike-warning { color: var(--warning); font-weight: bold; }
 
-        /* Utilidades */
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-        .mb-1 { margin-bottom: 0.5rem; }
-        .mb-2 { margin-bottom: 1rem; }
-        .mt-1 { margin-top: 0.5rem; }
-        .mt-2 { margin-top: 1rem; }
-        .d-flex { display: flex; }
-        .justify-between { justify-content: space-between; }
-        .align-center { align-items: center; }
-        .gap-1 { gap: 0.5rem; }
-        .text-muted { color: var(--gray); }
-        .bg-warning { background: var(--warning); }
+        /* Equipos de Guardia */
+        .team-card {
+            background: #f8f9fa;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-members {
+            margin-top: 0.5rem;
+        }
+
+        .team-member {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        /* Selector de Fecha */
+        .date-selector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
 
         /* Estados de carga */
         .loading {
@@ -297,26 +319,21 @@
             color: var(--dark);
         }
 
-        /* Mensaje personalizado */
+        /* Mensaje Personalizado */
         .message-editor {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        /* Equipos de guardia */
-        .team-card {
-            background: #f8f9fa;
             border: 2px solid var(--border);
             border-radius: 8px;
             padding: 1rem;
-            margin-bottom: 1rem;
+            background: white;
         }
 
-        .team-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
+        .message-preview {
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            white-space: pre-wrap;
         }
 
         /* Responsive */
@@ -333,12 +350,26 @@
             .table {
                 font-size: 0.9rem;
             }
-            
+
             .btn {
-                padding: 0.6rem 1rem;
                 font-size: 0.8rem;
+                padding: 0.6rem 1rem;
             }
         }
+
+        /* Utilidades */
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .d-flex { display: flex; }
+        .justify-between { justify-content: space-between; }
+        .align-center { align-items: center; }
+        .gap-1 { gap: 0.5rem; }
+        .w-100 { width: 100%; }
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -347,34 +378,31 @@
         <nav class="nav">
             <button class="menu-toggle" onclick="toggleMenu()">☰</button>
             <h1 class="app-title">INTERNOS HPJRM</h1>
-            <div></div> <!-- Espacio para balance -->
+            <div></div>
         </nav>
     </header>
 
     <!-- Sidebar Menu -->
     <aside class="sidebar" id="sidebar">
-        <div class="menu-item active" data-section="dashboard" onclick="showSection('dashboard')">
+        <div class="menu-item active" onclick="showSection('dashboard')">
             📊 Dashboard
         </div>
-        <div class="menu-item" data-section="rotaciones" onclick="showSection('rotaciones')">
-            🔄 Rotaciones
-        </div>
-        <div class="menu-item" data-section="estudiantes" onclick="showSection('estudiantes')">
+        <div class="menu-item" onclick="showSection('estudiantes')">
             👥 Gestión Estudiantes
         </div>
-        <div class="menu-item" data-section="seminarios" onclick="showSection('seminarios')">
+        <div class="menu-item" onclick="showSection('seminarios')">
             📚 Seminarios
         </div>
-        <div class="menu-item" data-section="strikes" onclick="showSection('strikes')">
+        <div class="menu-item" onclick="showSection('strikes')">
             ⚖️ Sistema de Strikes
         </div>
-        <div class="menu-item" data-section="guardias" onclick="showSection('guardias')">
+        <div class="menu-item" onclick="showSection('guardias')">
             🗓️ Calendario Guardias
         </div>
-        <div class="menu-item" data-section="evaluacion" onclick="showSection('evaluacion')">
+        <div class="menu-item" onclick="showSection('evaluacion')">
             📈 Evaluación Integral
         </div>
-        <div class="menu-item" data-section="configuracion" onclick="showSection('configuracion')">
+        <div class="menu-item" onclick="showSection('configuracion')">
             ⚙️ Configuración
         </div>
     </aside>
@@ -402,20 +430,6 @@
             </div>
         </section>
 
-        <!-- Rotaciones -->
-        <section id="rotaciones" class="section">
-            <div class="card">
-                <h2>Sistema de Rotaciones</h2>
-                <div class="d-flex justify-between align-center mt-2">
-                    <h3>🔄 Rotación Actual - Semana <span id="semana-actual"></span></h3>
-                    <button class="btn btn-primary" onclick="actualizarRotaciones()">
-                        🔄 Actualizar
-                    </button>
-                </div>
-                <div id="rotaciones-actuales" class="mt-2"></div>
-            </div>
-        </section>
-
         <!-- Gestión Estudiantes -->
         <section id="estudiantes" class="section">
             <div class="card">
@@ -425,14 +439,14 @@
                         <button class="btn btn-primary" onclick="showStudentForm()">
                             ➕ Añadir Estudiante
                         </button>
-                        <button class="btn btn-success" onclick="showMensajePersonalizado()">
+                        <button class="btn btn-success" onclick="showMessageComposer()">
                             📝 Mensaje Personalizado
                         </button>
                     </div>
                 </div>
                 
                 <!-- Formulario Estudiantes -->
-                <div id="student-form" class="mt-2" style="display: none;">
+                <div id="student-form" class="mt-2 hidden">
                     <div class="card">
                         <h3 id="form-title">Añadir Nuevo Estudiante</h3>
                         <form id="studentForm" onsubmit="saveStudent(event)">
@@ -447,34 +461,45 @@
                                 <small class="text-muted">8 dígitos (ej: 51752468)</small>
                             </div>
                             <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary">💾 Guardar</button>
-                                <button type="button" class="btn btn-danger" onclick="hideStudentForm()">❌ Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="button" class="btn btn-danger" onclick="hideStudentForm()">Cancelar</button>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <!-- Mensaje Personalizado -->
-                <div id="mensaje-personalizado" class="mt-2" style="display: none;">
+                <!-- Composer Mensaje Personalizado -->
+                <div id="message-composer" class="mt-2 hidden">
                     <div class="card">
-                        <h3>📝 Mensaje Personalizado</h3>
-                        <form onsubmit="enviarMensajePersonalizado(event)">
-                            <div class="form-group">
-                                <label class="form-label">Estudiante</label>
-                                <select class="form-control" id="mensajeEstudiante" required>
-                                    <option value="">Seleccionar estudiante...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Mensaje</label>
-                                <textarea class="form-control message-editor" id="mensajeTexto" 
-                                          placeholder="Escribe tu mensaje personalizado aquí..." required></textarea>
-                            </div>
-                            <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-success">📤 Enviar por WhatsApp</button>
-                                <button type="button" class="btn btn-danger" onclick="hideMensajePersonalizado()">❌ Cancelar</button>
-                            </div>
-                        </form>
+                        <h3>✉️ Mensaje Personalizado</h3>
+                        <div class="form-group">
+                            <label class="form-label">Destinatario</label>
+                            <select class="form-control" id="messageStudent" required>
+                                <option value="">Seleccionar estudiante...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Mensaje Personalizado</label>
+                            <textarea class="form-control" id="customMessage" rows="6" 
+                                      placeholder="Escribe tu mensaje personalizado aquí..." required></textarea>
+                        </div>
+                        <div class="message-preview hidden" id="messagePreview">
+                            <strong>Vista Previa:</strong><br>
+                            <span id="previewText"></span>
+                            <br><br>
+                            <em>Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM</em>
+                        </div>
+                        <div class="d-flex gap-1 mt-2">
+                            <button class="btn btn-success" onclick="sendCustomMessage()">
+                                📱 Enviar por WhatsApp
+                            </button>
+                            <button class="btn btn-warning" onclick="previewMessage()">
+                                👁️ Vista Previa
+                            </button>
+                            <button class="btn btn-danger" onclick="hideMessageComposer()">
+                                Cancelar
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -512,7 +537,7 @@
                                 <th>Endocrinología</th>
                                 <th>Hematología</th>
                                 <th>Neonatología</th>
-                                <th>Infectoso</th>
+                                <th>Infeccioso</th>
                                 <th>Digestivo</th>
                                 <th>Promedio</th>
                             </tr>
@@ -534,7 +559,7 @@
                 </div>
 
                 <!-- Formulario Strike -->
-                <div id="strike-form" class="mt-2" style="display: none;">
+                <div id="strike-form" class="mt-2 hidden">
                     <div class="card">
                         <h3>Registrar Strike</h3>
                         <form id="strikeForm" onsubmit="saveStrike(event)">
@@ -569,12 +594,13 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">
-                                    <input type="checkbox" id="notificarStrike"> 📲 Notificar al estudiante por WhatsApp
+                                    <input type="checkbox" id="notifyStudent" checked>
+                                    📱 Notificar al estudiante por WhatsApp
                                 </label>
                             </div>
                             <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary">💾 Guardar Strike</button>
-                                <button type="button" class="btn btn-danger" onclick="hideStrikeForm()">❌ Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar Strike</button>
+                                <button type="button" class="btn btn-danger" onclick="hideStrikeForm()">Cancelar</button>
                             </div>
                         </form>
                     </div>
@@ -590,6 +616,7 @@
                                 <th>Tipo</th>
                                 <th>Valor</th>
                                 <th>Descripción</th>
+                                <th>Notificado</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -604,34 +631,51 @@
             <div class="card">
                 <div class="d-flex justify-between align-center">
                     <h2>Calendario de Guardias</h2>
-                    <button class="btn btn-primary" onclick="showGestionEquipos()">
+                    <button class="btn btn-primary" onclick="showTeamManager()">
                         👥 Gestionar Equipos
                     </button>
                 </div>
 
                 <!-- Selector de Fecha -->
-                <div class="form-group mt-2">
-                    <label class="form-label">📅 Seleccionar Fecha</label>
-                    <input type="date" class="form-control" id="fechaGuardia" onchange="mostrarGuardiaFecha()">
+                <div class="date-selector mt-2">
+                    <div class="form-group">
+                        <label class="form-label">Seleccionar Fecha</label>
+                        <input type="date" class="form-control" id="guardiaDate" 
+                               onchange="loadGuardiaForDate(this.value)">
+                    </div>
+                    <button class="btn btn-success" onclick="loadTodayGuardia()">
+                        📅 Hoy
+                    </button>
                 </div>
 
                 <!-- Información de Guardia -->
-                <div id="info-guardia" class="mt-2"></div>
+                <div id="guardia-info" class="hidden">
+                    <div class="card">
+                        <h3 id="guardia-title">Guardia del </h3>
+                        <div id="guardia-team-info" class="mt-2"></div>
+                        
+                        <!-- Evaluación de Guardia -->
+                        <div class="mt-2">
+                            <h4>📋 Evaluación de Guardia</h4>
+                            <div id="guardia-evaluation"></div>
+                        </div>
+                    </div>
+                </div>
 
-                <!-- Gestión de Equipos -->
-                <div id="gestion-equipos" class="mt-2" style="display: none;">
+                <!-- Gestor de Equipos -->
+                <div id="team-manager" class="mt-2 hidden">
                     <div class="card">
                         <h3>👥 Gestión de Equipos de Guardia</h3>
-                        <div id="lista-equipos"></div>
-                        <button class="btn btn-success mt-2" onclick="agregarEquipo()">
-                            ➕ Agregar Equipo
+                        <div id="teams-list"></div>
+                        <button class="btn btn-primary mt-2" onclick="addNewTeam()">
+                            ➕ Nuevo Equipo
                         </button>
                         <div class="d-flex gap-1 mt-2">
-                            <button class="btn btn-primary" onclick="programarGuardias()">
-                                🗓️ Programar Guardias
+                            <button class="btn btn-success" onclick="saveTeams()">
+                                💾 Guardar Equipos
                             </button>
-                            <button class="btn btn-danger" onclick="hideGestionEquipos()">
-                                ❌ Cerrar
+                            <button class="btn btn-danger" onclick="hideTeamManager()">
+                                Cancelar
                             </button>
                         </div>
                     </div>
@@ -678,7 +722,7 @@
                                 <label class="form-label">Duración (semanas)</label>
                                 <input type="number" class="form-control" id="duration" min="1" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">💾 Actualizar Fechas</button>
+                            <button type="submit" class="btn btn-primary">Actualizar Fechas</button>
                         </form>
                     </div>
                     
@@ -714,12 +758,6 @@
             'ENDOCRINOLOGÍA', 'HEMATOLOGÍA', 'NEONATOLOGÍA', 'INFECCIOSO', 'DIGESTIVO'
         ];
 
-        const ROTACIONES_CONFIG = {
-            MISCELANEA: { nombre: 'Miscelánea Pediátrica', porcentaje: 0.4, color: '#4CAF50' },
-            RESPIRATORIO: { nombre: 'Respiratorio Pediátrico', porcentaje: 0.4, color: '#2196F3' },
-            GASTROENTEROLOGIA: { nombre: 'Gastroenterología Pediátrica', porcentaje: 0.2, color: '#FF9800' }
-        };
-
         // ===== ESTADO GLOBAL =====
         let state = {
             estudiantes: [],
@@ -727,7 +765,7 @@
             strikes: [],
             equiposGuardia: [],
             calendarioGuardias: {},
-            rotaciones: {},
+            evaluacionesGuardia: {},
             config: {
                 inicioRotacion: '2025-11-10',
                 duracionSemanas: 10,
@@ -741,12 +779,7 @@
             initializeDefaultData();
             renderDashboard();
             setupEventListeners();
-            actualizarRotaciones();
-            
-            // Establecer fecha actual por defecto en guardias
-            const hoy = new Date().toISOString().split('T')[0];
-            document.getElementById('fechaGuardia').value = hoy;
-            mostrarGuardiaFecha();
+            setupDefaultDate();
         }
 
         function initializeDefaultData() {
@@ -764,14 +797,29 @@
 
             if (state.equiposGuardia.length === 0) {
                 state.equiposGuardia = [
-                    { id: 1, nombre: 'Equipo A', estudiantes: [1, 2] },
-                    { id: 2, nombre: 'Equipo B', estudiantes: [3, 4] },
-                    { id: 3, nombre: 'Equipo C', estudiantes: [5, 6, 7] }
+                    { 
+                        id: 1, 
+                        nombre: 'Equipo A', 
+                        estudiantes: [1, 2],
+                        color: '#4CAF50'
+                    },
+                    { 
+                        id: 2, 
+                        nombre: 'Equipo B', 
+                        estudiantes: [3, 4],
+                        color: '#2196F3'
+                    },
+                    { 
+                        id: 3, 
+                        nombre: 'Equipo C', 
+                        estudiantes: [5, 6, 7],
+                        color: '#FF9800'
+                    }
                 ];
-                programarGuardias();
             }
 
             initializeSeminarios();
+            initializeCalendarioGuardias();
             saveData();
         }
 
@@ -786,17 +834,62 @@
             });
         }
 
+        function initializeCalendarioGuardias() {
+            const startDate = new Date(state.config.inicioRotacion);
+            let currentDate = new Date(startDate);
+            const endDate = new Date(startDate);
+            endDate.setDate(startDate.getDate() + (state.config.duracionSemanas * 7));
+
+            let equipoIndex = 0;
+            state.calendarioGuardias = {};
+
+            while (currentDate <= endDate) {
+                const dateStr = currentDate.toISOString().split('T')[0];
+                
+                // Saltar vacaciones
+                if (!state.config.vacaciones.includes(dateStr)) {
+                    const equipo = state.equiposGuardia[equipoIndex];
+                    if (equipo) {
+                        state.calendarioGuardias[dateStr] = {
+                            equipoId: equipo.id,
+                            presente: {}
+                        };
+                    }
+                    
+                    equipoIndex = (equipoIndex + 1) % state.equiposGuardia.length;
+                }
+
+                currentDate.setDate(currentDate.getDate() + 6);
+            }
+        }
+
+        function setupDefaultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('guardiaDate').value = today;
+            loadGuardiaForDate(today);
+        }
+
         // ===== PERSISTENCIA DE DATOS =====
         function loadData() {
             const saved = localStorage.getItem('internosApp');
             if (saved) {
-                const parsed = JSON.parse(saved);
-                state = { ...state, ...parsed };
+                try {
+                    const parsed = JSON.parse(saved);
+                    state = { ...state, ...parsed };
+                } catch (e) {
+                    console.error('Error loading data:', e);
+                    showNotification('Error al cargar datos guardados', 'error');
+                }
             }
         }
 
         function saveData() {
-            localStorage.setItem('internosApp', JSON.stringify(state));
+            try {
+                localStorage.setItem('internosApp', JSON.stringify(state));
+            } catch (e) {
+                console.error('Error saving data:', e);
+                showNotification('Error al guardar datos', 'error');
+            }
         }
 
         // ===== RENDERIZADO DE INTERFAZ =====
@@ -814,7 +907,7 @@
             mejores.innerHTML = promedios.slice(0, 3).map(est => `
                 <div class="d-flex justify-between align-center mb-1">
                     <span>${est.nombre}</span>
-                    <strong>${est.promedio.toFixed(1)}</strong>
+                    <strong class="grade-${Math.floor(est.promedio)}">${est.promedio.toFixed(1)}</strong>
                 </div>
             `).join('');
 
@@ -822,25 +915,36 @@
             peores.innerHTML = promedios.slice(-3).reverse().map(est => `
                 <div class="d-flex justify-between align-center mb-1">
                     <span>${est.nombre}</span>
-                    <strong class="${est.promedio < 3 ? 'strike-negative' : ''}">${est.promedio.toFixed(1)}</strong>
+                    <strong class="${est.promedio < 3 ? 'strike-negative' : 'strike-warning'}">${est.promedio.toFixed(1)}</strong>
                 </div>
             `).join('');
 
             // Métricas generales
             const totalStrikes = state.strikes.length;
             const strikesPositivos = state.strikes.filter(s => s.tipo === 'positive').length;
-            const promedioGeneral = promedios.reduce((sum, est) => sum + est.promedio, 0) / promedios.length;
+            const promedioGeneral = promedios.length > 0 ? 
+                promedios.reduce((sum, est) => sum + est.promedio, 0) / promedios.length : 0;
 
             metricas.innerHTML = `
                 <div>📊 Promedio General: <strong>${promedioGeneral.toFixed(1)}</strong></div>
-                <div>✅ Strikes Positivos: <strong>${strikesPositivos}</strong></div>
-                <div>❌ Strikes Negativos: <strong>${totalStrikes - strikesPositivos}</strong></div>
+                <div>✅ Strikes Positivos: <strong class="strike-positive">${strikesPositivos}</strong></div>
+                <div>❌ Strikes Negativos: <strong class="strike-negative">${totalStrikes - strikesPositivos}</strong></div>
                 <div>👥 Total Estudiantes: <strong>${state.estudiantes.length}</strong></div>
+                <div>📅 Días transcurridos: <strong>${calcularDiasTranscurridos()}</strong></div>
             `;
         }
 
         function renderEstudiantes() {
             const tbody = document.getElementById('students-list');
+            const messageSelect = document.getElementById('messageStudent');
+            
+            // Actualizar select de mensajes
+            messageSelect.innerHTML = '<option value="">Seleccionar estudiante...</option>' +
+                state.estudiantes.map(est => 
+                    `<option value="${est.id}">${est.nombre}</option>`
+                ).join('');
+
+            // Renderizar tabla
             tbody.innerHTML = state.estudiantes.map(estudiante => {
                 const promedio = calcularPromedioFinal(estudiante.id);
                 const strikes = calcularStrikesNetos(estudiante.id);
@@ -864,6 +968,9 @@
                             <button class="btn btn-danger btn-sm" onclick="deleteStudent(${estudiante.id})">
                                 🗑️
                             </button>
+                            <button class="btn btn-success btn-sm" onclick="notificarEstudiante(${estudiante.id})">
+                                📱
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -876,7 +983,7 @@
                 const seminariosEst = state.seminarios[estudiante.id] || {};
                 const celdas = SEMINARIOS.map(seminario => {
                     const nota = seminariosEst[seminario];
-                    const gradeClass = nota ? `grade-${nota}` : '';
+                    const gradeClass = nota ? `grade-${nota.toString().replace('+', 'plus')}` : '';
                     return `<td>
                         <select class="form-control ${gradeClass}" 
                                 onchange="updateSeminarioGrade(${estudiante.id}, '${seminario}', this.value)">
@@ -930,14 +1037,138 @@
                             ${strike.tipo === 'positive' ? '+' : ''}${strike.valor}
                         </td>
                         <td>${strike.descripcion}</td>
+                        <td>${strike.notificado ? '✅' : '❌'}</td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="deleteStrike(${index})">
                                 🗑️
                             </button>
+                            ${!strike.notificado ? `
+                                <button class="btn btn-success btn-sm" onclick="notifyStrike(${index})">
+                                    📱
+                                </button>
+                            ` : ''}
                         </td>
                     </tr>
                 `;
             }).join('');
+        }
+
+        function renderTeamsManager() {
+            const container = document.getElementById('teams-list');
+            container.innerHTML = state.equiposGuardia.map((equipo, index) => {
+                const estudiantesEquipo = equipo.estudiantes.map(id => 
+                    state.estudiantes.find(e => e.id === id)
+                ).filter(e => e);
+                
+                return `
+                    <div class="team-card">
+                        <div class="team-header">
+                            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                                <input type="text" class="form-control" value="${equipo.nombre}" 
+                                       onchange="updateTeamName(${index}, this.value)"
+                                       placeholder="Nombre del equipo">
+                            </div>
+                            <button class="btn btn-danger btn-sm" onclick="removeTeam(${index})">
+                                🗑️
+                            </button>
+                        </div>
+                        <div class="team-members">
+                            <strong>Integrantes:</strong>
+                            ${estudiantesEquipo.map(est => `
+                                <div class="team-member">
+                                    <span>${est.nombre}</span>
+                                    <button class="btn btn-danger btn-sm" 
+                                            onclick="removeStudentFromTeam(${index}, ${est.id})">
+                                        ❌
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="form-group mt-1">
+                            <select class="form-control" onchange="addStudentToTeam(${index}, this.value)">
+                                <option value="">Añadir estudiante...</option>
+                                ${state.estudiantes.filter(est => !equipo.estudiantes.includes(est.id))
+                                    .map(est => `<option value="${est.id}">${est.nombre}</option>`)
+                                    .join('')}
+                            </select>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderGuardiaForDate(dateStr) {
+            const guardia = state.calendarioGuardias[dateStr];
+            const container = document.getElementById('guardia-info');
+            const title = document.getElementById('guardia-title');
+            const teamInfo = document.getElementById('guardia-team-info');
+            const evaluation = document.getElementById('guardia-evaluation');
+
+            if (!guardia) {
+                container.classList.add('hidden');
+                showNotification('No hay guardia programada para esta fecha', 'warning');
+                return;
+            }
+
+            const equipo = state.equiposGuardia.find(e => e.id === guardia.equipoId);
+            if (!equipo) {
+                container.classList.add('hidden');
+                showNotification('Equipo no encontrado', 'error');
+                return;
+            }
+
+            const fecha = new Date(dateStr);
+            title.textContent = `Guardia del ${fecha.toLocaleDateString('es-ES', { 
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' 
+            })}`;
+
+            // Información del equipo
+            teamInfo.innerHTML = `
+                <div class="team-card">
+                    <div class="team-header">
+                        <h4 style="color: ${equipo.color}; margin: 0;">${equipo.nombre}</h4>
+                    </div>
+                    <div class="team-members">
+                        <strong>👥 Integrantes:</strong>
+                        ${equipo.estudiantes.map(estId => {
+                            const est = state.estudiantes.find(e => e.id === estId);
+                            const presente = guardia.presente[estId];
+                            return `
+                                <div class="team-member">
+                                    <span>${est?.nombre || 'N/A'}</span>
+                                    <button class="btn ${presente ? 'btn-success' : 'btn-danger'} btn-sm" 
+                                            onclick="toggleAsistencia('${dateStr}', ${estId})">
+                                        ${presente ? '✅ Presente' : '❌ Ausente'}
+                                    </button>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Evaluación de guardia
+            const evaluacion = state.evaluacionesGuardia[dateStr] || { notas: {} };
+            evaluation.innerHTML = `
+                <div class="form-group">
+                    <label class="form-label">Evaluación del Equipo</label>
+                    <select class="form-control" id="teamEvaluation" 
+                            onchange="updateTeamEvaluation('${dateStr}', this.value)">
+                        <option value="">Sin evaluar</option>
+                        <option value="2" ${evaluacion.notaEquipo === 2 ? 'selected' : ''}>2 - Deficiente</option>
+                        <option value="3" ${evaluacion.notaEquipo === 3 ? 'selected' : ''}>3 - Regular</option>
+                        <option value="4" ${evaluacion.notaEquipo === 4 ? 'selected' : ''}>4 - Bueno</option>
+                        <option value="5" ${evaluacion.notaEquipo === 5 ? 'selected' : ''}>5 - Excelente</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Comentarios</label>
+                    <textarea class="form-control" rows="3" placeholder="Observaciones sobre la guardia..."
+                              onchange="updateGuardiaComments('${dateStr}', this.value)">${evaluacion.comentarios || ''}</textarea>
+                </div>
+            `;
+
+            container.classList.remove('hidden');
         }
 
         function renderEvaluacionIntegral() {
@@ -979,273 +1210,13 @@
             }).join('');
         }
 
-        // ===== ROTACIONES MEJORADAS =====
-        function actualizarRotaciones() {
-            const semanaActual = calcularSemanaActual();
-            document.getElementById('semana-actual').textContent = `${semanaActual}/${state.config.duracionSemanas}`;
-            
-            const container = document.getElementById('rotaciones-actuales');
-            let html = '<div class="grid">';
-            
-            Object.values(ROTACIONES_CONFIG).forEach(rotacion => {
-                const estudiantesEnRotacion = state.estudiantes.filter(est => 
-                    obtenerRotacionEstudiante(est.id, semanaActual) === rotacion.nombre
-                );
-                
-                html += `
-                    <div class="card">
-                        <h4 style="color: ${rotacion.color}">● ${rotacion.nombre}</h4>
-                        <div class="mt-1">
-                            ${estudiantesEnRotacion.length > 0 ? 
-                                estudiantesEnRotacion.map(est => 
-                                    `<div class="d-flex justify-between align-center mb-1">
-                                        <span>${est.nombre}</span>
-                                        <small>${calcularProgresoRotacion(semanaActual)}%</small>
-                                    </div>`
-                                ).join('') : 
-                                '<div class="text-muted">No hay estudiantes en esta rotación</div>'
-                            }
-                        </div>
-                    </div>
-                `;
-            });
-            
-            html += '</div>';
-            container.innerHTML = html;
-        }
-
-        function obtenerRotacionEstudiante(estudianteId, semana) {
-            const rotaciones = Object.values(ROTACIONES_CONFIG);
-            const semanasPorRotacion = Math.floor(state.config.duracionSemanas / rotaciones.length);
-            const rotacionIndex = Math.floor((semana - 1) / semanasPorRotacion) % rotaciones.length;
-            return rotaciones[rotacionIndex].nombre;
-        }
-
-        // ===== GUARDIAS MEJORADAS =====
-        function mostrarGuardiaFecha() {
-            const fecha = document.getElementById('fechaGuardia').value;
-            const container = document.getElementById('info-guardia');
-            
-            const guardia = state.calendarioGuardias[fecha];
-            if (!guardia) {
-                container.innerHTML = '<div class="card text-center text-muted">📅 No hay guardia programada para esta fecha</div>';
-                return;
-            }
-
-            const equipo = state.equiposGuardia.find(e => e.id === guardia.equipoId);
-            if (!equipo) {
-                container.innerHTML = '<div class="card text-center text-muted">⚠️ Equipo no encontrado</div>';
-                return;
-            }
-
-            let html = `<div class="card">
-                <h3>👥 Guardia - ${fecha}</h3>
-                <h4 class="mt-1">Equipo: ${equipo.nombre}</h4>
-                <div class="mt-2">
-                    <h5>🧑‍⚕️ Estudiantes de Guardia:</h5>`;
-
-            equipo.estudiantes.forEach(estId => {
-                const estudiante = state.estudiantes.find(e => e.id === estId);
-                const presente = guardia.presente[estId];
-                if (estudiante) {
-                    html += `
-                        <div class="d-flex justify-between align-center mb-1 p-2" style="background: #f8f9fa; border-radius: 6px;">
-                            <span>${estudiante.nombre}</span>
-                            <div class="d-flex gap-1 align-center">
-                                <span class="${presente ? 'strike-positive' : 'strike-negative'}">
-                                    ${presente ? '✅ Presente' : '❌ Ausente'}
-                                </span>
-                                <button class="btn btn-sm ${presente ? 'btn-danger' : 'btn-success'}" 
-                                        onclick="toggleAsistencia('${fecha}', ${estId})">
-                                    ${presente ? 'Marcar Ausente' : 'Marcar Presente'}
-                                </button>
-                                <button class="btn btn-primary btn-sm" onclick="evaluarGuardia(${estId}, '${fecha}')">
-                                    📝 Evaluar
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-
-            html += `</div></div>`;
-            container.innerHTML = html;
-        }
-
-        function showGestionEquipos() {
-            document.getElementById('gestion-equipos').style.display = 'block';
-            renderEquipos();
-        }
-
-        function hideGestionEquipos() {
-            document.getElementById('gestion-equipos').style.display = 'none';
-        }
-
-        function renderEquipos() {
-            const container = document.getElementById('lista-equipos');
-            container.innerHTML = state.equiposGuardia.map(equipo => {
-                const estudiantesNombres = equipo.estudiantes.map(estId => {
-                    const est = state.estudiantes.find(e => e.id === estId);
-                    return est ? est.nombre : 'N/A';
-                }).join(', ');
-
-                return `
-                    <div class="team-card">
-                        <div class="team-header">
-                            <h4>${equipo.nombre}</h4>
-                            <div class="d-flex gap-1">
-                                <button class="btn btn-warning btn-sm" onclick="editarEquipo(${equipo.id})">
-                                    ✏️
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="eliminarEquipo(${equipo.id})">
-                                    🗑️
-                                </button>
-                            </div>
-                        </div>
-                        <div class="text-muted">Estudiantes: ${estudiantesNombres}</div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function agregarEquipo() {
-            const nombre = prompt('Nombre del nuevo equipo:');
-            if (nombre) {
-                const newId = state.equiposGuardia.length > 0 ? 
-                    Math.max(...state.equiposGuardia.map(e => e.id)) + 1 : 1;
-                
-                state.equiposGuardia.push({
-                    id: newId,
-                    nombre: nombre.trim(),
-                    estudiantes: []
-                });
-                
-                saveData();
-                renderEquipos();
-                showNotification('Equipo agregado');
-            }
-        }
-
-        function editarEquipo(equipoId) {
-            const equipo = state.equiposGuardia.find(e => e.id === equipoId);
-            if (!equipo) return;
-
-            const nuevoNombre = prompt('Nuevo nombre del equipo:', equipo.nombre);
-            if (nuevoNombre) {
-                equipo.nombre = nuevoNombre.trim();
-                saveData();
-                renderEquipos();
-                showNotification('Equipo actualizado');
-            }
-        }
-
-        function eliminarEquipo(equipoId) {
-            if (confirm('¿Está seguro de eliminar este equipo?')) {
-                state.equiposGuardia = state.equiposGuardia.filter(e => e.id !== equipoId);
-                // También eliminar del calendario de guardias
-                Object.keys(state.calendarioGuardias).forEach(fecha => {
-                    if (state.calendarioGuardias[fecha].equipoId === equipoId) {
-                        delete state.calendarioGuardias[fecha];
-                    }
-                });
-                saveData();
-                renderEquipos();
-                showNotification('Equipo eliminado');
-            }
-        }
-
-        function programarGuardias() {
-            const startDate = new Date(state.config.inicioRotacion);
-            let currentDate = new Date(startDate);
-            const endDate = new Date(startDate);
-            endDate.setDate(startDate.getDate() + (state.config.duracionSemanas * 7));
-
-            let equipoIndex = 0;
-            state.calendarioGuardias = {};
-
-            while (currentDate <= endDate) {
-                const dateStr = currentDate.toISOString().split('T')[0];
-                
-                // Saltar vacaciones
-                if (!state.config.vacaciones.includes(dateStr)) {
-                    const equipo = state.equiposGuardia[equipoIndex];
-                    if (equipo) {
-                        state.calendarioGuardias[dateStr] = {
-                            equipoId: equipo.id,
-                            presente: {}
-                        };
-                    }
-                    
-                    equipoIndex = (equipoIndex + 1) % state.equiposGuardia.length;
-                }
-
-                currentDate.setDate(currentDate.getDate() + 6);
-            }
-
-            saveData();
-            mostrarGuardiaFecha();
-            showNotification('Guardias programadas correctamente');
-        }
-
-        function evaluarGuardia(estudianteId, fecha) {
-            const nota = prompt('Evaluación de guardia (1-5):');
-            if (nota && !isNaN(nota) && nota >= 1 && nota <= 5) {
-                if (!state.calendarioGuardias[fecha].evaluaciones) {
-                    state.calendarioGuardias[fecha].evaluaciones = {};
-                }
-                state.calendarioGuardias[fecha].evaluaciones[estudianteId] = parseFloat(nota);
-                saveData();
-                showNotification('Evaluación guardada');
-            }
-        }
-
-        // ===== MENSAJE PERSONALIZADO =====
-        function showMensajePersonalizado() {
-            const select = document.getElementById('mensajeEstudiante');
-            select.innerHTML = '<option value="">Seleccionar estudiante...</option>' +
-                state.estudiantes.map(est => 
-                    `<option value="${est.id}">${est.nombre}</option>`
-                ).join('');
-            
-            document.getElementById('mensaje-personalizado').style.display = 'block';
-        }
-
-        function hideMensajePersonalizado() {
-            document.getElementById('mensaje-personalizado').style.display = 'none';
-            document.getElementById('mensajeTexto').value = '';
-        }
-
-        function enviarMensajePersonalizado(event) {
-            event.preventDefault();
-            
-            const estudianteId = parseInt(document.getElementById('mensajeEstudiante').value);
-            const mensaje = document.getElementById('mensajeTexto').value.trim();
-            
-            if (!estudianteId || !mensaje) {
-                showNotification('Complete todos los campos', 'error');
-                return;
-            }
-
-            const estudiante = state.estudiantes.find(e => e.id === estudianteId);
-            if (!estudiante) {
-                showNotification('Estudiante no encontrado', 'error');
-                return;
-            }
-
-            const mensajeCompleto = `${mensaje}\n\n_Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM_`;
-            const url = `https://wa.me/53${estudiante.telefono}?text=${encodeURIComponent(mensajeCompleto)}`;
-            window.open(url, '_blank');
-            
-            hideMensajePersonalizado();
-            showNotification('Mensaje preparado para WhatsApp');
-        }
-
         // ===== CÁLCULOS =====
         function calcularPromedioSeminarios(estudianteId) {
             const seminariosEst = state.seminarios[estudianteId];
             if (!seminariosEst) return 0;
 
-            const notas = Object.values(seminariosEst).filter(nota => nota !== null)
+            const notas = Object.values(seminariosEst)
+                .filter(nota => nota !== null && nota !== '')
                 .map(nota => nota === '5+' ? 5.5 : parseFloat(nota));
             
             return notas.length > 0 ? notas.reduce((a, b) => a + b, 0) / notas.length : 0;
@@ -1255,14 +1226,18 @@
             let total = 0;
             let count = 0;
 
-            Object.values(state.calendarioGuardias).forEach(guardia => {
-                if (guardia.evaluaciones && guardia.evaluaciones[estudianteId]) {
-                    total += guardia.evaluaciones[estudianteId];
-                    count++;
+            Object.entries(state.calendarioGuardias).forEach(([fecha, guardia]) => {
+                const equipo = state.equiposGuardia.find(e => e.id === guardia.equipoId);
+                if (equipo?.estudiantes.includes(estudianteId)) {
+                    const evaluacion = state.evaluacionesGuardia[fecha];
+                    if (evaluacion?.notaEquipo) {
+                        total += evaluacion.notaEquipo;
+                        count++;
+                    }
                 }
             });
 
-            return count > 0 ? total / count : 5; // 5 por defecto si no hay evaluaciones
+            return count > 0 ? total / count : 0;
         }
 
         function calcularStrikesNetos(estudianteId) {
@@ -1270,9 +1245,15 @@
             let neto = strikesEst.reduce((total, strike) => {
                 return strike.tipo === 'positive' ? total + parseFloat(strike.valor) : total - parseFloat(strike.valor);
             }, 0);
-            
-            // Límite máximo de +1.0 en strikes positivos
-            return Math.max(-2, Math.min(1, neto));
+
+            // Límite máximo de bonificación por strikes positivos
+            const strikesPositivos = strikesEst.filter(s => s.tipo === 'positive')
+                .reduce((sum, s) => sum + parseFloat(s.valor), 0);
+            if (strikesPositivos > 1.0) {
+                neto -= (strikesPositivos - 1.0);
+            }
+
+            return Math.max(-2, Math.min(2, neto)); // Límite de ±2 puntos
         }
 
         function calcularPromedioFinal(estudianteId) {
@@ -1290,22 +1271,16 @@
             return promedio;
         }
 
-        function calcularSemanaActual() {
+        function calcularDiasTranscurridos() {
             const inicio = new Date(state.config.inicioRotacion);
             const hoy = new Date();
             const diffTime = hoy - inicio;
-            const diffWeeks = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
-            return Math.min(Math.max(1, diffWeeks + 1), state.config.duracionSemanas);
-        }
-
-        function calcularProgresoRotacion(semanaActual) {
-            const semanasPorRotacion = Math.floor(state.config.duracionSemanas / 3);
-            const progresoEnRotacion = (semanaActual % semanasPorRotacion) || semanasPorRotacion;
-            return Math.round((progresoEnRotacion / semanasPorRotacion) * 100);
+            return Math.floor(diffTime / (1000 * 60 * 60 * 24));
         }
 
         // ===== GESTIÓN DE ESTUDIANTES =====
         function showStudentForm(estudiante = null) {
+            hideAllForms();
             const form = document.getElementById('student-form');
             const title = document.getElementById('form-title');
             const formElement = document.getElementById('studentForm');
@@ -1321,11 +1296,11 @@
                 delete formElement.dataset.editingId;
             }
             
-            form.style.display = 'block';
+            form.classList.remove('hidden');
         }
 
         function hideStudentForm() {
-            document.getElementById('student-form').style.display = 'none';
+            document.getElementById('student-form').classList.add('hidden');
         }
 
         function saveStudent(event) {
@@ -1341,8 +1316,9 @@
                 return;
             }
 
+            // Validar teléfono
             if (!/^\d{8}$/.test(telefono)) {
-                showNotification('El teléfono debe tener 8 dígitos', 'error');
+                showNotification('El teléfono debe tener exactamente 8 dígitos', 'error');
                 return;
             }
 
@@ -1395,7 +1371,7 @@
                 delete state.seminarios[id];
                 state.strikes = state.strikes.filter(s => s.estudianteId !== id);
                 
-                // Remover de equipos de guardia
+                // Remover de equipos
                 state.equiposGuardia.forEach(equipo => {
                     equipo.estudiantes = equipo.estudiantes.filter(estId => estId !== id);
                 });
@@ -1404,13 +1380,62 @@
                 renderEstudiantes();
                 renderSeminarios();
                 renderStrikes();
-                renderEquipos();
                 showNotification('Estudiante eliminado');
             }
         }
 
+        // ===== MENSAJES PERSONALIZADOS =====
+        function showMessageComposer() {
+            hideAllForms();
+            document.getElementById('message-composer').classList.remove('hidden');
+        }
+
+        function hideMessageComposer() {
+            document.getElementById('message-composer').classList.add('hidden');
+            document.getElementById('messagePreview').classList.add('hidden');
+        }
+
+        function previewMessage() {
+            const message = document.getElementById('customMessage').value.trim();
+            const preview = document.getElementById('previewText');
+            const previewContainer = document.getElementById('messagePreview');
+            
+            if (!message) {
+                showNotification('Escribe un mensaje para ver la vista previa', 'warning');
+                return;
+            }
+            
+            preview.textContent = message;
+            previewContainer.classList.remove('hidden');
+        }
+
+        function sendCustomMessage() {
+            const studentId = document.getElementById('messageStudent').value;
+            const message = document.getElementById('customMessage').value.trim();
+            
+            if (!studentId || !message) {
+                showNotification('Selecciona un estudiante y escribe un mensaje', 'error');
+                return;
+            }
+
+            const estudiante = state.estudiantes.find(e => e.id == studentId);
+            if (!estudiante) {
+                showNotification('Estudiante no encontrado', 'error');
+                return;
+            }
+
+            const mensajeCompleto = `${message}\n\n_Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM_`;
+            const url = `https://wa.me/53${estudiante.telefono}?text=${encodeURIComponent(mensajeCompleto)}`;
+            window.open(url, '_blank');
+            
+            showNotification('Mensaje preparado para enviar');
+            hideMessageComposer();
+        }
+
         // ===== GESTIÓN DE SEMINARIOS =====
         function updateSeminarioGrade(estudianteId, seminario, grade) {
+            const select = event.target;
+            
             if (!state.seminarios[estudianteId]) {
                 state.seminarios[estudianteId] = {};
             }
@@ -1419,8 +1444,7 @@
             saveData();
             
             // Actualizar visualización
-            const select = event.target;
-            select.className = `form-control grade-${grade || 'null'}`;
+            select.className = `form-control ${grade ? `grade-${grade.toString().replace('+', 'plus')}` : ''}`;
             
             renderDashboard();
             renderEvaluacionIntegral();
@@ -1428,11 +1452,12 @@
 
         // ===== GESTIÓN DE STRIKES =====
         function showStrikeForm() {
-            document.getElementById('strike-form').style.display = 'block';
+            hideAllForms();
+            document.getElementById('strike-form').classList.remove('hidden');
         }
 
         function hideStrikeForm() {
-            document.getElementById('strike-form').style.display = 'none';
+            document.getElementById('strike-form').classList.add('hidden');
             document.getElementById('strikeForm').reset();
         }
 
@@ -1443,7 +1468,7 @@
             const tipo = document.getElementById('strikeType').value;
             const valor = document.getElementById('strikeValue').value;
             const descripcion = document.getElementById('strikeDescription').value.trim();
-            const notificar = document.getElementById('notificarStrike').checked;
+            const notificar = document.getElementById('notifyStudent').checked;
 
             if (!estudianteId || !tipo || !valor || !descripcion) {
                 showNotification('Por favor complete todos los campos', 'error');
@@ -1456,48 +1481,22 @@
                 tipo,
                 valor: parseFloat(valor),
                 descripcion,
-                fecha: new Date().toISOString()
+                fecha: new Date().toISOString(),
+                notificado: false
             };
 
             state.strikes.push(strike);
             saveData();
             
-            // Notificar si está marcado
             if (notificar) {
-                notificarStrikeWhatsApp(strike);
+                notifyStrike(state.strikes.length - 1);
             }
-            
+
             hideStrikeForm();
             renderStrikes();
             renderDashboard();
             renderEvaluacionIntegral();
             showNotification('Strike registrado correctamente');
-        }
-
-        function notificarStrikeWhatsApp(strike) {
-            const estudiante = state.estudiantes.find(e => e.id === strike.estudianteId);
-            if (!estudiante) return;
-
-            const tipoTexto = strike.tipo === 'positive' ? 'positivo ✅' : 'negativo ❌';
-            const impacto = strike.tipo === 'positive' ? '+' + strike.valor : '-' + strike.valor;
-            
-            let mensaje = `*Notificación de Strike ${tipoTexto}*\n\n`;
-            mensaje += `👤 *Estudiante:* ${estudiante.nombre}\n`;
-            mensaje += `⚖️ *Tipo:* Strike ${tipoTexto}\n`;
-            mensaje += `📊 *Impacto:* ${impacto} puntos\n`;
-            mensaje += `📝 *Motivo:* ${strike.descripcion}\n`;
-            mensaje += `📅 *Fecha:* ${new Date(strike.fecha).toLocaleDateString()}\n\n`;
-            
-            if (strike.tipo === 'positive') {
-                mensaje += `¡Felicidades! 🎉 Continúa con tu excelente trabajo.\n\n`;
-            } else {
-                mensaje += `💡 *Recomendación:* Reflexiona sobre este aspecto y trabaja en mejorar.\n\n`;
-            }
-            
-            mensaje += `_Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM_`;
-
-            const url = `https://wa.me/53${estudiante.telefono}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
         }
 
         function deleteStrike(index) {
@@ -1511,33 +1510,155 @@
             }
         }
 
+        function notifyStrike(index) {
+            const strike = state.strikes[index];
+            const estudiante = state.estudiantes.find(e => e.id === strike.estudianteId);
+            
+            if (!estudiante) {
+                showNotification('Estudiante no encontrado', 'error');
+                return;
+            }
+
+            const tipoEmoji = strike.tipo === 'positive' ? '✅' : '❌';
+            const tipoTexto = strike.tipo === 'positive' ? 'positivo' : 'negativo';
+            const impacto = strike.tipo === 'positive' ? '+' : '';
+            
+            let mensaje = `*Notificación de Strike ${tipoTexto}*\n\n`;
+            mensaje += `👤 *Estudiante:* ${estudiante.nombre}\n`;
+            mensaje += `${tipoEmoji} *Tipo:* Strike ${tipoTexto}\n`;
+            mensaje += `📊 *Valor:* ${impacto}${strike.valor} puntos\n`;
+            mensaje += `📝 *Descripción:* ${strike.descripcion}\n`;
+            mensaje += `📅 *Fecha:* ${new Date(strike.fecha).toLocaleDateString()}\n\n`;
+            mensaje += `_Este strike afecta tu evaluación final. Mantente al día con tus compromisos académicos._\n\n`;
+            mensaje += `💡 *Consejo:* ${strike.tipo === 'positive' ? 
+                '¡Sigue así! Tu esfuerzo está siendo reconocido.' : 
+                'Te recomendamos mejorar en este aspecto para optimizar tu desempeño.'}`;
+
+            const url = `https://wa.me/53${estudiante.telefono}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+            
+            strike.notificado = true;
+            saveData();
+            renderStrikes();
+            showNotification('Notificación enviada al estudiante');
+        }
+
         // ===== GESTIÓN DE GUARDIAS =====
+        function loadGuardiaForDate(dateStr) {
+            renderGuardiaForDate(dateStr);
+        }
+
+        function loadTodayGuardia() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('guardiaDate').value = today;
+            loadGuardiaForDate(today);
+        }
+
         function toggleAsistencia(fecha, estudianteId) {
             if (!state.calendarioGuardias[fecha]) {
-                state.calendarioGuardias[fecha] = { presente: {} };
+                showNotification('No hay guardia programada para esta fecha', 'error');
+                return;
             }
-            
+
             const currentlyPresent = state.calendarioGuardias[fecha].presente[estudianteId];
             state.calendarioGuardias[fecha].presente[estudianteId] = !currentlyPresent;
             
             // Si marca ausente, generar strike automático
             if (currentlyPresent) {
-                const strike = {
+                state.strikes.push({
                     id: Date.now(),
                     estudianteId,
                     tipo: 'negative',
                     valor: 0.5,
                     descripcion: 'Falta a guardia médica',
-                    fecha: new Date().toISOString()
-                };
-                state.strikes.push(strike);
+                    fecha: new Date().toISOString(),
+                    notificado: false
+                });
                 showNotification('Strike generado por falta a guardia', 'warning');
             }
             
             saveData();
-            mostrarGuardiaFecha();
+            renderGuardiaForDate(fecha);
             renderStrikes();
             renderEvaluacionIntegral();
+        }
+
+        function updateTeamEvaluation(fecha, nota) {
+            if (!state.evaluacionesGuardia[fecha]) {
+                state.evaluacionesGuardia[fecha] = { notas: {} };
+            }
+            state.evaluacionesGuardia[fecha].notaEquipo = nota ? parseInt(nota) : null;
+            saveData();
+            showNotification('Evaluación guardada');
+        }
+
+        function updateGuardiaComments(fecha, comentarios) {
+            if (!state.evaluacionesGuardia[fecha]) {
+                state.evaluacionesGuardia[fecha] = { notas: {} };
+            }
+            state.evaluacionesGuardia[fecha].comentarios = comentarios;
+            saveData();
+        }
+
+        // ===== GESTIÓN DE EQUIPOS =====
+        function showTeamManager() {
+            hideAllForms();
+            document.getElementById('team-manager').classList.remove('hidden');
+            renderTeamsManager();
+        }
+
+        function hideTeamManager() {
+            document.getElementById('team-manager').classList.add('hidden');
+        }
+
+        function addNewTeam() {
+            const newId = state.equiposGuardia.length > 0 ? 
+                Math.max(...state.equiposGuardia.map(e => e.id)) + 1 : 1;
+            
+            state.equiposGuardia.push({
+                id: newId,
+                nombre: `Equipo ${newId}`,
+                estudiantes: [],
+                color: `#${Math.floor(Math.random()*16777215).toString(16)}`
+            });
+            
+            renderTeamsManager();
+        }
+
+        function removeTeam(index) {
+            if (confirm('¿Está seguro de que desea eliminar este equipo?')) {
+                state.equiposGuardia.splice(index, 1);
+                renderTeamsManager();
+            }
+        }
+
+        function updateTeamName(index, nombre) {
+            state.equiposGuardia[index].nombre = nombre;
+        }
+
+        function addStudentToTeam(teamIndex, studentId) {
+            if (!studentId) return;
+            
+            const team = state.equiposGuardia[teamIndex];
+            if (!team.estudiantes.includes(parseInt(studentId))) {
+                team.estudiantes.push(parseInt(studentId));
+                renderTeamsManager();
+            }
+            event.target.value = '';
+        }
+
+        function removeStudentFromTeam(teamIndex, studentId) {
+            const team = state.equiposGuardia[teamIndex];
+            team.estudiantes = team.estudiantes.filter(id => id !== studentId);
+            renderTeamsManager();
+        }
+
+        function saveTeams() {
+            // Re-programar guardias con los nuevos equipos
+            initializeCalendarioGuardias();
+            saveData();
+            hideTeamManager();
+            showNotification('Equipos guardados y guardias reprogramadas');
         }
 
         // ===== NOTIFICACIONES WHATSAPP =====
@@ -1550,41 +1671,32 @@
             const strikesPositivos = state.strikes.filter(s => s.estudianteId === estudianteId && s.tipo === 'positive');
             const strikesNegativos = state.strikes.filter(s => s.estudianteId === estudianteId && s.tipo === 'negative');
 
-            let mensaje = `*Resumen Académico - ${estudiante.nombre}*\n\n`;
-            mensaje += `📊 *Promedio Actual:* ${promedio.toFixed(1)}\n`;
+            let mensaje = `*📊 Resumen Académico - ${estudiante.nombre}*\n\n`;
+            mensaje += `🎯 *Promedio Actual:* ${promedio.toFixed(1)}\n`;
             mensaje += `⚖️ *Strikes Netos:* ${strikesNetos > 0 ? '+' : ''}${strikesNetos.toFixed(1)}\n\n`;
 
             if (strikesPositivos.length > 0) {
-                mensaje += `✅ *Strikes Positivos:*\n`;
-                strikesPositivos.slice(0, 3).forEach(strike => {
+                mensaje += `✅ *Reconocimientos Positivos:*\n`;
+                strikesPositivos.forEach(strike => {
                     mensaje += `   • +${strike.valor}: ${strike.descripcion}\n`;
                 });
-                if (strikesPositivos.length > 3) {
-                    mensaje += `   • ...y ${strikesPositivos.length - 3} más\n`;
-                }
                 mensaje += `\n`;
             }
 
             if (strikesNegativos.length > 0) {
-                mensaje += `❌ *Strikes Negativos:*\n`;
-                strikesNegativos.slice(0, 3).forEach(strike => {
+                mensaje += `❌ *Aspectos por Mejorar:*\n`;
+                strikesNegativos.forEach(strike => {
                     mensaje += `   • -${strike.valor}: ${strike.descripcion}\n`;
                 });
-                if (strikesNegativos.length > 3) {
-                    mensaje += `   • ...y ${strikesNegativos.length - 3} más\n`;
-                }
                 mensaje += `\n`;
             }
 
-            // Recomendación basada en el desempeño
-            if (promedio >= 4.5) {
-                mensaje += `🎉 *Excelente trabajo!* Mantén este rendimiento excepcional.\n\n`;
-            } else if (promedio >= 4) {
-                mensaje += `👍 *Buen trabajo!* Continúa esforzándote.\n\n`;
-            } else if (promedio >= 3) {
-                mensaje += `💡 *Puedes mejorar!* Enfócate en las áreas de oportunidad.\n\n`;
+            if (promedio < 3) {
+                mensaje += `🚨 *Alerta:* Tu promedio está por debajo del mínimo requerido. Te recomendamos reforzar tu preparación.\n\n`;
+            } else if (promedio < 4) {
+                mensaje += `⚠️ *Atención:* Hay espacio para mejorar. Considera dedicar más tiempo al estudio.\n\n`;
             } else {
-                mensaje += `⚠️ *Necesita atención!* Solicita ayuda a tus tutores.\n\n`;
+                mensaje += `🎉 *Excelente trabajo:* Mantén tu buen desempeño académico.\n\n`;
             }
 
             mensaje += `_Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM_`;
@@ -1607,8 +1719,7 @@
                 state.config.inicioRotacion = startDate;
                 state.config.duracionSemanas = duration;
                 saveData();
-                programarGuardias();
-                actualizarRotaciones();
+                initializeCalendarioGuardias();
                 showNotification('Fechas actualizadas correctamente');
             }
         }
@@ -1636,11 +1747,16 @@
                 reader.onload = function(e) {
                     try {
                         const importedState = JSON.parse(e.target.result);
-                        state = { ...state, ...importedState };
-                        saveData();
-                        location.reload(); // Recargar para aplicar cambios
+                        // Validar estructura básica
+                        if (importedState.estudiantes && Array.isArray(importedState.estudiantes)) {
+                            state = { ...state, ...importedState };
+                            saveData();
+                            location.reload();
+                        } else {
+                            throw new Error('Estructura de datos inválida');
+                        }
                     } catch (error) {
-                        showNotification('Error al importar datos', 'error');
+                        showNotification('Error al importar datos: formato inválido', 'error');
                     }
                 };
                 reader.readAsText(file);
@@ -1665,6 +1781,9 @@
                 section.classList.remove('active');
             });
             
+            // Ocultar todos los forms
+            hideAllForms();
+            
             // Mostrar sección seleccionada
             document.getElementById(sectionId).classList.add('active');
             
@@ -1672,7 +1791,15 @@
             document.querySelectorAll('.menu-item').forEach(item => {
                 item.classList.remove('active');
             });
-            document.querySelector(`.menu-item[data-section="${sectionId}"]`).classList.add('active');
+            
+            // Encontrar el ítem del menú correspondiente
+            const menuItems = document.querySelectorAll('.menu-item');
+            for (let item of menuItems) {
+                if (item.textContent.includes(getMenuTextForSection(sectionId))) {
+                    item.classList.add('active');
+                    break;
+                }
+            }
             
             // Cerrar menú en móviles
             if (window.innerWidth <= 768) {
@@ -1694,15 +1821,32 @@
                     renderStrikes();
                     break;
                 case 'guardias':
-                    mostrarGuardiaFecha();
+                    // Ya se carga automáticamente
                     break;
                 case 'evaluacion':
                     renderEvaluacionIntegral();
                     break;
-                case 'rotaciones':
-                    actualizarRotaciones();
-                    break;
             }
+        }
+
+        function getMenuTextForSection(sectionId) {
+            const map = {
+                'dashboard': 'Dashboard',
+                'estudiantes': 'Gestión Estudiantes',
+                'seminarios': 'Seminarios',
+                'strikes': 'Sistema de Strikes',
+                'guardias': 'Calendario Guardias',
+                'evaluacion': 'Evaluación Integral',
+                'configuracion': 'Configuración'
+            };
+            return map[sectionId] || '';
+        }
+
+        function hideAllForms() {
+            document.getElementById('student-form').classList.add('hidden');
+            document.getElementById('message-composer').classList.add('hidden');
+            document.getElementById('strike-form').classList.add('hidden');
+            document.getElementById('team-manager').classList.add('hidden');
         }
 
         function showNotification(message, type = 'success') {
@@ -1713,7 +1857,7 @@
             
             setTimeout(() => {
                 notification.classList.remove('show');
-            }, 3000);
+            }, 4000);
         }
 
         function setupEventListeners() {
@@ -1730,6 +1874,13 @@
             // Configuración inicial de fechas
             document.getElementById('startDate').value = state.config.inicioRotacion;
             document.getElementById('duration').value = state.config.duracionSemanas;
+
+            // Prevenir envío de formularios con Enter
+            document.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+                    e.preventDefault();
+                }
+            });
         }
 
         // ===== INICIALIZACIÓN AL CARGAR =====
