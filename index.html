@@ -2,386 +2,651 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INTERNOS HPJRM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Consultas Pediatría - Dr. Rodney Jauregui Alonso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #1a73e8;
-            --primary-dark: #0d47a1;
-            --secondary: #34a853;
-            --danger: #ea4335;
-            --warning: #fbbc04;
+            --primary: #1a5276;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #e74c3c;
             --light: #f8f9fa;
-            --dark: #202124;
-            --gray: #5f6368;
-            --border: #dadce0;
+            --dark: #2c3e50;
+            --sidebar: #2c3e50;
+            --sidebar-hover: #34495e;
         }
-
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
+        
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.5;
+            overflow-x: hidden;
+            width: 100%;
+            max-width: 100vw;
         }
-
-        /* Header y Navegación */
+        
+        /* Header */
         .header {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 1rem;
+            padding: 15px 20px;
             position: fixed;
             top: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        
         .menu-toggle {
             background: none;
             border: none;
             color: white;
             font-size: 1.5rem;
             cursor: pointer;
-            padding: 0.5rem;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
-        .app-title {
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 10px;
+        }
+        
+        .logo h1 {
             font-size: 1.2rem;
-            font-weight: 600;
+            font-weight: 700;
         }
-
-        /* Menú Hamburguesa */
+        
+        .logo span {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            font-weight: 300;
+            display: block;
+        }
+        
+        .stats-container {
+            display: none;
+        }
+        
+        /* Sidebar Navigation */
         .sidebar {
             position: fixed;
-            top: 60px;
-            left: -300px;
+            top: 70px;
+            left: -280px;
             width: 280px;
-            height: calc(100vh - 60px);
-            background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            height: calc(100vh - 70px);
+            background: var(--sidebar);
+            color: white;
             transition: left 0.3s ease;
             z-index: 999;
             overflow-y: auto;
+            padding-bottom: 20px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         }
-
+        
         .sidebar.active {
             left: 0;
         }
-
-        .menu-item {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: background 0.3s;
+        
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .sidebar-menu li {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 18px 20px;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 15px;
+            transition: background 0.3s;
         }
-
-        .menu-item:hover {
-            background: var(--light);
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: var(--sidebar-hover);
         }
-
-        .menu-item.active {
-            background: var(--primary);
-            color: white;
+        
+        .sidebar-menu i {
+            width: 25px;
+            text-align: center;
+            font-size: 1.2rem;
         }
-
-        /* Contenido Principal */
+        
+        /* Main Content */
         .main-content {
-            margin-top: 60px;
-            padding: 1rem;
-            min-height: calc(100vh - 60px);
+            margin-top: 70px;
+            padding: 20px;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
         }
-
+        
         .section {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.5s ease;
         }
-
+        
         .section.active {
             display: block;
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* Tarjetas y Layout */
+        
+        /* Cards */
         .card {
             background: white;
             border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            border: 1px solid var(--border);
-        }
-
-        .grid {
-            display: grid;
-            gap: 1rem;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        }
-
-        /* Botones */
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .btn-sm {
-            padding: 0.5rem 1rem;
-            font-size: 0.8rem;
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-        }
-
-        .btn-success {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .btn-danger {
-            background: var(--danger);
-            color: white;
-        }
-
-        .btn-warning {
-            background: var(--warning);
-            color: var(--dark);
-        }
-
-        /* Formularios */
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .form-control {
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
             width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--border);
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 18px;
+            width: 100%;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: border 0.3s;
+            background: #fff;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
-
-        .form-control:focus {
+        
+        input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
-
-        /* Tablas */
-        .table-container {
-            overflow-x: auto;
-            margin-top: 1rem;
+        
+        /* Checkbox Group */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 5px;
         }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f8ff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+            margin: 0;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 12px 20px;
+            border: none;
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-        }
-
-        .table th,
-        .table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .table th {
-            background: var(--primary);
-            color: white;
+            font-size: 1rem;
             font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 5px;
         }
-
-        .table tr:hover {
-            background: var(--light);
-        }
-
-        /* Calificaciones con colores */
-        .grade-2 { background: #ffebee; color: var(--danger); font-weight: bold; }
-        .grade-3 { background: #fff8e1; color: var(--warning); font-weight: bold; }
-        .grade-4 { background: #e8f5e8; color: #2e7d32; font-weight: bold; }
-        .grade-5 { background: #e3f2fd; color: var(--primary); font-weight: bold; }
-        .grade-5plus { background: #e8eaf6; color: #303f9f; font-weight: bold; }
-
-        /* Strikes */
-        .strike-positive { color: var(--secondary); font-weight: bold; }
-        .strike-negative { color: var(--danger); font-weight: bold; }
-        .strike-warning { color: var(--warning); font-weight: bold; }
-
-        /* Utilidades */
-        .text-center { text-align: center; }
-        .text-right { text-align: right; }
-        .mb-1 { margin-bottom: 0.5rem; }
-        .mb-2 { margin-bottom: 1rem; }
-        .mt-1 { margin-top: 0.5rem; }
-        .mt-2 { margin-top: 1rem; }
-        .d-flex { display: flex; }
-        .justify-between { justify-content: space-between; }
-        .align-center { align-items: center; }
-        .gap-1 { gap: 0.5rem; }
-        .wrap { flex-wrap: wrap; }
-
-        /* Estados de carga */
-        .loading {
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        /* Notificaciones */
-        .notification {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            padding: 1rem 1.5rem;
-            background: var(--secondary);
+        
+        .btn-primary {
+            background-color: var(--secondary);
             color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            z-index: 1001;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
         }
-
-        .notification.show {
-            transform: translateX(0);
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
         }
-
-        .notification.error {
-            background: var(--danger);
+        
+        .btn-success {
+            background-color: var(--success);
+            color: white;
         }
-
-        .notification.warning {
-            background: var(--warning);
-            color: var(--dark);
+        
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
         }
-
-        /* Equipos de Guardia */
-        .team-card {
-            background: #f8f9fa;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 1rem;
+        
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
         }
-
-        .team-header {
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            width: auto;
+        }
+        
+        /* Patient Items */
+        .patient-list {
+            max-height: 60vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .patient-item {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 5px solid var(--secondary);
+            width: 100%;
+        }
+        
+        .patient-item.urgent {
+            border-left-color: var(--danger);
+            background: #fff5f5;
+        }
+        
+        .patient-item.suggested {
+            border-left-color: var(--warning);
+            background: #fffbf0;
+        }
+        
+        .patient-header {
             display: flex;
             justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .patient-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .patient-phone {
+            color: #666;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .patient-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .patient-actions .btn-small {
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        /* Tags */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        
+        .tag {
+            background: #e0f7fa;
+            color: #006064;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: inline-flex;
             align-items: center;
-            margin-bottom: 0.5rem;
+            gap: 4px;
         }
-
-        .team-members {
-            margin-top: 0.5rem;
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
         }
-
-        .team-member {
-            background: white;
-            padding: 0.5rem;
-            margin: 0.25rem 0;
-            border-radius: 4px;
-            border: 1px solid var(--border);
+        
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
         }
-
-        /* Selector de Fecha */
-        .date-selector {
-            max-width: 300px;
-            margin-bottom: 1rem;
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1100;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
         }
-
-        /* Evaluación de Guardia */
-        .evaluation-grid {
+        
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 998;
+            display: none;
+        }
+        
+        .overlay.active {
+            display: block;
+        }
+        
+        /* Stats */
+        .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
         }
-
-        .evaluation-card {
+        
+        .stat-item {
             background: white;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
         }
-
-        /* Mensaje Personalizado */
-        .message-editor {
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 1rem;
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .quick-action-btn {
             background: white;
-            margin-top: 1rem;
+            border-radius: 10px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s;
         }
-
-        .message-editor textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            resize: vertical;
-            font-family: inherit;
+        
+        .quick-action-btn:hover {
+            transform: translateY(-3px);
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
+        
+        .quick-action-btn i {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
             .sidebar {
-                width: 100%;
-                left: -100%;
+                left: 0;
+                width: 250px;
             }
-
-            .grid {
-                grid-template-columns: 1fr;
+            
+            .main-content {
+                margin-left: 250px;
+                padding: 25px;
             }
-
-            .table {
-                font-size: 0.9rem;
+            
+            .menu-toggle {
+                display: none;
             }
-
+            
+            .stats-container {
+                display: flex;
+                gap: 20px;
+            }
+            
+            .stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .notification {
+                left: auto;
+                right: 20px;
+                max-width: 350px;
+            }
+            
+            .patient-actions .btn-small {
+                flex: none;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .main-content {
+                padding: 30px;
+            }
+            
             .btn {
-                font-size: 0.8rem;
-                padding: 0.6rem 1rem;
+                width: auto;
+            }
+            
+            .form-row {
+                display: flex;
+                gap: 20px;
+            }
+            
+            .form-row .form-group {
+                flex: 1;
+            }
+        }
+        
+        /* Time Suggestions */
+        .time-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+        
+        .time-btn {
+            padding: 8px 12px;
+            background: #f0f8ff;
+            border: 1px solid #bde0ff;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .time-btn:hover {
+            background: #e1f0ff;
+        }
+        
+        /* Auto Complete */
+        .auto-suggest-container {
+            position: relative;
+        }
+        
+        .auto-suggest-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 0 0 8px 8px;
+            z-index: 10;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .auto-suggest-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .auto-suggest-item:hover {
+            background: #f5f5f5;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #777;
+            font-size: 0.85rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .footer-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 767px) {
+            .card-title {
+                font-size: 1.2rem;
+            }
+            
+            .patient-actions {
+                flex-direction: column;
+            }
+            
+            .patient-actions .btn-small {
+                width: 100%;
+            }
+            
+            input, select, textarea {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+        
+        /* Fix for mobile viewport */
+        html, body {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+        
+        /* Fix for iOS input zoom */
+        @media (max-width: 767px) {
+            input, select, textarea {
+                font-size: 16px !important;
             }
         }
     </style>
@@ -389,1379 +654,519 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <nav class="nav">
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-            <h1 class="app-title">INTERNOS HPJRM</h1>
-            <div></div>
-        </nav>
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="logo">
+            <div>
+                <h1>Consultas Pediatría</h1>
+                <span>Dr. Rodney Jauregui Alonso</span>
+            </div>
+        </div>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-value" id="mobileTotalPatients">0</div>
+                <div class="stat-label">Pacientes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="mobileTodayContacts">0</div>
+                <div class="stat-label">Contactar Hoy</div>
+            </div>
+        </div>
     </header>
-
-    <!-- Sidebar Menu -->
-    <aside class="sidebar" id="sidebar">
-        <div class="menu-item active" data-section="dashboard">
-            📊 Dashboard
-        </div>
-        <div class="menu-item" data-section="estudiantes">
-            👥 Gestión Estudiantes
-        </div>
-        <div class="menu-item" data-section="seminarios">
-            📚 Seminarios
-        </div>
-        <div class="menu-item" data-section="strikes">
-            ⚖️ Sistema de Strikes
-        </div>
-        <div class="menu-item" data-section="guardias">
-            🗓️ Calendario Guardias
-        </div>
-        <div class="menu-item" data-section="evaluacion">
-            📈 Evaluación Integral
-        </div>
-        <div class="menu-item" data-section="configuracion">
-            ⚙️ Configuración
-        </div>
-    </aside>
-
+    
+    <!-- Overlay -->
+    <div class="overlay" id="overlay"></div>
+    
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="#dashboard" class="active" data-section="dashboard"><i class="fas fa-home"></i> Inicio</a></li>
+            <li><a href="#new-patient" data-section="new-patient"><i class="fas fa-user-plus"></i> Nuevo Paciente</a></li>
+            <li><a href="#all-patients" data-section="all-patients"><i class="fas fa-users"></i> Todos los Pacientes</a></li>
+            <li><a href="#contact-today" data-section="contact-today"><i class="fas fa-phone-alt"></i> Contactar Hoy</a></li>
+            <li><a href="#suggested" data-section="suggested"><i class="fas fa-bell"></i> Sugeridos a Contactar</a></li>
+            <li><a href="#appointments" data-section="appointments"><i class="fas fa-calendar-check"></i> Próximas Citas</a></li>
+            <li><a href="#urgent" data-section="urgent"><i class="fas fa-exclamation-triangle"></i> Casos Urgentes</a></li>
+            <li><a href="#templates" data-section="templates"><i class="fas fa-comment-medical"></i> Plantillas</a></li>
+            <li><a href="#settings" data-section="settings"><i class="fas fa-cog"></i> Configuración</a></li>
+        </ul>
+    </nav>
+    
     <!-- Main Content -->
-    <main class="main-content">
-        <!-- Dashboard -->
+    <main class="main-content" id="mainContent">
+        <!-- Dashboard Section -->
         <section id="dashboard" class="section active">
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalPatients">0</div>
+                    <div class="stat-label">Total Pacientes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="todayContacts">0</div>
+                    <div class="stat-label">Contactar Hoy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="pendingAppointments">0</div>
+                    <div class="stat-label">Citas Pendientes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="urgentCases">0</div>
+                    <div class="stat-label">Casos Urgentes</div>
+                </div>
+            </div>
+            
+            <div class="quick-actions">
+                <button class="quick-action-btn" data-section="new-patient">
+                    <i class="fas fa-user-plus"></i>
+                    <div>Nuevo Paciente</div>
+                </button>
+                <button class="quick-action-btn" data-section="contact-today">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>Contactar Hoy</div>
+                </button>
+                <button class="quick-action-btn" data-section="suggested">
+                    <i class="fas fa-bell"></i>
+                    <div>Sugeridos</div>
+                </button>
+                <button class="quick-action-btn" data-section="appointments">
+                    <i class="fas fa-calendar-check"></i>
+                    <div>Próximas Citas</div>
+                </button>
+            </div>
+            
             <div class="card">
-                <h2>📊 Dashboard Principal</h2>
-                <div class="grid mt-2">
-                    <div class="card">
-                        <h3>🏆 Mejores Promedios</h3>
-                        <div id="mejores-estudiantes"></div>
-                    </div>
-                    <div class="card">
-                        <h3>⚠️ Necesitan Mejorar</h3>
-                        <div id="peores-estudiantes"></div>
-                    </div>
-                    <div class="card">
-                        <h3>📈 Métricas Generales</h3>
-                        <div id="metricas-generales"></div>
+                <h2 class="card-title"><i class="fas fa-history"></i> Actividad Reciente</h2>
+                <div id="recentActivity" class="patient-list">
+                    <div class="empty-state">
+                        <i class="fas fa-clock"></i>
+                        <p>No hay actividad reciente</p>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- Gestión Estudiantes -->
-        <section id="estudiantes" class="section">
+        
+        <!-- New Patient Section -->
+        <section id="new-patient" class="section">
             <div class="card">
-                <div class="d-flex justify-between align-center">
-                    <h2>👥 Gestión de Estudiantes</h2>
-                    <div class="d-flex gap-1">
-                        <button class="btn btn-primary" onclick="showStudentForm()">
-                            ➕ Añadir Estudiante
-                        </button>
-                        <button class="btn btn-success" onclick="showMessageComposer()">
-                            💬 Mensaje Personalizado
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Formulario Estudiantes -->
-                <div id="student-form" class="mt-2" style="display: none;">
-                    <div class="card">
-                        <h3 id="form-title">Añadir Nuevo Estudiante</h3>
-                        <form id="studentForm" onsubmit="saveStudent(event)">
-                            <div class="form-group">
-                                <label class="form-label">Nombre Completo</label>
-                                <input type="text" class="form-control" id="studentName" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Teléfono</label>
-                                <input type="tel" class="form-control" id="studentPhone" 
-                                       pattern="[0-9]{8}" title="8 dígitos sin +53" required>
-                                <small class="text-muted">8 dígitos (ej: 51234567)</small>
-                            </div>
-                            <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary">💾 Guardar</button>
-                                <button type="button" class="btn btn-danger" onclick="hideStudentForm()">❌ Cancelar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Editor de Mensajes -->
-                <div id="message-composer" class="mt-2" style="display: none;">
-                    <div class="card">
-                        <h3>💬 Mensaje Personalizado</h3>
-                        <div class="message-editor">
-                            <div class="form-group">
-                                <label class="form-label">Destinatarios</label>
-                                <div id="message-recipients" class="d-flex wrap gap-1"></div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Mensaje</label>
-                                <textarea id="custom-message" placeholder="Escribe tu mensaje aquí..."></textarea>
-                            </div>
-                            <div class="d-flex gap-1">
-                                <button class="btn btn-success" onclick="sendCustomMessage()">
-                                    📱 Enviar por WhatsApp
-                                </button>
-                                <button class="btn btn-danger" onclick="hideMessageComposer()">
-                                    ❌ Cancelar
-                                </button>
-                            </div>
+                <h2 class="card-title"><i class="fas fa-user-plus"></i> Nuevo Paciente</h2>
+                <form id="patientForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientName">Nombre del Paciente/Padres *</label>
+                            <input type="text" id="patientName" placeholder="Ej: Juan Pérez (padre: Mario)" required>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Lista Estudiantes -->
-                <div class="table-container mt-2">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Promedio</th>
-                                <th>Strikes</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="students-list"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Seminarios -->
-        <section id="seminarios" class="section">
-            <div class="card">
-                <h2>📚 Evaluación de Seminarios</h2>
-                <div class="table-container mt-2">
-                    <table class="table" id="seminarios-table">
-                        <thead>
-                            <tr>
-                                <th>Estudiante</th>
-                                <th>Neumología</th>
-                                <th>Cardiología</th>
-                                <th>Neurología</th>
-                                <th>Nefrología</th>
-                                <th>Endocrinología</th>
-                                <th>Hematología</th>
-                                <th>Neonatología</th>
-                                <th>Infeccioso</th>
-                                <th>Digestivo</th>
-                                <th>Promedio</th>
-                            </tr>
-                        </thead>
-                        <tbody id="seminarios-body"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sistema de Strikes -->
-        <section id="strikes" class="section">
-            <div class="card">
-                <div class="d-flex justify-between align-center">
-                    <h2>⚖️ Sistema de Strikes</h2>
-                    <button class="btn btn-primary" onclick="showStrikeForm()">
-                        ➕ Registrar Strike
-                    </button>
-                </div>
-
-                <!-- Formulario Strike -->
-                <div id="strike-form" class="mt-2" style="display: none;">
-                    <div class="card">
-                        <h3>Registrar Strike</h3>
-                        <form id="strikeForm" onsubmit="saveStrike(event)">
-                            <div class="form-group">
-                                <label class="form-label">Estudiante</label>
-                                <select class="form-control" id="strikeStudent" required>
-                                    <option value="">Seleccionar estudiante...</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Tipo de Strike</label>
-                                <select class="form-control" id="strikeType" required>
-                                    <option value="">Seleccionar tipo...</option>
-                                    <option value="positive">✅ Strike Positivo</option>
-                                    <option value="negative">❌ Strike Negativo</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Valor</label>
-                                <select class="form-control" id="strikeValue" required>
-                                    <option value="">Seleccionar valor...</option>
-                                    <option value="0.1">0.1 puntos (Leve)</option>
-                                    <option value="0.2">0.2 puntos (Moderado)</option>
-                                    <option value="0.3">0.3 puntos (Moderado-Alto)</option>
-                                    <option value="0.4">0.4 puntos (Grave)</option>
-                                    <option value="0.5">0.5 puntos (Muy Grave)</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Descripción</label>
-                                <textarea class="form-control" id="strikeDescription" rows="3" required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <input type="checkbox" id="notifyStudent"> 
-                                    📱 Notificar al estudiante por WhatsApp
-                                </label>
-                            </div>
-                            <div class="d-flex gap-1">
-                                <button type="submit" class="btn btn-primary">💾 Guardar Strike</button>
-                                <button type="button" class="btn btn-danger" onclick="hideStrikeForm()">❌ Cancelar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Lista Strikes -->
-                <div class="table-container mt-2">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Fecha</th>
-                                <th>Estudiante</th>
-                                <th>Tipo</th>
-                                <th>Valor</th>
-                                <th>Descripción</th>
-                                <th>Notificado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="strikes-list"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Calendario Guardias -->
-        <section id="guardias" class="section">
-            <div class="card">
-                <div class="d-flex justify-between align-center">
-                    <h2>🗓️ Calendario de Guardias</h2>
-                    <button class="btn btn-primary" onclick="showTeamManager()">
-                        👥 Gestionar Equipos
-                    </button>
-                </div>
-
-                <!-- Selector de Fecha -->
-                <div class="date-selector">
-                    <label class="form-label">📅 Seleccionar Fecha</label>
-                    <input type="date" class="form-control" id="guardia-date" 
-                           onchange="loadGuardiaForDate(this.value)">
-                </div>
-
-                <!-- Información de Guardia -->
-                <div id="guardia-info" style="display: none;">
-                    <div class="card">
-                        <h3 id="guardia-title">Guardia del </h3>
-                        <div id="guardia-details"></div>
-                    </div>
-                </div>
-
-                <!-- Gestión de Equipos -->
-                <div id="team-manager" class="mt-2" style="display: none;">
-                    <div class="card">
-                        <h3>👥 Gestión de Equipos de Guardia</h3>
                         
-                        <!-- Configuración de Programación -->
-                        <div class="card mb-2">
-                            <h4>🔄 Programación Automática</h4>
-                            <div class="form-group">
-                                <label class="form-label">Frecuencia de guardias (días)</label>
-                                <input type="number" class="form-control" id="guardia-frequency" 
-                                       min="1" max="30" value="6">
+                        <div class="form-group">
+                            <label for="patientPhone">Teléfono (WhatsApp) *</label>
+                            <div class="auto-suggest-container">
+                                <input type="tel" id="patientPhone" placeholder="Ej: 5351234567" required>
+                                <small>Se añadirá automáticamente +53</small>
                             </div>
-                            <button class="btn btn-success" onclick="programarGuardiasAutomaticamente()">
-                                📅 Programar Guardias Automáticamente
-                            </button>
                         </div>
-
-                        <!-- Lista de Equipos -->
-                        <div id="teams-list"></div>
-
-                        <!-- Formulario de Equipo -->
-                        <div class="card">
-                            <h4 id="team-form-title">➕ Crear Nuevo Equipo</h4>
-                            <form id="teamForm" onsubmit="saveTeam(event)">
-                                <div class="form-group">
-                                    <label class="form-label">Nombre del Equipo</label>
-                                    <input type="text" class="form-control" id="teamName" required>
-                                </div>
-                                <div class="form-group">
-                                    <label class="form-label">Integrantes</label>
-                                    <div id="team-students-selector"></div>
-                                </div>
-                                <div class="d-flex gap-1">
-                                    <button type="submit" class="btn btn-primary">💾 Guardar Equipo</button>
-                                    <button type="button" class="btn btn-danger" onclick="hideTeamForm()">❌ Cancelar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Evaluación Integral -->
-        <section id="evaluacion" class="section">
-            <div class="card">
-                <h2>📈 Evaluación Integral</h2>
-                <div class="table-container mt-2">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Estudiante</th>
-                                <th>Seminarios (70%)</th>
-                                <th>Guardias (20%)</th>
-                                <th>Strikes Netos</th>
-                                <th>Promedio Final</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="evaluacion-body"></tbody>
-                    </table>
-                </div>
-            </div>
-        </section>
-
-        <!-- Configuración -->
-        <section id="configuracion" class="section">
-            <div class="card">
-                <h2>⚙️ Configuración del Sistema</h2>
-                <div class="grid mt-2">
-                    <div class="card">
-                        <h3>📅 Fechas Académicas</h3>
-                        <form onsubmit="updateDates(event)">
-                            <div class="form-group">
-                                <label class="form-label">Inicio Rotación</label>
-                                <input type="date" class="form-control" id="startDate" required>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Duración (semanas)</label>
-                                <input type="number" class="form-control" id="duration" min="1" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">💾 Actualizar Fechas</button>
-                        </form>
                     </div>
                     
-                    <div class="card">
-                        <h3>💾 Gestión de Datos</h3>
-                        <div class="d-flex gap-1 mb-2">
-                            <button class="btn btn-success" onclick="exportData()">
-                                📤 Exportar Datos
-                            </button>
-                            <button class="btn btn-warning" onclick="importData()">
-                                📥 Importar Datos
-                            </button>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="patientAge">Edad del Paciente</label>
+                            <input type="text" id="patientAge" placeholder="Ej: 3 meses, 5 años">
                         </div>
-                        <button class="btn btn-danger" onclick="clearData()">
-                            🗑️ Limpiar Todos los Datos
+                        
+                        <div class="form-group">
+                            <label for="patientWeight">Peso (kg)</label>
+                            <input type="text" id="patientWeight" placeholder="Ej: 15.5">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="initialDiagnosis">Motivo de Consulta/Diagnóstico *</label>
+                        <textarea id="initialDiagnosis" rows="2" placeholder="Ej: Fiebre persistente, control post-neumonía..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Clasificación/Etiquetas</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-urgent" value="urgente">
+                                <label for="tag-urgent">Urgente</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-reexamine" value="reexaminar">
+                                <label for="tag-reexamine">Reexaminar</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-ultrasound" value="ultrasonido">
+                                <label for="tag-ultrasound">Ultrasonido</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-lab" value="laboratorio">
+                                <label for="tag-lab">Laboratorio</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-referral" value="interconsulta">
+                                <label for="tag-referral">Interconsulta</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-guardia" value="guardia">
+                                <label for="tag-guardia">Cita en Guardia</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-manana" value="mañana">
+                                <label for="tag-manana">Cita en la Mañana</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tag-followup" value="seguimiento">
+                                <label for="tag-followup">Seguimiento</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" style="margin-top: 15px;">
+                            <label for="otherTags">Otros (separar por comas)</label>
+                            <input type="text" id="otherTags" placeholder="Ej: asma, alergia, vacunación pendiente">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentDate">Fecha de Próxima Cita</label>
+                        <input type="datetime-local" id="appointmentDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="appointmentNotes">Notas de la Cita</label>
+                        <textarea id="appointmentNotes" rows="2" placeholder="Ej: Traer estudios anteriores, ayuno para exámenes..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Sugerir contacto en:</label>
+                        <div class="time-suggestions">
+                            <button type="button" class="time-btn" data-hours="24">24 horas</button>
+                            <button type="button" class="time-btn" data-hours="48">48 horas</button>
+                            <button type="button" class="time-btn" data-hours="72">72 horas</button>
+                            <button type="button" class="time-btn" data-hours="168">1 semana</button>
+                            <button type="button" class="time-btn" data-hours="720">1 mes</button>
+                        </div>
+                        <input type="datetime-local" id="followUpDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="observations">Observaciones Importantes</label>
+                        <textarea id="observations" rows="2" placeholder="Información crítica para seguimiento"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Paciente
+                    </button>
+                </form>
+            </div>
+        </section>
+        
+        <!-- All Patients Section -->
+        <section id="all-patients" class="section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-users"></i> Todos los Pacientes</h2>
+                <div class="form-group">
+                    <input type="text" id="searchAllPatients" placeholder="Buscar por nombre, teléfono o diagnóstico...">
+                </div>
+                <div class="patient-list" id="allPatientsList">
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>No hay pacientes registrados</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Contact Today Section -->
+        <section id="contact-today" class="section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-phone-alt"></i> Pacientes a Contactar Hoy</h2>
+                <div class="patient-list" id="todayContactList">
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>No hay pacientes para contactar hoy</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Suggested Contacts Section -->
+        <section id="suggested" class="section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-bell"></i> Sugeridos a Contactar</h2>
+                <div class="patient-list" id="suggestedList">
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No hay sugerencias de contacto</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Appointments Section -->
+        <section id="appointments" class="section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-calendar-check"></i> Próximas Citas</h2>
+                <div class="patient-list" id="appointmentsList">
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>No hay citas programadas</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Urgent Cases Section -->
+        <section id="urgent" class="section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-exclamation-triangle"></i> Casos Urgentes</h2>
+                <div class="patient-list" id="urgentList">
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>No hay casos urgentes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Templates Section -->
+        <section id="templates" class="section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-comment-medical"></i> Plantillas de Mensajes</h2>
+                <div class="form-group">
+                    <select id="templateSelect">
+                        <option value="">Seleccionar plantilla...</option>
+                        <option value="recordatorio">Recordatorio de Cita</option>
+                        <option value="reexaminar">Reexaminación</option>
+                        <option value="resultados">Resultados Listos</option>
+                        <option value="urgencia">Urgencia</option>
+                        <option value="guardia">Cita en Guardia</option>
+                        <option value="manana">Cita en la Mañana</option>
+                        <option value="seguimiento">Seguimiento</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <textarea id="messageTemplate" rows="6" placeholder="La plantilla aparecerá aquí... Puedes editarla antes de enviar"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-success" id="useTemplateBtn">
+                        <i class="fas fa-paper-plane"></i> Usar esta Plantilla
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label>Plantillas Rápidas:</label>
+                    <div class="patient-actions" style="margin-top: 10px;">
+                        <button class="btn btn-small btn-primary" data-template="recordatorio">
+                            <i class="fas fa-calendar-check"></i> Recordatorio
+                        </button>
+                        <button class="btn btn-small btn-warning" data-template="reexaminar">
+                            <i class="fas fa-stethoscope"></i> Reexaminar
+                        </button>
+                        <button class="btn btn-small btn-success" data-template="guardia">
+                            <i class="fas fa-hospital"></i> Cita Guardia
                         </button>
                     </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings Section -->
+        <section id="settings" class="section">
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-cog"></i> Configuración</h2>
+                
+                <div class="form-group">
+                    <label>Nombre del Médico</label>
+                    <input type="text" value="Dr. Rodney Jauregui Alonso" disabled>
+                </div>
+                
+                <div class="form-group">
+                    <label>Especialidad</label>
+                    <input type="text" value="Especialista en 1er Grado en Pediatría" disabled>
+                </div>
+                
+                <div class="form-group">
+                    <label>Hospital</label>
+                    <input type="text" value="HPJRM" disabled>
+                </div>
+                
+                <div class="form-group">
+                    <label>Prefijo WhatsApp</label>
+                    <input type="text" value="+53" disabled>
+                    <small>Se añade automáticamente a todos los números</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="autoSuggestTime">Sugerir contacto automático después de (horas)</label>
+                    <select id="autoSuggestTime">
+                        <option value="24">24 horas</option>
+                        <option value="48" selected>48 horas</option>
+                        <option value="72">72 horas</option>
+                        <option value="168">1 semana</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notificationSound">Sonido de notificación</label>
+                    <select id="notificationSound">
+                        <option value="none">Sin sonido</option>
+                        <option value="gentle" selected>Suave</option>
+                        <option value="alert">Alerta</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <button class="btn btn-primary" id="saveSettingsBtn">
+                        <i class="fas fa-save"></i> Guardar Configuración
+                    </button>
+                </div>
+                
+                <div class="card-title" style="margin-top: 30px;"><i class="fas fa-database"></i> Gestión de Datos</div>
+                
+                <div class="footer-actions">
+                    <button class="btn btn-small btn-primary" id="exportDataBtn">
+                        <i class="fas fa-download"></i> Exportar Datos
+                    </button>
+                    <button class="btn btn-small btn-warning" id="importDataBtn">
+                        <i class="fas fa-upload"></i> Importar Datos
+                    </button>
+                    <button class="btn btn-small btn-danger" id="clearDataBtn">
+                        <i class="fas fa-trash"></i> Limpiar Datos
+                    </button>
+                </div>
+                
+                <input type="file" id="importFile" accept=".json" style="display: none;">
+                
+                <div class="footer" style="margin-top: 30px;">
+                    <p>Consultas Pediatría v1.0 | Dr. Rodney Jauregui Alonso</p>
+                    <p>Los datos se guardan localmente en tu navegador</p>
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- Notificación -->
-    <div id="notification" class="notification"></div>
-
-    <!-- Input oculto para importar datos -->
-    <input type="file" id="importFile" accept=".json" style="display: none;">
-
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Operación realizada con éxito</span>
+    </div>
+    
     <script>
-        // ===== CONSTANTES Y CONFIGURACIÓN =====
-        const SEMINARIOS = [
-            'NEUMOLOGÍA', 'CARDIOLOGÍA', 'NEUROLOGÍA', 'NEFROLOGÍA',
-            'ENDOCRINOLOGÍA', 'HEMATOLOGÍA', 'NEONATOLOGÍA', 'INFECCIOSO', 'DIGESTIVO'
-        ];
-
-        // ===== ESTADO GLOBAL =====
-        let state = {
-            estudiantes: [],
-            seminarios: {},
-            strikes: [],
-            equiposGuardia: [],
-            calendarioGuardias: {},
-            config: {
-                inicioRotacion: '2025-11-10',
-                duracionSemanas: 10,
-                vacaciones: ['2025-12-22', '2025-12-23', '2025-12-24', '2025-12-25', '2025-12-26', '2025-12-27', '2025-12-28']
-            }
+        // Base de datos local
+        let patients = JSON.parse(localStorage.getItem('consultas_pediatria')) || [];
+        let settings = JSON.parse(localStorage.getItem('consultas_settings')) || {
+            autoSuggestTime: 48,
+            notificationSound: 'gentle'
         };
-
-        // ===== INICIALIZACIÓN =====
-        function init() {
-            loadData();
-            initializeDefaultData();
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
+        
+        function initApp() {
+            updateStats();
             renderDashboard();
             setupEventListeners();
-            updateDateSelector();
-        }
-
-        function initializeDefaultData() {
-            if (state.estudiantes.length === 0) {
-                state.estudiantes = [
-                    { id: 1, nombre: 'Amalia del Busto Rodríguez', telefono: '51752468' },
-                    { id: 2, nombre: 'Daisel Cardoza Llorens', telefono: '52078480' },
-                    { id: 3, nombre: 'Juan José Calero de la Torre', telefono: '55491487' },
-                    { id: 4, nombre: 'Drialis Mendoza Fonseca', telefono: '54281354' },
-                    { id: 5, nombre: 'Jareimys Meneses Sauchay', telefono: '51190349' },
-                    { id: 6, nombre: 'Daimaris Orta Leyva', telefono: '54438672' },
-                    { id: 7, nombre: 'Bárbara Yeney Silvera Pérez', telefono: '55713088' }
-                ];
+            checkTodayContacts();
+            loadSettings();
+            
+            // Verificar si es primera vez
+            if (patients.length === 0) {
+                showWelcomeNotification();
             }
-
-            if (state.equiposGuardia.length === 0) {
-                state.equiposGuardia = [
-                    { id: 1, nombre: 'Equipo A', estudiantes: [1, 2] },
-                    { id: 2, nombre: 'Equipo B', estudiantes: [3, 4] },
-                    { id: 3, nombre: 'Equipo C', estudiantes: [5, 6, 7] }
-                ];
-            }
-
-            initializeSeminarios();
-            saveData();
         }
-
-        function initializeSeminarios() {
-            state.estudiantes.forEach(estudiante => {
-                if (!state.seminarios[estudiante.id]) {
-                    state.seminarios[estudiante.id] = {};
-                    SEMINARIOS.forEach(seminario => {
-                        state.seminarios[estudiante.id][seminario] = null;
-                    });
+        
+        // Configurar todos los event listeners
+        function setupEventListeners() {
+            // Menú hamburguesa
+            document.getElementById('menuToggle').addEventListener('click', toggleMenu);
+            document.getElementById('overlay').addEventListener('click', closeMenu);
+            
+            // Navegación del menú
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.getAttribute('data-section');
+                    navigateToSection(section);
+                    closeMenu();
+                });
+            });
+            
+            // Botones de acción rápida
+            document.querySelectorAll('.quick-action-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const section = this.getAttribute('data-section');
+                    navigateToSection(section);
+                });
+            });
+            
+            // Formulario de paciente
+            document.getElementById('patientForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addPatient();
+            });
+            
+            // Botones de tiempo sugerido
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    setSuggestedFollowUp(parseInt(this.getAttribute('data-hours')));
+                });
+            });
+            
+            // Búsqueda
+            document.getElementById('searchAllPatients').addEventListener('input', function() {
+                searchPatients(this.value, 'allPatientsList');
+            });
+            
+            // Plantillas
+            document.getElementById('templateSelect').addEventListener('change', function() {
+                if (this.value) loadTemplate(this.value);
+            });
+            
+            document.querySelectorAll('[data-template]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    loadTemplate(this.getAttribute('data-template'));
+                });
+            });
+            
+            document.getElementById('useTemplateBtn').addEventListener('click', function() {
+                const message = document.getElementById('messageTemplate').value;
+                if (message) {
+                    showNotification('Plantilla lista para usar. Selecciona un paciente.');
                 }
             });
-        }
-
-        // ===== PERSISTENCIA DE DATOS =====
-        function loadData() {
-            const saved = localStorage.getItem('internosApp');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    state = { ...state, ...parsed };
-                } catch (e) {
-                    console.error('Error loading data:', e);
-                    showNotification('Error al cargar datos guardados', 'error');
-                }
-            }
-        }
-
-        function saveData() {
-            try {
-                localStorage.setItem('internosApp', JSON.stringify(state));
-            } catch (e) {
-                console.error('Error saving data:', e);
-                showNotification('Error al guardar datos', 'error');
-            }
-        }
-
-        // ===== RENDERIZADO DE INTERFAZ =====
-        function renderDashboard() {
-            const mejores = document.getElementById('mejores-estudiantes');
-            const peores = document.getElementById('peores-estudiantes');
-            const metricas = document.getElementById('metricas-generales');
-
-            const promedios = state.estudiantes.map(est => ({
-                ...est,
-                promedio: calcularPromedioFinal(est.id)
-            })).sort((a, b) => b.promedio - a.promedio);
-
-            // Mejores estudiantes
-            mejores.innerHTML = promedios.slice(0, 3).map(est => `
-                <div class="d-flex justify-between align-center mb-1">
-                    <span>${est.nombre}</span>
-                    <strong class="grade-${Math.floor(est.promedio)}">${est.promedio.toFixed(1)}</strong>
-                </div>
-            `).join('');
-
-            // Peores estudiantes
-            peores.innerHTML = promedios.slice(-3).reverse().map(est => `
-                <div class="d-flex justify-between align-center mb-1">
-                    <span>${est.nombre}</span>
-                    <strong class="grade-${Math.floor(est.promedio)}">${est.promedio.toFixed(1)}</strong>
-                </div>
-            `).join('');
-
-            // Métricas generales
-            const totalStrikes = state.strikes.length;
-            const strikesPositivos = state.strikes.filter(s => s.tipo === 'positive').length;
-            const promedioGeneral = promedios.length > 0 ? 
-                promedios.reduce((sum, est) => sum + est.promedio, 0) / promedios.length : 0;
-
-            metricas.innerHTML = `
-                <div>📊 Promedio General: <strong>${promedioGeneral.toFixed(1)}</strong></div>
-                <div>✅ Strikes Positivos: <strong>${strikesPositivos}</strong></div>
-                <div>❌ Strikes Negativos: <strong>${totalStrikes - strikesPositivos}</strong></div>
-                <div>👥 Total Estudiantes: <strong>${state.estudiantes.length}</strong></div>
-                <div>👥 Equipos de Guardia: <strong>${state.equiposGuardia.length}</strong></div>
-            `;
-        }
-
-        function renderEstudiantes() {
-            const tbody = document.getElementById('students-list');
-            tbody.innerHTML = state.estudiantes.map(estudiante => {
-                const promedio = calcularPromedioFinal(estudiante.id);
-                const strikes = calcularStrikesNetos(estudiante.id);
-                
-                return `
-                    <tr>
-                        <td>
-                            <a href="#" onclick="notificarEstudiante(${estudiante.id}); return false;">
-                                👤 ${estudiante.nombre}
-                            </a>
-                        </td>
-                        <td>+53 ${estudiante.telefono}</td>
-                        <td class="grade-${Math.floor(promedio)}">${promedio.toFixed(1)}</td>
-                        <td class="${strikes >= 0 ? 'strike-positive' : 'strike-negative'}">
-                            ${strikes > 0 ? '+' : ''}${strikes.toFixed(1)}
-                        </td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="editStudent(${estudiante.id})">
-                                ✏️ Editar
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteStudent(${estudiante.id})">
-                                🗑️ Eliminar
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function renderSeminarios() {
-            const tbody = document.getElementById('seminarios-body');
-            tbody.innerHTML = state.estudiantes.map(estudiante => {
-                const seminariosEst = state.seminarios[estudiante.id] || {};
-                const celdas = SEMINARIOS.map(seminario => {
-                    const nota = seminariosEst[seminario];
-                    const gradeClass = nota ? `grade-${nota.toString().replace('+', 'plus')}` : '';
-                    return `<td>
-                        <select class="form-control ${gradeClass}" 
-                                onchange="updateSeminarioGrade(${estudiante.id}, '${seminario}', this.value)">
-                            <option value="">-</option>
-                            <option value="2" ${nota === 2 ? 'selected' : ''}>2</option>
-                            <option value="3" ${nota === 3 ? 'selected' : ''}>3</option>
-                            <option value="4" ${nota === 4 ? 'selected' : ''}>4</option>
-                            <option value="5" ${nota === 5 ? 'selected' : ''}>5</option>
-                            <option value="5+" ${nota === '5+' ? 'selected' : ''}>5+</option>
-                        </select>
-                    </td>`;
-                }).join('');
-
-                const promedio = calcularPromedioSeminarios(estudiante.id);
-                
-                return `
-                    <tr>
-                        <td>
-                            <a href="#" onclick="notificarEstudiante(${estudiante.id}); return false;">
-                                👤 ${estudiante.nombre}
-                            </a>
-                        </td>
-                        ${celdas}
-                        <td class="grade-${Math.floor(promedio)}"><strong>${promedio.toFixed(1)}</strong></td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function renderStrikes() {
-            const tbody = document.getElementById('strikes-list');
-            const select = document.getElementById('strikeStudent');
             
-            // Actualizar select de estudiantes
-            select.innerHTML = '<option value="">Seleccionar estudiante...</option>' +
-                state.estudiantes.map(est => 
-                    `<option value="${est.id}">${est.nombre}</option>`
-                ).join('');
-
-            // Renderizar lista de strikes
-            tbody.innerHTML = state.strikes.map((strike, index) => {
-                const estudiante = state.estudiantes.find(e => e.id === strike.estudianteId);
-                return `
-                    <tr>
-                        <td>${new Date(strike.fecha).toLocaleDateString()}</td>
-                        <td>${estudiante?.nombre || 'N/A'}</td>
-                        <td class="${strike.tipo === 'positive' ? 'strike-positive' : 'strike-negative'}">
-                            ${strike.tipo === 'positive' ? '✅ Positivo' : '❌ Negativo'}
-                        </td>
-                        <td class="${strike.tipo === 'positive' ? 'strike-positive' : 'strike-negative'}">
-                            ${strike.tipo === 'positive' ? '+' : ''}${strike.valor}
-                        </td>
-                        <td>${strike.descripcion}</td>
-                        <td>${strike.notificado ? '✅' : '❌'}</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm" onclick="deleteStrike(${index})">
-                                🗑️ Eliminar
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function renderTeamsManager() {
-            const container = document.getElementById('teams-list');
-            container.innerHTML = state.equiposGuardia.map(team => {
-                const integrantes = team.estudiantes.map(id => {
-                    const est = state.estudiantes.find(e => e.id === id);
-                    return est ? est.nombre : 'N/A';
-                }).join(', ');
-
-                return `
-                    <div class="team-card">
-                        <div class="team-header">
-                            <h4>${team.nombre}</h4>
-                            <div class="d-flex gap-1">
-                                <button class="btn btn-warning btn-sm" onclick="editTeam(${team.id})">
-                                    ✏️ Editar
-                                </button>
-                                <button class="btn btn-danger btn-sm" onclick="deleteTeam(${team.id})">
-                                    🗑️ Eliminar
-                                </button>
-                            </div>
-                        </div>
-                        <div class="team-members">
-                            <strong>Integrantes:</strong>
-                            <div class="team-members-list">
-                                ${team.estudiantes.map(id => {
-                                    const est = state.estudiantes.find(e => e.id === id);
-                                    return est ? `<div class="team-member">👤 ${est.nombre}</div>` : '';
-                                }).join('')}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderTeamStudentsSelector() {
-            const container = document.getElementById('team-students-selector');
-            container.innerHTML = state.estudiantes.map(est => `
-                <label style="display: block; margin-bottom: 0.5rem;">
-                    <input type="checkbox" name="teamStudents" value="${est.id}">
-                    👤 ${est.nombre}
-                </label>
-            `).join('');
-        }
-
-        function renderEvaluacionIntegral() {
-            const tbody = document.getElementById('evaluacion-body');
-            tbody.innerHTML = state.estudiantes.map(estudiante => {
-                const promedioSeminarios = calcularPromedioSeminarios(estudiante.id);
-                const promedioGuardias = calcularPromedioGuardias(estudiante.id);
-                const strikesNetos = calcularStrikesNetos(estudiante.id);
-                const promedioFinal = calcularPromedioFinal(estudiante.id);
-                
-                let estado = '✅ Satisfactorio';
-                let estadoClass = 'strike-positive';
-                if (promedioFinal < 3) {
-                    estado = '❌ Insuficiente';
-                    estadoClass = 'strike-negative';
-                } else if (promedioFinal < 4) {
-                    estado = '⚠️ Mejorable';
-                    estadoClass = 'strike-warning';
-                }
-
-                return `
-                    <tr>
-                        <td>👤 ${estudiante.nombre}</td>
-                        <td class="grade-${Math.floor(promedioSeminarios)}">${promedioSeminarios.toFixed(1)}</td>
-                        <td>${promedioGuardias.toFixed(1)}</td>
-                        <td class="${strikesNetos >= 0 ? 'strike-positive' : 'strike-negative'}">
-                            ${strikesNetos > 0 ? '+' : ''}${strikesNetos.toFixed(1)}
-                        </td>
-                        <td class="grade-${Math.floor(promedioFinal)}"><strong>${promedioFinal.toFixed(1)}</strong></td>
-                        <td class="${estadoClass}">${estado}</td>
-                        <td>
-                            <button class="btn btn-primary btn-sm" 
-                                    onclick="notificarEvaluacion(${estudiante.id})">
-                                📱 Notificar
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // ===== GESTIÓN DE ESTUDIANTES =====
-        function showStudentForm(estudiante = null) {
-            const form = document.getElementById('student-form');
-            const title = document.getElementById('form-title');
-            const formElement = document.getElementById('studentForm');
-            
-            if (estudiante) {
-                title.textContent = '✏️ Editar Estudiante';
-                document.getElementById('studentName').value = estudiante.nombre;
-                document.getElementById('studentPhone').value = estudiante.telefono;
-                formElement.dataset.editingId = estudiante.id;
-            } else {
-                title.textContent = '➕ Añadir Nuevo Estudiante';
-                formElement.reset();
-                delete formElement.dataset.editingId;
-            }
-            
-            form.style.display = 'block';
-            hideMessageComposer();
-        }
-
-        function hideStudentForm() {
-            document.getElementById('student-form').style.display = 'none';
-        }
-
-        function saveStudent(event) {
-            event.preventDefault();
-            
-            const form = event.target;
-            const nombre = document.getElementById('studentName').value.trim();
-            const telefono = document.getElementById('studentPhone').value.trim();
-            const editingId = form.dataset.editingId;
-
-            if (!nombre || !telefono) {
-                showNotification('❌ Por favor complete todos los campos', 'error');
-                return;
-            }
-
-            // Validar formato de teléfono
-            if (!/^\d{8}$/.test(telefono)) {
-                showNotification('❌ El teléfono debe tener 8 dígitos', 'error');
-                return;
-            }
-
-            if (editingId) {
-                // Editar estudiante existente
-                const index = state.estudiantes.findIndex(e => e.id == editingId);
-                if (index !== -1) {
-                    state.estudiantes[index] = {
-                        ...state.estudiantes[index],
-                        nombre,
-                        telefono
-                    };
-                }
-            } else {
-                // Nuevo estudiante
-                const newId = state.estudiantes.length > 0 ? 
-                    Math.max(...state.estudiantes.map(e => e.id)) + 1 : 1;
-                
-                state.estudiantes.push({
-                    id: newId,
-                    nombre,
-                    telefono
-                });
-
-                // Inicializar seminarios para el nuevo estudiante
-                state.seminarios[newId] = {};
-                SEMINARIOS.forEach(seminario => {
-                    state.seminarios[newId][seminario] = null;
-                });
-            }
-
-            saveData();
-            hideStudentForm();
-            renderEstudiantes();
-            renderSeminarios();
-            renderStrikes();
-            renderTeamsManager();
-            showNotification(editingId ? '✅ Estudiante actualizado' : '✅ Estudiante añadido');
-        }
-
-        function editStudent(id) {
-            const estudiante = state.estudiantes.find(e => e.id === id);
-            if (estudiante) {
-                showStudentForm(estudiante);
-            }
-        }
-
-        function deleteStudent(id) {
-            if (confirm('¿Está seguro de que desea eliminar este estudiante? Se perderán todos sus datos.')) {
-                state.estudiantes = state.estudiantes.filter(e => e.id !== id);
-                delete state.seminarios[id];
-                state.strikes = state.strikes.filter(s => s.estudianteId !== id);
-                
-                // Remover de equipos de guardia
-                state.equiposGuardia.forEach(team => {
-                    team.estudiantes = team.estudiantes.filter(estId => estId !== id);
-                });
-                
-                saveData();
-                renderEstudiantes();
-                renderSeminarios();
-                renderStrikes();
-                renderTeamsManager();
-                showNotification('✅ Estudiante eliminado');
-            }
-        }
-
-        // ===== MENSAJES PERSONALIZADOS =====
-        function showMessageComposer() {
-            const composer = document.getElementById('message-composer');
-            const recipients = document.getElementById('message-recipients');
-            
-            recipients.innerHTML = state.estudiantes.map(est => `
-                <label style="display: block;">
-                    <input type="checkbox" name="recipient" value="${est.id}" checked>
-                    👤 ${est.nombre}
-                </label>
-            `).join('');
-            
-            composer.style.display = 'block';
-            hideStudentForm();
-        }
-
-        function hideMessageComposer() {
-            document.getElementById('message-composer').style.display = 'none';
-        }
-
-        function sendCustomMessage() {
-            const message = document.getElementById('custom-message').value.trim();
-            const checkboxes = document.querySelectorAll('input[name="recipient"]:checked');
-            
-            if (checkboxes.length === 0) {
-                showNotification('❌ Seleccione al menos un destinatario', 'error');
-                return;
-            }
-            
-            if (!message) {
-                showNotification('❌ Escriba un mensaje', 'error');
-                return;
-            }
-
-            const recipients = Array.from(checkboxes).map(cb => {
-                const estId = parseInt(cb.value);
-                return state.estudiantes.find(e => e.id === estId);
-            }).filter(Boolean);
-
-            // Enviar mensajes individualmente
-            recipients.forEach(estudiante => {
-                const fullMessage = `${message}\n\n_💫 Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM_`;
-                const url = `https://wa.me/53${estudiante.telefono}?text=${encodeURIComponent(fullMessage)}`;
-                window.open(url, '_blank');
+            // Configuración
+            document.getElementById('saveSettingsBtn').addEventListener('click', saveSettings);
+            document.getElementById('exportDataBtn').addEventListener('click', exportData);
+            document.getElementById('importDataBtn').addEventListener('click', () => {
+                document.getElementById('importFile').click();
             });
-
-            showNotification(`✅ Mensajes enviados a ${recipients.length} estudiantes`);
-            hideMessageComposer();
-        }
-
-        // ===== GESTIÓN DE SEMINARIOS =====
-        function updateSeminarioGrade(estudianteId, seminario, grade) {
-            const select = event.target;
+            document.getElementById('importFile').addEventListener('change', importData);
+            document.getElementById('clearDataBtn').addEventListener('click', clearData);
             
-            if (!state.seminarios[estudianteId]) {
-                state.seminarios[estudianteId] = {};
-            }
-            
-            state.seminarios[estudianteId][seminario] = grade === '' ? null : grade;
-            saveData();
-            
-            // Actualizar visualización
-            const gradeClass = grade ? `grade-${grade.toString().replace('+', 'plus')}` : '';
-            select.className = `form-control ${gradeClass}`;
-            
-            renderDashboard();
-            renderEvaluacionIntegral();
-        }
-
-        // ===== GESTIÓN DE STRIKES =====
-        function showStrikeForm() {
-            document.getElementById('strike-form').style.display = 'block';
-        }
-
-        function hideStrikeForm() {
-            document.getElementById('strike-form').style.display = 'none';
-            document.getElementById('strikeForm').reset();
-        }
-
-        function saveStrike(event) {
-            event.preventDefault();
-            
-            const estudianteId = parseInt(document.getElementById('strikeStudent').value);
-            const tipo = document.getElementById('strikeType').value;
-            const valor = document.getElementById('strikeValue').value;
-            const descripcion = document.getElementById('strikeDescription').value.trim();
-            const notifyStudent = document.getElementById('notifyStudent').checked;
-
-            if (!estudianteId || !tipo || !valor || !descripcion) {
-                showNotification('❌ Por favor complete todos los campos', 'error');
-                return;
-            }
-
-            const strike = {
-                id: Date.now(), // ID único
-                estudianteId,
-                tipo,
-                valor: parseFloat(valor),
-                descripcion,
-                fecha: new Date().toISOString(),
-                notificado: false
-            };
-
-            state.strikes.push(strike);
-
-            // Notificar al estudiante si está marcado
-            if (notifyStudent) {
-                notificarStrike(strike);
-                strike.notificado = true;
-            }
-
-            saveData();
-            hideStrikeForm();
-            renderStrikes();
-            renderDashboard();
-            renderEvaluacionIntegral();
-            showNotification('✅ Strike registrado correctamente');
-        }
-
-        function notificarStrike(strike) {
-            const estudiante = state.estudiantes.find(e => e.id === strike.estudianteId);
-            if (!estudiante) return;
-
-            const tipoTexto = strike.tipo === 'positive' ? 'positivo 🎉' : 'negativo ⚠️';
-            const signo = strike.tipo === 'positive' ? '+' : '-';
-            
-            let mensaje = `*Notificación de Strike ${tipoTexto}*\n\n`;
-            mensaje += `👤 *Estudiante:* ${estudiante.nombre}\n`;
-            mensaje += `⚖️ *Tipo:* Strike ${tipoTexto}\n`;
-            mensaje += `📊 *Valor:* ${signo}${strike.valor} puntos\n`;
-            mensaje += `📝 *Descripción:* ${strike.descripcion}\n`;
-            mensaje += `📅 *Fecha:* ${new Date(strike.fecha).toLocaleDateString()}\n\n`;
-            
-            if (strike.tipo === 'positive') {
-                mensaje += `¡Felicidades por tu destacada actuación! 🎊\n`;
-            } else {
-                mensaje += `Te recomendamos mejorar en este aspecto. 📈\n`;
-            }
-            
-            mensaje += `\n_💫 Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM_`;
-
-            const url = `https://wa.me/53${estudiante.telefono}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
-        }
-
-        function deleteStrike(index) {
-            if (confirm('¿Está seguro de que desea eliminar este strike?')) {
-                state.strikes.splice(index, 1);
-                saveData();
-                renderStrikes();
-                renderDashboard();
-                renderEvaluacionIntegral();
-                showNotification('✅ Strike eliminado');
-            }
-        }
-
-        // ===== GESTIÓN DE GUARDIAS =====
-        function updateDateSelector() {
-            const dateInput = document.getElementById('guardia-date');
-            const today = new Date().toISOString().split('T')[0];
-            dateInput.value = today;
-            dateInput.min = state.config.inicioRotacion;
-            
-            const endDate = new Date(state.config.inicioRotacion);
-            endDate.setDate(endDate.getDate() + (state.config.duracionSemanas * 7));
-            dateInput.max = endDate.toISOString().split('T')[0];
-        }
-
-        function loadGuardiaForDate(date) {
-            const guardia = state.calendarioGuardias[date];
-            const infoDiv = document.getElementById('guardia-info');
-            const title = document.getElementById('guardia-title');
-            const details = document.getElementById('guardia-details');
-
-            if (guardia) {
-                const equipo = state.equiposGuardia.find(e => e.id === guardia.equipoId);
-                if (equipo) {
-                    title.textContent = `Guardia del ${new Date(date).toLocaleDateString()}`;
-                    
-                    let html = `<div class="team-card">`;
-                    html += `<div class="team-header"><h4>${equipo.nombre}</h4></div>`;
-                    html += `<div class="team-members"><strong>Integrantes:</strong>`;
-                    
-                    equipo.estudiantes.forEach(estId => {
-                        const est = state.estudiantes.find(e => e.id === estId);
-                        const presente = guardia.presente[estId];
-                        if (est) {
-                            html += `
-                                <div class="team-member d-flex justify-between align-center">
-                                    <span>👤 ${est.nombre}</span>
-                                    <div class="d-flex gap-1">
-                                        <button class="btn btn-sm ${presente ? 'btn-success' : 'btn-danger'}" 
-                                                onclick="toggleAsistencia('${date}', ${estId})">
-                                            ${presente ? '✅ Presente' : '❌ Ausente'}
-                                        </button>
-                                        <select class="form-control" style="width: 120px;" 
-                                                onchange="evaluarGuardia('${date}', ${estId}, this.value)">
-                                            <option value="">Evaluar</option>
-                                            <option value="5" ${guardia.evaluaciones && guardia.evaluaciones[estId] === 5 ? 'selected' : ''}>5 - Excelente</option>
-                                            <option value="4" ${guardia.evaluaciones && guardia.evaluaciones[estId] === 4 ? 'selected' : ''}>4 - Bueno</option>
-                                            <option value="3" ${guardia.evaluaciones && guardia.evaluaciones[estId] === 3 ? 'selected' : ''}>3 - Regular</option>
-                                            <option value="2" ${guardia.evaluaciones && guardia.evaluaciones[estId] === 2 ? 'selected' : ''}>2 - Deficiente</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    });
-                    
-                    html += `</div></div>`;
-                    details.innerHTML = html;
-                    infoDiv.style.display = 'block';
-                    return;
-                }
-            }
-            
-            details.innerHTML = '<p>❌ No hay guardia programada para esta fecha</p>';
-            infoDiv.style.display = 'block';
-        }
-
-        function toggleAsistencia(date, estudianteId) {
-            if (!state.calendarioGuardias[date]) {
-                state.calendarioGuardias[date] = { 
-                    equipoId: null, 
-                    presente: {}, 
-                    evaluaciones: {} 
-                };
-            }
-            
-            const currentlyPresent = state.calendarioGuardias[date].presente[estudianteId];
-            state.calendarioGuardias[date].presente[estudianteId] = !currentlyPresent;
-            
-            // Si marca ausente, generar strike automático
-            if (currentlyPresent && !state.calendarioGuardias[date].presente[estudianteId]) {
-                state.strikes.push({
-                    id: Date.now(),
-                    estudianteId,
-                    tipo: 'negative',
-                    valor: 0.5,
-                    descripcion: 'Falta a guardia médica',
-                    fecha: new Date().toISOString(),
-                    notificado: false
-                });
-                showNotification('⚠️ Strike generado por falta a guardia', 'warning');
-            }
-            
-            saveData();
-            loadGuardiaForDate(date);
-            renderStrikes();
-            renderEvaluacionIntegral();
-        }
-
-        function evaluarGuardia(date, estudianteId, nota) {
-            if (!state.calendarioGuardias[date]) {
-                state.calendarioGuardias[date] = { 
-                    equipoId: null, 
-                    presente: {}, 
-                    evaluaciones: {} 
-                };
-            }
-            
-            if (!state.calendarioGuardias[date].evaluaciones) {
-                state.calendarioGuardias[date].evaluaciones = {};
-            }
-            
-            state.calendarioGuardias[date].evaluaciones[estudianteId] = nota ? parseInt(nota) : null;
-            saveData();
-            showNotification('✅ Evaluación guardada');
-            renderEvaluacionIntegral();
-        }
-
-        // ===== GESTIÓN DE EQUIPOS =====
-        function showTeamManager() {
-            document.getElementById('team-manager').style.display = 'block';
-            renderTeamsManager();
-            renderTeamStudentsSelector();
-        }
-
-        function hideTeamForm() {
-            const form = document.getElementById('teamForm');
-            form.reset();
-            delete form.dataset.editingId;
-            document.getElementById('team-form-title').textContent = '➕ Crear Nuevo Equipo';
-        }
-
-        function saveTeam(event) {
-            event.preventDefault();
-            
-            const form = event.target;
-            const nombre = document.getElementById('teamName').value.trim();
-            const checkboxes = document.querySelectorAll('input[name="teamStudents"]:checked');
-            const estudiantes = Array.from(checkboxes).map(cb => parseInt(cb.value));
-            const editingId = form.dataset.editingId;
-
-            if (!nombre || estudiantes.length === 0) {
-                showNotification('❌ Complete el nombre y seleccione integrantes', 'error');
-                return;
-            }
-
-            if (editingId) {
-                // Editar equipo existente
-                const index = state.equiposGuardia.findIndex(t => t.id == editingId);
-                if (index !== -1) {
-                    state.equiposGuardia[index] = {
-                        ...state.equiposGuardia[index],
-                        nombre,
-                        estudiantes
-                    };
-                }
-            } else {
-                // Nuevo equipo
-                const newId = state.equiposGuardia.length > 0 ? 
-                    Math.max(...state.equiposGuardia.map(t => t.id)) + 1 : 1;
-                
-                state.equiposGuardia.push({
-                    id: newId,
-                    nombre,
-                    estudiantes
-                });
-            }
-
-            saveData();
-            hideTeamForm();
-            renderTeamsManager();
-            showNotification(editingId ? '✅ Equipo actualizado' : '✅ Equipo creado');
-        }
-
-        function editTeam(id) {
-            const team = state.equiposGuardia.find(t => t.id === id);
-            if (team) {
-                document.getElementById('teamName').value = team.nombre;
-                
-                // Marcar checkboxes de estudiantes
-                document.querySelectorAll('input[name="teamStudents"]').forEach(cb => {
-                    cb.checked = team.estudiantes.includes(parseInt(cb.value));
-                });
-                
-                document.getElementById('teamForm').dataset.editingId = id;
-                document.getElementById('team-form-title').textContent = '✏️ Editar Equipo';
-            }
-        }
-
-        function deleteTeam(id) {
-            if (confirm('¿Está seguro de que desea eliminar este equipo?')) {
-                state.equiposGuardia = state.equiposGuardia.filter(t => t.id !== id);
-                
-                // Eliminar guardias de este equipo
-                Object.keys(state.calendarioGuardias).forEach(date => {
-                    if (state.calendarioGuardias[date].equipoId === id) {
-                        delete state.calendarioGuardias[date];
-                    }
-                });
-                
-                saveData();
-                renderTeamsManager();
-                showNotification('✅ Equipo eliminado');
-            }
-        }
-
-        function programarGuardiasAutomaticamente() {
-            const frecuencia = parseInt(document.getElementById('guardia-frequency').value) || 6;
-            const startDate = new Date(state.config.inicioRotacion);
-            const endDate = new Date(startDate);
-            endDate.setDate(startDate.getDate() + (state.config.duracionSemanas * 7));
-
-            if (state.equiposGuardia.length === 0) {
-                showNotification('❌ Cree equipos primero', 'error');
-                return;
-            }
-
-            let currentDate = new Date(startDate);
-            let equipoIndex = 0;
-            let guardiasProgramadas = 0;
-
-            while (currentDate <= endDate) {
-                const dateStr = currentDate.toISOString().split('T')[0];
-                
-                // Saltar vacaciones
-                if (!state.config.vacaciones.includes(dateStr)) {
-                    const equipo = state.equiposGuardia[equipoIndex];
-                    if (equipo) {
-                        state.calendarioGuardias[dateStr] = {
-                            equipoId: equipo.id,
-                            presente: {},
-                            evaluaciones: {}
-                        };
-                        guardiasProgramadas++;
-                    }
-                    
-                    equipoIndex = (equipoIndex + 1) % state.equiposGuardia.length;
-                }
-
-                currentDate.setDate(currentDate.getDate() + frecuencia);
-            }
-
-            saveData();
-            showNotification(`✅ ${guardiasProgramadas} guardias programadas automáticamente`);
-        }
-
-        // ===== CÁLCULOS =====
-        function calcularPromedioSeminarios(estudianteId) {
-            const seminariosEst = state.seminarios[estudianteId];
-            if (!seminariosEst) return 0;
-
-            const notas = Object.values(seminariosEst).filter(nota => nota !== null)
-                .map(nota => nota === '5+' ? 5.5 : parseFloat(nota));
-            
-            return notas.length > 0 ? notas.reduce((a, b) => a + b, 0) / notas.length : 0;
-        }
-
-        function calcularPromedioGuardias(estudianteId) {
-            let total = 0;
-            let count = 0;
-
-            Object.values(state.calendarioGuardias).forEach(guardia => {
-                if (guardia.evaluaciones && guardia.evaluaciones[estudianteId]) {
-                    total += guardia.evaluaciones[estudianteId];
-                    count++;
-                }
+            // Prefijo automático para teléfono
+            document.getElementById('patientPhone').addEventListener('blur', function() {
+                formatPhoneNumber(this);
             });
-
-            return count > 0 ? total / count : 0;
-        }
-
-        function calcularStrikesNetos(estudianteId) {
-            const strikesEst = state.strikes.filter(s => s.estudianteId === estudianteId);
-            let neto = strikesEst.reduce((total, strike) => {
-                return strike.tipo === 'positive' ? total + strike.valor : total - strike.valor;
-            }, 0);
-
-            // Límite máximo de +1.0 en strikes positivos
-            return Math.min(Math.max(neto, -1.0), 1.0);
-        }
-
-        function calcularPromedioFinal(estudianteId) {
-            const seminarios = calcularPromedioSeminarios(estudianteId);
-            const guardias = calcularPromedioGuardias(estudianteId);
-            const strikesNetos = calcularStrikesNetos(estudianteId);
             
-            // Aplicar pesos: 70% seminarios, 20% guardias
-            let promedio = (seminarios * 0.7) + (guardias * 0.2);
-            
-            // Aplicar strikes (máximo ±10% del promedio)
-            const ajusteStrikes = strikesNetos * 0.5; // Ajuste más significativo
-            promedio = Math.max(0, Math.min(5.5, promedio + ajusteStrikes));
-            
-            return promedio;
-        }
-
-        // ===== NOTIFICACIONES WHATSAPP =====
-        function notificarEstudiante(estudianteId) {
-            const estudiante = state.estudiantes.find(e => e.id === estudianteId);
-            if (!estudiante) return;
-
-            const promedio = calcularPromedioFinal(estudianteId);
-            const strikesNetos = calcularStrikesNetos(estudianteId);
-            const strikesPositivos = state.strikes.filter(s => s.estudianteId === estudianteId && s.tipo === 'positive');
-            const strikesNegativos = state.strikes.filter(s => s.estudianteId === estudianteId && s.tipo === 'negative');
-
-            let mensaje = `*📊 Resumen Académico - ${estudiante.nombre}*\n\n`;
-            mensaje += `🎯 *Promedio Actual:* ${promedio.toFixed(1)}\n`;
-            mensaje += `⚖️ *Strikes Netos:* ${strikesNetos > 0 ? '+' : ''}${strikesNetos.toFixed(1)}\n\n`;
-
-            if (strikesPositivos.length > 0) {
-                mensaje += `✅ *Strikes Positivos:*\n`;
-                strikesPositivos.forEach(strike => {
-                    mensaje += `   • +${strike.valor}: ${strike.descripcion}\n`;
-                });
-                mensaje += `\n`;
-            }
-
-            if (strikesNegativos.length > 0) {
-                mensaje += `❌ *Strikes Negativos:*\n`;
-                strikesNegativos.forEach(strike => {
-                    mensaje += `   • -${strike.valor}: ${strike.descripcion}\n`;
-                });
-                mensaje += `\n`;
-            }
-
-            // Recomendación basada en promedio
-            if (promedio < 3) {
-                mensaje += `🚨 *Recomendación:* Necesita mejorar urgentemente\n`;
-            } else if (promedio < 4) {
-                mensaje += `⚠️ *Recomendación:* Hay áreas de oportunidad\n`;
-            } else {
-                mensaje += `✅ *Recomendación:* Buen desempeño, continuar así\n`;
-            }
-
-            mensaje += `\n_💫 Enviado desde la suite de seguimiento digital de estudiantes INTERNOS HPJRM_`;
-
-            const url = `https://wa.me/53${estudiante.telefono}?text=${encodeURIComponent(mensaje)}`;
-            window.open(url, '_blank');
-        }
-
-        function notificarEvaluacion(estudianteId) {
-            notificarEstudiante(estudianteId);
-        }
-
-        // ===== CONFIGURACIÓN =====
-        function updateDates(event) {
-            event.preventDefault();
-            const startDate = document.getElementById('startDate').value;
-            const duration = parseInt(document.getElementById('duration').value);
-
-            if (startDate && duration > 0) {
-                state.config.inicioRotacion = startDate;
-                state.config.duracionSemanas = duration;
-                saveData();
-                updateDateSelector();
-                showNotification('✅ Fechas actualizadas correctamente');
-            }
-        }
-
-        function exportData() {
-            try {
-                const dataStr = JSON.stringify(state, null, 2);
-                const dataBlob = new Blob([dataStr], { type: 'application/json' });
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `internos-backup-${new Date().toISOString().split('T')[0]}.json`;
-                link.click();
-                URL.revokeObjectURL(url);
-                showNotification('✅ Datos exportados correctamente');
-            } catch (e) {
-                showNotification('❌ Error al exportar datos', 'error');
-            }
-        }
-
-        function importData() {
-            document.getElementById('importFile').click();
-        }
-
-        document.getElementById('importFile').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    try {
-                        const importedState = JSON.parse(e.target.result);
-                        
-                        // Validar estructura básica
-                        if (importedState.estudiantes && Array.isArray(importedState.estudiantes)) {
-                            state = { ...state, ...importedState };
-                            saveData();
-                            location.reload();
-                        } else {
-                            throw new Error('Estructura de datos inválida');
-                        }
-                    } catch (error) {
-                        showNotification('❌ Error al importar datos: formato inválido', 'error');
+            // Cerrar menú al hacer clic fuera en móvil
+            if (window.innerWidth < 768) {
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.sidebar') && !e.target.closest('.menu-toggle') && document.getElementById('sidebar').classList.contains('active')) {
+                        closeMenu();
                     }
-                };
-                reader.readAsText(file);
-            }
-        });
-
-        function clearData() {
-            if (confirm('¿ESTÁ SEGURO? Esto eliminará TODOS los datos y restaurará los valores por defecto.')) {
-                localStorage.removeItem('internosApp');
-                location.reload();
+                });
             }
         }
-
-        // ===== NAVEGACIÓN Y UI =====
-        function toggleMenu() {
-            document.getElementById('sidebar').classList.toggle('active');
-        }
-
-        function showSection(sectionId) {
+        
+        // Navegar a sección
+        function navigateToSection(sectionId) {
             // Ocultar todas las secciones
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
@@ -1770,78 +1175,870 @@
             // Mostrar sección seleccionada
             document.getElementById(sectionId).classList.add('active');
             
-            // Actualizar menu activo
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.classList.remove('active');
+            // Actualizar menú activo
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === sectionId) {
+                    link.classList.add('active');
+                }
             });
-            event.target.classList.add('active');
             
-            // Cerrar menú en móviles
-            if (window.innerWidth <= 768) {
-                toggleMenu();
-            }
-            
-            // Renderizar sección específica
+            // Cargar contenido de la sección
             switch(sectionId) {
                 case 'dashboard':
                     renderDashboard();
                     break;
-                case 'estudiantes':
-                    renderEstudiantes();
+                case 'all-patients':
+                    renderAllPatients();
                     break;
-                case 'seminarios':
-                    renderSeminarios();
+                case 'contact-today':
+                    renderTodayContacts();
                     break;
-                case 'strikes':
-                    renderStrikes();
+                case 'suggested':
+                    renderSuggestedContacts();
                     break;
-                case 'guardias':
-                    updateDateSelector();
-                    loadGuardiaForDate(document.getElementById('guardia-date').value);
+                case 'appointments':
+                    renderAppointments();
                     break;
-                case 'evaluacion':
-                    renderEvaluacionIntegral();
+                case 'urgent':
+                    renderUrgentCases();
                     break;
             }
         }
-
-        function showNotification(message, type = 'success') {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 4000);
+        
+        // Alternar menú hamburguesa
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
         }
-
-        function setupEventListeners() {
-            // Cerrar menú al hacer clic fuera
-            document.addEventListener('click', (event) => {
-                const sidebar = document.getElementById('sidebar');
-                const menuToggle = document.querySelector('.menu-toggle');
-                
-                if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
-                    sidebar.classList.remove('active');
-                }
+        
+        function closeMenu() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
+        // Formatear número de teléfono con +53
+        function formatPhoneNumber(input) {
+            let phone = input.value.replace(/\D/g, '');
+            
+            if (phone.length === 0) return;
+            
+            // Si no comienza con 53, añadirlo
+            if (!phone.startsWith('53')) {
+                phone = '53' + phone;
+            }
+            
+            // Limitar a 11 dígitos máximo (53 + 8 dígitos)
+            if (phone.length > 11) {
+                phone = phone.substring(0, 11);
+            }
+            
+            input.value = phone;
+        }
+        
+        // Añadir nuevo paciente
+        function addPatient() {
+            // Obtener etiquetas seleccionadas
+            const tags = [];
+            document.querySelectorAll('.checkbox-item input:checked').forEach(cb => {
+                tags.push(cb.value);
             });
-
-            // Navegación del menú
-            document.querySelectorAll('.menu-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const sectionId = this.getAttribute('data-section');
-                    showSection(sectionId);
+            
+            // Añadir etiquetas de "otros"
+            const otherTags = document.getElementById('otherTags').value;
+            if (otherTags) {
+                otherTags.split(',').forEach(tag => {
+                    const trimmedTag = tag.trim();
+                    if (trimmedTag) tags.push(trimmedTag);
+                });
+            }
+            
+            // Formatear teléfono
+            let phone = document.getElementById('patientPhone').value.replace(/\D/g, '');
+            if (!phone.startsWith('53')) {
+                phone = '53' + phone;
+            }
+            
+            const patient = {
+                id: Date.now(),
+                name: document.getElementById('patientName').value.trim(),
+                phone: phone,
+                age: document.getElementById('patientAge').value.trim(),
+                weight: document.getElementById('patientWeight').value.trim(),
+                diagnosis: document.getElementById('initialDiagnosis').value.trim(),
+                tags: tags,
+                appointmentDate: document.getElementById('appointmentDate').value,
+                appointmentNotes: document.getElementById('appointmentNotes').value.trim(),
+                followUpDate: document.getElementById('followUpDate').value,
+                observations: document.getElementById('observations').value.trim(),
+                createdAt: new Date().toISOString(),
+                lastContact: null,
+                status: 'active',
+                contactSuggested: false
+            };
+            
+            patients.push(patient);
+            saveData();
+            
+            // Limpiar formulario
+            document.getElementById('patientForm').reset();
+            document.querySelectorAll('.checkbox-item input:checked').forEach(cb => cb.checked = false);
+            
+            showNotification('Paciente añadido correctamente');
+            navigateToSection('dashboard');
+            updateStats();
+        }
+        
+        // Establecer seguimiento sugerido
+        function setSuggestedFollowUp(hours) {
+            const now = new Date();
+            const followUpDate = new Date(now.getTime() + hours * 60 * 60 * 1000);
+            
+            const dateInput = document.getElementById('followUpDate');
+            dateInput.value = followUpDate.toISOString().slice(0, 16);
+            
+            showNotification(`Seguimiento programado para ${hours} horas`);
+        }
+        
+        // Guardar datos
+        function saveData() {
+            localStorage.setItem('consultas_pediatria', JSON.stringify(patients));
+        }
+        
+        // Cargar configuración
+        function loadSettings() {
+            document.getElementById('autoSuggestTime').value = settings.autoSuggestTime || 48;
+            document.getElementById('notificationSound').value = settings.notificationSound || 'gentle';
+        }
+        
+        // Guardar configuración
+        function saveSettings() {
+            settings.autoSuggestTime = parseInt(document.getElementById('autoSuggestTime').value);
+            settings.notificationSound = document.getElementById('notificationSound').value;
+            
+            localStorage.setItem('consultas_settings', JSON.stringify(settings));
+            showNotification('Configuración guardada');
+        }
+        
+        // Actualizar estadísticas
+        function updateStats() {
+            const totalPatients = patients.length;
+            const today = new Date().toDateString();
+            
+            // Pacientes para contactar hoy
+            const todayContacts = patients.filter(p => {
+                if (!p.followUpDate) return false;
+                const followUpDate = new Date(p.followUpDate).toDateString();
+                return followUpDate === today;
+            }).length;
+            
+            // Citas pendientes
+            const pendingAppointments = patients.filter(p => p.appointmentDate).length;
+            
+            // Casos urgentes
+            const urgentCases = patients.filter(p => p.tags.includes('urgente')).length;
+            
+            // Actualizar estadísticas
+            document.getElementById('totalPatients').textContent = totalPatients;
+            document.getElementById('todayContacts').textContent = todayContacts;
+            document.getElementById('pendingAppointments').textContent = pendingAppointments;
+            document.getElementById('urgentCases').textContent = urgentCases;
+            
+            // Estadísticas móviles
+            document.getElementById('mobileTotalPatients').textContent = totalPatients;
+            document.getElementById('mobileTodayContacts').textContent = todayContacts;
+        }
+        
+        // Renderizar dashboard
+        function renderDashboard() {
+            const recentActivity = document.getElementById('recentActivity');
+            
+            if (patients.length === 0) {
+                recentActivity.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-clock"></i>
+                        <p>No hay actividad reciente</p>
+                        <button class="btn btn-primary" style="margin-top: 15px;" data-section="new-patient">
+                            <i class="fas fa-user-plus"></i> Añadir primer paciente
+                        </button>
+                    </div>
+                `;
+                
+                // Añadir event listener al botón
+                recentActivity.querySelector('button').addEventListener('click', function() {
+                    navigateToSection(this.getAttribute('data-section'));
+                });
+                
+                return;
+            }
+            
+            // Ordenar por fecha de creación (más recientes primero)
+            const recentPatients = [...patients]
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 5);
+            
+            let html = '';
+            recentPatients.forEach(patient => {
+                const date = new Date(patient.createdAt);
+                const formattedDate = date.toLocaleDateString('es-ES', {
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                html += `
+                    <div class="patient-item">
+                        <div class="patient-header">
+                            <div>
+                                <div class="patient-name">${patient.name}</div>
+                                <div class="patient-phone">+${patient.phone}</div>
+                            </div>
+                            <div style="font-size: 0.85rem; color: #777;">${formattedDate}</div>
+                        </div>
+                        <div style="margin: 8px 0; font-size: 0.9rem;">
+                            ${patient.diagnosis.substring(0, 60)}${patient.diagnosis.length > 60 ? '...' : ''}
+                        </div>
+                        <div class="patient-actions">
+                            <button class="btn btn-small btn-primary btn-whatsapp" data-phone="${patient.phone}">
+                                <i class="fab fa-whatsapp"></i> WhatsApp
+                            </button>
+                            <button class="btn btn-small btn-success btn-followup" data-id="${patient.id}">
+                                <i class="fas fa-bell"></i> Recordatorio
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            recentActivity.innerHTML = html;
+            
+            // Añadir event listeners
+            recentActivity.querySelectorAll('.btn-whatsapp').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const phone = this.getAttribute('data-phone');
+                    sendWhatsApp(phone, '');
                 });
             });
-
-            // Configuración inicial de fechas
-            document.getElementById('startDate').value = state.config.inicioRotacion;
-            document.getElementById('duration').value = state.config.duracionSemanas;
+            
+            recentActivity.querySelectorAll('.btn-followup').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const patientId = parseInt(this.getAttribute('data-id'));
+                    scheduleFollowUp(patientId);
+                });
+            });
         }
-
-        // ===== INICIALIZACIÓN AL CARGAR =====
-        document.addEventListener('DOMContentLoaded', init);
+        
+        // Renderizar todos los pacientes
+        function renderAllPatients() {
+            searchPatients('', 'allPatientsList');
+        }
+        
+        // Buscar pacientes
+        function searchPatients(searchTerm, targetId) {
+            const patientList = document.getElementById(targetId);
+            
+            let filteredPatients = patients;
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredPatients = patients.filter(p => 
+                    p.name.toLowerCase().includes(term) ||
+                    p.phone.includes(term) ||
+                    p.diagnosis.toLowerCase().includes(term) ||
+                    p.tags.some(tag => tag.toLowerCase().includes(term))
+                );
+            }
+            
+            if (filteredPatients.length === 0) {
+                patientList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-search"></i>
+                        <p>${searchTerm ? 'No se encontraron pacientes' : 'No hay pacientes registrados'}</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Ordenar por fecha
+            filteredPatients.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            let html = '';
+            filteredPatients.forEach(patient => {
+                html += createPatientHTML(patient);
+            });
+            
+            patientList.innerHTML = html;
+            attachPatientEventListeners();
+        }
+        
+        // Renderizar contactos de hoy
+        function renderTodayContacts() {
+            const today = new Date().toDateString();
+            const todayContacts = patients.filter(p => {
+                if (!p.followUpDate) return false;
+                const followUpDate = new Date(p.followUpDate).toDateString();
+                return followUpDate === today;
+            });
+            
+            const contactList = document.getElementById('todayContactList');
+            
+            if (todayContacts.length === 0) {
+                contactList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>No hay pacientes para contactar hoy</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            todayContacts.forEach(patient => {
+                html += createPatientHTML(patient, true);
+            });
+            
+            contactList.innerHTML = html;
+            attachPatientEventListeners();
+        }
+        
+        // Renderizar contactos sugeridos
+        function renderSuggestedContacts() {
+            const now = new Date();
+            const oneWeekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const oneMonthFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+            
+            // Pacientes sin seguimiento programado
+            const suggestedPatients = patients.filter(p => {
+                if (p.followUpDate) return false; // Ya tienen seguimiento
+                const createdDate = new Date(p.createdAt);
+                const daysSinceCreation = (now - createdDate) / (1000 * 60 * 60 * 24);
+                
+                // Sugerir contacto si fue creado hace menos de 1 mes
+                return daysSinceCreation < 30;
+            });
+            
+            // Separar por categorías
+            const suggestedWeek = suggestedPatients.filter(p => {
+                const createdDate = new Date(p.createdAt);
+                const daysSinceCreation = (now - createdDate) / (1000 * 60 * 60 * 24);
+                return daysSinceCreation >= 3 && daysSinceCreation < 7;
+            });
+            
+            const suggestedMonth = suggestedPatients.filter(p => {
+                const createdDate = new Date(p.createdAt);
+                const daysSinceCreation = (now - createdDate) / (1000 * 60 * 60 * 24);
+                return daysSinceCreation >= 7 && daysSinceCreation < 30;
+            });
+            
+            const suggestedList = document.getElementById('suggestedList');
+            
+            if (suggestedPatients.length === 0) {
+                suggestedList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-bell-slash"></i>
+                        <p>No hay sugerencias de contacto</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            
+            if (suggestedWeek.length > 0) {
+                html += `<h3 style="margin: 15px 0 10px 0; color: var(--warning);"><i class="fas fa-clock"></i> Sugeridos esta semana</h3>`;
+                suggestedWeek.forEach(patient => {
+                    html += createPatientHTML(patient, false, 'suggested');
+                });
+            }
+            
+            if (suggestedMonth.length > 0) {
+                html += `<h3 style="margin: 15px 0 10px 0; color: var(--secondary);"><i class="fas fa-calendar"></i> Sugeridos este mes</h3>`;
+                suggestedMonth.forEach(patient => {
+                    html += createPatientHTML(patient, false, 'suggested');
+                });
+            }
+            
+            suggestedList.innerHTML = html;
+            attachPatientEventListeners();
+        }
+        
+        // Renderizar citas
+        function renderAppointments() {
+            const now = new Date();
+            const futureAppointments = patients.filter(p => {
+                if (!p.appointmentDate) return false;
+                const appointmentDate = new Date(p.appointmentDate);
+                return appointmentDate >= now;
+            });
+            
+            // Ordenar por fecha de cita
+            futureAppointments.sort((a, b) => new Date(a.appointmentDate) - new Date(b.appointmentDate));
+            
+            const appointmentsList = document.getElementById('appointmentsList');
+            
+            if (futureAppointments.length === 0) {
+                appointmentsList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>No hay citas programadas</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            futureAppointments.forEach(patient => {
+                html += createPatientHTML(patient);
+            });
+            
+            appointmentsList.innerHTML = html;
+            attachPatientEventListeners();
+        }
+        
+        // Renderizar casos urgentes
+        function renderUrgentCases() {
+            const urgentPatients = patients.filter(p => p.tags.includes('urgente'));
+            
+            const urgentList = document.getElementById('urgentList');
+            
+            if (urgentPatients.length === 0) {
+                urgentList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>No hay casos urgentes</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            urgentPatients.forEach(patient => {
+                html += createPatientHTML(patient, false, 'urgent');
+            });
+            
+            urgentList.innerHTML = html;
+            attachPatientEventListeners();
+        }
+        
+        // Crear HTML para paciente
+        function createPatientHTML(patient, showDate = false, specialClass = '') {
+            const tagsHTML = patient.tags.map(tag => {
+                return `<span class="tag">${tag}</span>`;
+            }).join('');
+            
+            const appointmentDate = patient.appointmentDate ? new Date(patient.appointmentDate) : null;
+            const followUpDate = patient.followUpDate ? new Date(patient.followUpDate) : null;
+            const today = new Date();
+            
+            let appointmentInfo = '';
+            if (appointmentDate) {
+                const isToday = appointmentDate.toDateString() === today.toDateString();
+                const formattedDate = appointmentDate.toLocaleDateString('es-ES', {
+                    weekday: 'short',
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                appointmentInfo = `
+                    <div style="background: #e8f5e9; padding: 8px 12px; border-radius: 6px; margin: 8px 0; font-size: 0.9rem;">
+                        <i class="fas fa-calendar-day"></i> <strong>Cita:</strong> ${formattedDate}
+                        ${isToday ? '<span style="background: var(--warning); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; margin-left: 8px;">HOY</span>' : ''}
+                        ${patient.appointmentNotes ? `<div style="margin-top: 4px;"><i class="fas fa-sticky-note"></i> ${patient.appointmentNotes}</div>` : ''}
+                    </div>
+                `;
+            }
+            
+            let followUpInfo = '';
+            if (followUpDate) {
+                const isToday = followUpDate.toDateString() === today.toDateString();
+                const formattedDate = followUpDate.toLocaleDateString('es-ES', {
+                    weekday: 'short',
+                    day: 'numeric',
+                    month: 'short'
+                });
+                
+                followUpInfo = `
+                    <div style="background: #fff3cd; padding: 8px 12px; border-radius: 6px; margin: 8px 0; font-size: 0.9rem;">
+                        <i class="fas fa-bell"></i> <strong>Seguimiento:</strong> ${formattedDate}
+                        ${isToday ? '<span style="background: var(--success); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; margin-left: 8px;">HOY</span>' : ''}
+                    </div>
+                `;
+            }
+            
+            let dateInfo = '';
+            if (showDate && patient.createdAt) {
+                const createdDate = new Date(patient.createdAt);
+                dateInfo = `<div style="font-size: 0.8rem; color: #777; margin-top: 5px;">Creado: ${createdDate.toLocaleDateString('es-ES')}</div>`;
+            }
+            
+            return `
+                <div class="patient-item ${specialClass}" data-id="${patient.id}">
+                    <div class="patient-header">
+                        <div>
+                            <div class="patient-name">
+                                ${patient.name}
+                                ${patient.age ? `<span style="color:#666; font-weight:normal;"> (${patient.age})</span>` : ''}
+                            </div>
+                            <div class="patient-phone">
+                                <i class="fab fa-whatsapp"></i> +${patient.phone}
+                            </div>
+                        </div>
+                        <div class="tags-container">
+                            ${tagsHTML}
+                        </div>
+                    </div>
+                    
+                    ${patient.observations ? `<div style="background:#ffeaa7; padding:8px 12px; border-radius:6px; margin:8px 0; font-size:0.9rem;"><strong><i class="fas fa-exclamation-circle"></i> Observaciones:</strong> ${patient.observations}</div>` : ''}
+                    
+                    <div style="margin: 8px 0; font-size: 0.95rem;">
+                        <strong>Motivo:</strong> ${patient.diagnosis}
+                    </div>
+                    
+                    ${appointmentInfo}
+                    ${followUpInfo}
+                    ${dateInfo}
+                    
+                    <div class="patient-actions">
+                        <button class="btn btn-small btn-primary btn-whatsapp" data-phone="${patient.phone}">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </button>
+                        <button class="btn btn-small btn-success btn-followup" data-id="${patient.id}">
+                            <i class="fas fa-bell"></i> Recordatorio
+                        </button>
+                        <button class="btn btn-small btn-warning btn-edit" data-id="${patient.id}">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button class="btn btn-small btn-danger btn-delete" data-id="${patient.id}">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Adjuntar event listeners a los botones del paciente
+        function attachPatientEventListeners() {
+            // WhatsApp
+            document.querySelectorAll('.btn-whatsapp').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const phone = this.getAttribute('data-phone');
+                    const message = document.getElementById('messageTemplate').value || 
+                                   'Hola, soy el Dr. Rodney Jauregui Alonso del HPJRM. ¿Cómo está?';
+                    sendWhatsApp(phone, message);
+                });
+            });
+            
+            // Recordatorio
+            document.querySelectorAll('.btn-followup').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const patientId = parseInt(this.getAttribute('data-id'));
+                    scheduleFollowUp(patientId);
+                });
+            });
+            
+            // Editar
+            document.querySelectorAll('.btn-edit').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const patientId = parseInt(this.getAttribute('data-id'));
+                    editPatient(patientId);
+                });
+            });
+            
+            // Eliminar
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const patientId = parseInt(this.getAttribute('data-id'));
+                    if (confirm('¿Estás seguro de eliminar este paciente?')) {
+                        deletePatient(patientId);
+                    }
+                });
+            });
+        }
+        
+        // Enviar WhatsApp
+        function sendWhatsApp(phone, message) {
+            const encodedMessage = encodeURIComponent(message);
+            const url = `https://wa.me/+${phone}?text=${encodedMessage}`;
+            window.open(url, '_blank');
+            
+            // Registrar último contacto
+            const patient = patients.find(p => p.phone === phone);
+            if (patient) {
+                patient.lastContact = new Date().toISOString();
+                saveData();
+            }
+            
+            showNotification('WhatsApp abierto para enviar mensaje');
+        }
+        
+        // Programar seguimiento
+        function scheduleFollowUp(patientId) {
+            const patient = patients.find(p => p.id === patientId);
+            if (!patient) return;
+            
+            const followUpDate = prompt('Ingresa fecha y hora para el seguimiento (YYYY-MM-DD HH:MM):');
+            if (!followUpDate) return;
+            
+            // Convertir a formato ISO
+            const date = new Date(followUpDate.replace(' ', 'T'));
+            if (isNaN(date.getTime())) {
+                alert('Fecha inválida');
+                return;
+            }
+            
+            patient.followUpDate = date.toISOString();
+            saveData();
+            
+            // Actualizar la vista actual
+            const activeSection = document.querySelector('.section.active').id;
+            if (activeSection === 'contact-today') {
+                renderTodayContacts();
+            } else if (activeSection === 'suggested') {
+                renderSuggestedContacts();
+            } else if (activeSection === 'all-patients') {
+                renderAllPatients();
+            }
+            
+            showNotification('Seguimiento programado correctamente');
+        }
+        
+        // Editar paciente
+        function editPatient(patientId) {
+            const patient = patients.find(p => p.id === patientId);
+            if (!patient) return;
+            
+            // Navegar a nuevo paciente
+            navigateToSection('new-patient');
+            
+            // Llenar formulario
+            document.getElementById('patientName').value = patient.name;
+            document.getElementById('patientPhone').value = patient.phone;
+            document.getElementById('patientAge').value = patient.age || '';
+            document.getElementById('patientWeight').value = patient.weight || '';
+            document.getElementById('initialDiagnosis').value = patient.diagnosis;
+            
+            // Etiquetas
+            document.querySelectorAll('.checkbox-item input').forEach(cb => {
+                cb.checked = patient.tags.includes(cb.value);
+            });
+            
+            // Separar etiquetas personalizadas
+            const customTags = patient.tags.filter(tag => 
+                !['urgente', 'reexaminar', 'ultrasonido', 'laboratorio', 'interconsulta', 'guardia', 'mañana', 'seguimiento'].includes(tag)
+            );
+            document.getElementById('otherTags').value = customTags.join(', ');
+            
+            // Citas y seguimientos
+            document.getElementById('appointmentDate').value = patient.appointmentDate ? patient.appointmentDate.substring(0, 16) : '';
+            document.getElementById('appointmentNotes').value = patient.appointmentNotes || '';
+            document.getElementById('followUpDate').value = patient.followUpDate ? patient.followUpDate.substring(0, 16) : '';
+            document.getElementById('observations').value = patient.observations || '';
+            
+            // Eliminar paciente actual
+            deletePatient(patientId, false);
+            
+            showNotification('Edita los datos y guarda para actualizar');
+        }
+        
+        // Eliminar paciente
+        function deletePatient(patientId, showNotification = true) {
+            patients = patients.filter(p => p.id !== patientId);
+            saveData();
+            
+            // Actualizar la vista actual
+            const activeSection = document.querySelector('.section.active').id;
+            switch(activeSection) {
+                case 'dashboard':
+                    renderDashboard();
+                    break;
+                case 'all-patients':
+                    renderAllPatients();
+                    break;
+                case 'contact-today':
+                    renderTodayContacts();
+                    break;
+                case 'suggested':
+                    renderSuggestedContacts();
+                    break;
+                case 'appointments':
+                    renderAppointments();
+                    break;
+                case 'urgent':
+                    renderUrgentCases();
+                    break;
+            }
+            
+            updateStats();
+            
+            if (showNotification) {
+                showNotification('Paciente eliminado correctamente', 'success');
+            }
+        }
+        
+        // Cargar plantilla
+        function loadTemplate(templateName) {
+            const doctorName = 'Dr. Rodney Jauregui Alonso';
+            const templates = {
+                'recordatorio': `Hola, soy el ${doctorName} del HPJRM. Le recuerdo su cita programada para mañana. Por favor confirmar asistencia.`,
+                'reexaminar': `Hola, soy el ${doctorName} del HPJRM. Necesito reexaminar al paciente. ¿Podemos coordinar para la guardia de hoy o mañana en la mañana?`,
+                'resultados': `Hola, soy el ${doctorName} del HPJRM. Los resultados de los exámenes ya están listos. ¿Podemos coordinar para revisarlos?`,
+                'urgencia': `Hola, soy el ${doctorName} del HPJRM. Es urgente que evaluemos al paciente. Por favor acudir a la guardia del hospital lo antes posible.`,
+                'guardia': `Hola, soy el ${doctorName} del HPJRM. Podemos vernos en la guardia de 24 horas del HPJRM para reexaminación o seguimiento. ¿Qué le parece?`,
+                'manana': `Hola, soy el ${doctorName} del HPJRM. Podemos coordinar para mañana en la mañana en el hospital. ¿Le viene bien?`,
+                'seguimiento': `Hola, soy el ${doctorName} del HPJRM. Es momento del seguimiento del paciente. ¿Podemos coordinar una cita?`
+            };
+            
+            document.getElementById('messageTemplate').value = templates[templateName] || '';
+            document.getElementById('templateSelect').value = templateName;
+        }
+        
+        // Verificar contactos de hoy
+        function checkTodayContacts() {
+            const today = new Date().toDateString();
+            const todayContacts = patients.filter(p => {
+                if (!p.followUpDate) return false;
+                const followUpDate = new Date(p.followUpDate).toDateString();
+                return followUpDate === today;
+            });
+            
+            if (todayContacts.length > 0) {
+                showNotification(`Tienes ${todayContacts.length} pacientes para contactar hoy`, 'warning');
+            }
+        }
+        
+        // Exportar datos
+        function exportData() {
+            const dataStr = JSON.stringify({
+                patients: patients,
+                settings: settings,
+                exportDate: new Date().toISOString(),
+                doctor: 'Dr. Rodney Jauregui Alonso'
+            }, null, 2);
+            
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const exportFileDefaultName = `consultas_pediatria_${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('Datos exportados correctamente');
+        }
+        
+        // Importar datos
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (importedData.patients && Array.isArray(importedData.patients)) {
+                        patients = importedData.patients;
+                        
+                        if (importedData.settings) {
+                            settings = importedData.settings;
+                            localStorage.setItem('consultas_settings', JSON.stringify(settings));
+                            loadSettings();
+                        }
+                        
+                        saveData();
+                        renderDashboard();
+                        updateStats();
+                        showNotification('Datos importados correctamente');
+                    } else {
+                        alert('El archivo no contiene datos válidos de Consultas Pediatría');
+                    }
+                } catch (error) {
+                    alert('Error al importar datos: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            
+            event.target.value = '';
+        }
+        
+        // Limpiar datos
+        function clearData() {
+            if (confirm('¿Estás seguro de borrar TODOS los datos? Esta acción no se puede deshacer.')) {
+                patients = [];
+                saveData();
+                renderDashboard();
+                updateStats();
+                showNotification('Todos los datos han sido eliminados', 'danger');
+            }
+        }
+        
+        // Mostrar notificación
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            
+            // Color según tipo
+            if (type === 'danger') {
+                notification.style.background = 'var(--danger)';
+            } else if (type === 'warning') {
+                notification.style.background = 'var(--warning)';
+            } else {
+                notification.style.background = 'var(--success)';
+            }
+            
+            notification.style.display = 'flex';
+            
+            // Reproducir sonido si está configurado
+            if (settings.notificationSound !== 'none') {
+                playNotificationSound();
+            }
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Reproducir sonido de notificación
+        function playNotificationSound() {
+            // Crear un sonido simple
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 800;
+                oscillator.type = 'sine';
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            } catch (e) {
+                console.log('No se pudo reproducir sonido:', e);
+            }
+        }
+        
+        // Mostrar notificación de bienvenida
+        function showWelcomeNotification() {
+            setTimeout(() => {
+                showNotification('¡Bienvenido a Consultas Pediatría! Comienza añadiendo tu primer paciente.', 'success');
+            }, 1000);
+        }
+        
+        // Cerrar menú al cambiar tamaño de ventana
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                closeMenu();
+            }
+        });
     </script>
 </body>
-    </html>
+                                                                                                                   </html>
